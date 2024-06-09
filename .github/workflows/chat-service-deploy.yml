@@ -1,26 +1,37 @@
-name: Docker Image CI2
+name: chat-service-deploy
+
+permissions: write-all
 
 on:
   push:
-    paths:
-      - 'chat-service/**'
 
 jobs:
   CI-CD:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x chat-service/gradlew
+        shell: bash
 
       - name: Build with Gradle
         run: |
           cd chat-service
           ./gradlew clean build
+
+      - name: Run tests
+        run: |
+          cd chat-service
+          ./gradlew test
         shell: bash
 
       - name: Generate JaCoCo report
@@ -31,32 +42,46 @@ jobs:
 
       - name: Verify JaCoCo report generation
         run: |
-          cd chat-service
           echo "Listing report directory"
-          ls -la build/reports/jacoco/test
+          ls -la chat-service/build/reports/jacoco/test
           echo "Listing HTML report directory"
-          ls -la build/reports/jacoco/test/html
+          ls -la chat-service/build/jacocoHtml
         shell: bash
 
-      - name: Upload JaCoCo XML report
-        uses: actions/upload-artifact@v4
+      - name: Upload JaCoCo XML report to GitHub
+        uses: actions/upload-artifact@v2
         with:
           name: jacoco-report
           path: chat-service/build/reports/jacoco/test/jacocoTestReport.xml
 
-      - name: Upload JaCoCo HTML report
-        uses: actions/upload-artifact@v4
+      - name: Upload JaCoCo HTML report to GitHub
+        uses: actions/upload-artifact@v2
         with:
           name: jacoco-html-report
-          path: chat-service/build/reports/jacoco/test/html
+          path: chat-service/build/jacocoHtml/
 
-      - name: Upload test coverage to Codecov
-        uses: codecov/codecov-action@v3
+      - name: Jacoco Report to PR
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.6.1
+        with:
+          paths: chat-service/build/reports/jacoco/test/jacocoTestReport.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-coverage-overall: 0
+          min-coverage-changed-files: 0
+          title: "⭐️Code Coverage"
+          update-comment: true
+          debug-mode: true
+      - name: Get the Coverage info
+        run: |
+          echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
+          echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          directory: chat-service/build/reports/jacoco/test
-          fail_ci_if_error: true
-        continue-on-error: true
+          file: ./chat-service/build/reports/jacoco/test/jacocoTestReport.xml
+
 
       - name: Docker build & push to prod
         run: |
@@ -74,6 +99,6 @@ jobs:
           port: 22
           script: |
             sudo docker ps
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/docker-testchat-prod
-            sudo docker run -d -p 8761:8761 ${{ secrets.DOCKER_USERNAME }}/docker-testchat-prod
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/docker-test-prod
+            sudo docker run -d -p 8761:8761 ${{ secrets.DOCKER_USERNAME }}/docker-test-prod
             sudo docker image prune -f
