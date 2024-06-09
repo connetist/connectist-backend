@@ -6,6 +6,9 @@ name: chat-service-deploy
 #     paths:
 #       - 'chat-service/**'
 
+permissions: write-all
+
+
 on:
   push:
 
