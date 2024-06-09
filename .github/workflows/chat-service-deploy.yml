@@ -65,7 +65,9 @@ jobs:
           cd chat-service
           ./gradlew clean build
       - name: Run tests and generate JaCoCo report
-        run: ./gradlew test jacocoTestReport
+        run: |
+          cd chat-serivce
+          ./gradlew test jacocoTestReport
         shell: bash
 
       - name: Verify test and report generation
