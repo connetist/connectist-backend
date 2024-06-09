@@ -71,6 +71,11 @@ jobs:
           title: "⭐️Code Coverage"
           update-comment: true
           debug-mode: true
+      - name: Get the Coverage info
+        run: |
+          echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
+          echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
+
 
       - name: Docker build & push to prod
         run: |
