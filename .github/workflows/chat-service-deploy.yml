@@ -72,7 +72,7 @@ jobs:
 
       - name: Verify test and report generation
         run: |
-          cd chat-service
+#          cd chat-service
           echo "Listing report directory"
           ls -la chat-service/build/reports/jacoco/test
           echo "Listing HTML report directory"
