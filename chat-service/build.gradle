@@ -2,7 +2,49 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.0'
 	id 'io.spring.dependency-management' version '1.1.5'
+	id 'jacoco'
 }
+jacoco {
+	toolVersion '0.8.8' // 2. 버전명시
+}
+
+/** Jacoco start **/
+test {
+	finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+	executionData(fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec"))
+
+	reports {
+		xml.required.set(true)
+		html.required.set(true)
+		csv.required.set(false)
+	}
+}
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			element 'CLASS'
+			limit {
+				counter = 'BRANCH'
+				value = 'COVEREDRATIO'
+//				minimum = 0.8 // 테스트 커버리지 최소 80%
+			}
+
+			// 커버리지 체크를 제외할 클래스들
+			excludes = ['*.*Controller', '*.dto.*', '*.config.*', '*.domain.Q*']
+		}
+	}
+}
+
+
+check {
+	dependsOn jacocoTestReport
+}
+
+
 
 group = 'org.example'
 version = '0.0.1-SNAPSHOT'
