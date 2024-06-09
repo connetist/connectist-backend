@@ -34,5 +34,24 @@ public class ChatRoom {
         this.createdAt = createdAt;
     }
 
+    //Logic 1
+
+    public ChatRoom ChatRoomUpdate(Member newAdmin) {
+        return ChatRoom.builder()
+                .id(id)
+                .title(title)
+                .chatMembers(ChatMembers)
+                .admin(newAdmin)
+                .deparature(deparature)
+                .destination(destination)
+                .timeTaken(timeTaken)
+                .startTime(startTime)
+                .fee(fee)
+                .createdAt(createdAt)
+                .build();
+    }
+
+    //Logic 2
+
 
 }
