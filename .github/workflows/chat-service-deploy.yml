@@ -64,17 +64,50 @@ jobs:
         run: |
           cd chat-service
           ./gradlew clean build
+      - name: Run tests and generate JaCoCo report
+        run: ./gradlew test jacocoTestReport
+        shell: bash
+
+      - name: Verify test and report generation
+        run: |
+          cd chat-service
+          echo "Listing report directory"
+          ls -la build/reports/jacoco/test
+          echo "Listing HTML report directory"
+          ls -la build/jacocoHtml
+
+      - name: Upload JaCoCo XML report to GitHub
+        uses: actions/upload-artifact@v2
+        with:
+          name: jacoco-report
+          path: chat-service/build/reports/jacoco/test/jacocoTestReport.xml
+
+      - name: Upload JaCoCo HTML report
+        uses: actions/upload-artifact@v2
+        with:
+          name: jacoco-html-report
+          path: chat-service/build/jacocoHtml/
 
       - name: Jacoco Report to PR
         id: jacoco
         uses: madrapps/jacoco-report@v1.6.1
         with:
-          paths: ${{ github.workspace }}/chat-service/build/reports/jacoco/test/jacocoTestReport.xml
+          paths: chat-service/build/reports/jacoco/test/jacocoTestReport.xml
           token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 75
           min-coverage-changed-files: 75
           title: "⭐️Code Coverage"
           update-comment: true
+#      - name: Jacoco Report to PR
+#        id: jacoco
+#        uses: madrapps/jacoco-report@v1.6.1
+#        with:
+#          paths: ${{ github.workspace }}/chat-service/build/reports/jacoco/test/jacocoTestReport.xml
+#          token: ${{ secrets.GITHUB_TOKEN }}
+#          min-coverage-overall: 75
+#          min-coverage-changed-files: 75
+#          title: "⭐️Code Coverage"
+#          update-comment: true
 
 
       # docker build & push to production
