@@ -64,30 +64,6 @@ jobs:
         run: |
           cd chat-service
           ./gradlew clean build
-      - name: Run tests and generate JaCoCo report
-        run: |
-          cd chat-service
-          ./gradlew test jacocoTestReport
-        shell: bash
-
-      - name: Verify test and report generation
-        run: |
-          echo "Listing report directory"
-          ls -la chat-service/build/reports/jacoco/test
-          echo "Listing HTML report directory"
-          ls -la chat-service/build/jacocoHtml
-
-      - name: Upload JaCoCo XML report to GitHub
-        uses: actions/upload-artifact@v2
-        with:
-          name: jacoco-report
-          path: chat-service/build/reports/jacoco/test/jacocoTestReport.xml
-
-      - name: Upload JaCoCo HTML report
-        uses: actions/upload-artifact@v2
-        with:
-          name: jacoco-html-report
-          path: chat-service/build/jacocoHtml/
 
       - name: Jacoco Report to PR
         id: jacoco
