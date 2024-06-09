@@ -74,9 +74,9 @@ jobs:
         run: |
           cd chat-service
           echo "Listing report directory"
-          ls -la build/reports/jacoco/test
+          ls -la chat-service/build/reports/jacoco/test
           echo "Listing HTML report directory"
-          ls -la build/jacocoHtml
+          ls -la chat-service/build/jacocoHtml
 
       - name: Upload JaCoCo XML report to GitHub
         uses: actions/upload-artifact@v2
