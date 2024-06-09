@@ -2,7 +2,66 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.0'
 	id 'io.spring.dependency-management' version '1.1.5'
+	id 'jacoco'
 }
+jacoco {
+	toolVersion = "0.8.9"
+}
+
+/** Jacoco start **/
+test {
+	finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+	dependsOn test
+
+	reports {
+		xml.required.set(true)
+		html.required.set(true)
+
+		// QueryDSL Q클래스 제외
+		def Qdomains = []
+		for (qPattern in "**/QA".."**/QZ") {
+			Qdomains.add(qPattern + "*")
+		}
+
+		afterEvaluate {
+			classDirectories.setFrom(files(classDirectories.files.collect {
+				fileTree(dir: it,
+						exclude: [] + Qdomains)
+			}))
+		}
+
+		xml.destination file("${buildDir}/jacoco/index.xml")
+		html.destination file("${buildDir}/jacoco/index.html")
+	}
+}
+
+//jacocoTestCoverageVerification {
+//	violationRules {
+//		rule {
+//			element = 'CLASS'
+//			enabled = true
+//
+//			limit {
+//				counter = 'LINE'
+//				value = 'COVEREDRATIO'
+////				minimum = 0.60
+//			}
+//			limit {
+//				counter = 'METHOD'
+//				value = 'COVEREDRATIO'
+////				minimum = 0.60
+//			}
+//		}
+//	}
+//}
+check {
+	dependsOn jacocoTestReport
+}
+
+
 
 group = 'org.example'
 version = '0.0.1-SNAPSHOT'
