@@ -61,6 +61,14 @@ jobs:
         run: |
           cd chat-service
           ./gradlew clean build
+      - name: Comment test coverage on PR
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.2
+        with:
+          title: 📝 테스트 커버리지 리포트
+          paths: ${{ github.workspace }}/chat-service/build/jacoco/index.xml
+          min-coverage-overall: 50
+          min-coverage-changed-files: 50
       # docker build & push to production
       - name: Docker build & push to prod
         # if: contains(github.ref, 'main')
