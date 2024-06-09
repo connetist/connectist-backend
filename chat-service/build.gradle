@@ -5,7 +5,7 @@ plugins {
 	id 'jacoco'
 }
 jacoco {
-	toolVersion = "0.8.9"
+	toolVersion '0.8.8' // 2. 버전명시
 }
 
 /** Jacoco start **/
@@ -14,49 +14,32 @@ test {
 }
 
 jacocoTestReport {
-	dependsOn test
+	executionData(fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec"))
 
 	reports {
 		xml.required.set(true)
 		html.required.set(true)
-
-		// QueryDSL Q클래스 제외
-		def Qdomains = []
-		for (qPattern in "**/QA".."**/QZ") {
-			Qdomains.add(qPattern + "*")
-		}
-
-		afterEvaluate {
-			classDirectories.setFrom(files(classDirectories.files.collect {
-				fileTree(dir: it,
-						exclude: [] + Qdomains)
-			}))
-		}
-
-		xml.destination file("${buildDir}/jacoco/index.xml")
-		html.destination file("${buildDir}/jacoco/index.html")
+		csv.required.set(false)
 	}
 }
 
-//jacocoTestCoverageVerification {
-//	violationRules {
-//		rule {
-//			element = 'CLASS'
-//			enabled = true
-//
-//			limit {
-//				counter = 'LINE'
-//				value = 'COVEREDRATIO'
-////				minimum = 0.60
-//			}
-//			limit {
-//				counter = 'METHOD'
-//				value = 'COVEREDRATIO'
-////				minimum = 0.60
-//			}
-//		}
-//	}
-//}
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			element 'CLASS'
+			limit {
+				counter = 'BRANCH'
+				value = 'COVEREDRATIO'
+//				minimum = 0.8 // 테스트 커버리지 최소 80%
+			}
+
+			// 커버리지 체크를 제외할 클래스들
+			excludes = ['*.*Controller', '*.dto.*', '*.config.*', '*.domain.Q*']
+		}
+	}
+}
+
+
 check {
 	dependsOn jacocoTestReport
 }
