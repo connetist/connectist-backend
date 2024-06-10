@@ -76,11 +76,11 @@ jobs:
           echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
           echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
 
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v4.0.1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./chat-service/build/reports/jacoco/test/jacocoTestReport.xml
+#      - name: Upload coverage reports to Codecov
+#        uses: codecov/codecov-action@v4.0.1
+#        with:
+#          token: ${{ secrets.CODECOV_TOKEN }}
+#          file: ./chat-service/build/reports/jacoco/test/jacocoTestReport.xml
 
 
       - name: Docker build & push to prod
