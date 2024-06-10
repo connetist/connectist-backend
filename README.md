@@ -22,3 +22,16 @@
 DB: MongoDB, MySQL, Redis
 
 메세지 큐 : Kafka
+
+## DDD 설계 과정
+
+### Bounded Context 
+
+<img src="https://github.com/connetist/connectist-backend/assets/89409079/59c08adf-e39c-46d0-aed6-9f9b681dca51"  width="200" height="200"/>
+
+### Context Map
+<img src="https://github.com/connetist/connectist-backend/assets/89409079/6ef9b459-4894-4be6-b59f-01f41c8031ce"  width="400" height="200"/>
+
+### Aggregate Map 
+
+<img src="https://github.com/connetist/connectist-backend/assets/89409079/5881b181-421a-4456-beac-8834eba620e9"  width="800" height="700"/>
