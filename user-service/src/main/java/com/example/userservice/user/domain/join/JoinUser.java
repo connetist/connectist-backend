@@ -1,34 +1,40 @@
 package com.example.userservice.user.domain.join;
 
-import com.example.userservice.util.uuid.UuidHolder;
-import com.example.userservice.user.domain.UserCreate;
-import com.example.userservice.user.domain.UserSchool;
+import com.example.userservice.user.domain.user.UserStatus;
+import com.example.userservice.util.certification.CertificationHolder;
+import com.example.userservice.user.domain.user.School;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 @Getter
 public class JoinUser {
 
     private final String email;
-    private final UserSchool userSchool;
+    private final School school;
     private final String certificationCode;
+    private final UserStatus status;
 
     @Builder
     public JoinUser(
             String email,
-            UserSchool userSchool,
-            String certificationCode
+            School school,
+            String certificationCode,
+            UserStatus status
     ) {
-        this.userSchool = userSchool;
+        this.school = school;
         this.certificationCode = certificationCode;
         this.email = email;
+        this.status = status;
     }
 
-    public static JoinUser from(UserCreate userCreate, UuidHolder uuidHolder) {
+    public static JoinUser from(JoinUserCreate userCreate, CertificationHolder certificationHolder) {
         return JoinUser.builder()
                 .email(userCreate.getEmail())
-                .userSchool(userCreate.getSchool())
-                .certificationCode(uuidHolder.random())
+                .school(userCreate.getSchool())
+                .status(UserStatus.PENDING)
+                .certificationCode(certificationHolder.random())
                 .build();
     }
 

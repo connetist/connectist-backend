@@ -2,8 +2,10 @@ package com.example.userservice.user.controller;
 
 import com.example.userservice.user.controller.port.JoinUserService;
 import com.example.userservice.user.controller.response.UserJoinResponse;
-import com.example.userservice.user.domain.UserCreate;
+import com.example.userservice.user.domain.join.JoinUserCertification;
+import com.example.userservice.user.domain.join.JoinUserCreate;
 import com.example.userservice.user.domain.join.JoinUser;
+import com.example.userservice.user.domain.user.UserStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,13 +23,25 @@ public class UserCreateController {
 
     private final JoinUserService joinUserService;
 
-
+    // user Create
     @PostMapping
-    public ResponseEntity<UserJoinResponse> create(@RequestBody UserCreate userCreate) {
-        log.info(userCreate.toString());
-        JoinUser joinUser = joinUserService.create(userCreate);
+    public ResponseEntity<UserJoinResponse> create(@RequestBody JoinUserCreate userCreate) {
+        JoinUser joinUser = joinUserService.join(userCreate);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(UserJoinResponse.from(joinUser));
     }
+
+    // verify certification code after user create
+    @PostMapping("/certification")
+    public ResponseEntity<UserJoinResponse> certification(
+            @RequestBody JoinUserCertification joinUserCertification
+    ){
+        JoinUser joinUser = joinUserService.certification(joinUserCertification);
+        return ResponseEntity.status(HttpStatus.OK).body(UserJoinResponse.from(joinUser));
+    }
+
+    // 회원 가입
+
+
 }
