@@ -1,8 +1,7 @@
 package com.example.userservice.user.domain.join;
 
 import com.example.userservice.util.uuid.UuidHolder;
-import com.example.userservice.user.domain.UserCreate;
-import com.example.userservice.user.domain.UserSchool;
+import com.example.userservice.user.domain.user.School;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -10,24 +9,24 @@ import lombok.Getter;
 public class JoinUser {
 
     private final String email;
-    private final UserSchool userSchool;
+    private final School school;
     private final String certificationCode;
 
     @Builder
     public JoinUser(
             String email,
-            UserSchool userSchool,
+            School school,
             String certificationCode
     ) {
-        this.userSchool = userSchool;
+        this.school = school;
         this.certificationCode = certificationCode;
         this.email = email;
     }
 
-    public static JoinUser from(UserCreate userCreate, UuidHolder uuidHolder) {
+    public static JoinUser from(JoinUserCreate userCreate, UuidHolder uuidHolder) {
         return JoinUser.builder()
                 .email(userCreate.getEmail())
-                .userSchool(userCreate.getSchool())
+                .school(userCreate.getSchool())
                 .certificationCode(uuidHolder.random())
                 .build();
     }

@@ -1,29 +1,58 @@
 package com.example.userservice.user.domain;
 
+import com.example.userservice.user.domain.user.*;
+import com.example.userservice.util.clock.ClockHolder;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.time.LocalDateTime;
 
 @Getter
 public class User {
 
+    private final String id;
+    private final String pw;
     private final String email;
-    private final UserSchool userSchool;
-    private final String certificationCode;
+    private final School school;
+    private final UserDegree degree;
+    private final UserSex sex;
+    private final UserMajor major;
+    private final UserStatus status;
+    private final String nickname;
+    private final LocalDateTime createdAt;
 
 
 
 
     //User Builder
     @Builder
-    public User(String email, String certificationCode, UserSchool userSchool, UserStatus userStatus) {
+    public User(String id, String pw, String email, School school, UserDegree degree, UserSex sex, UserMajor major, String nickname, UserStatus status, LocalDateTime createdAt) {
         this.email = email;
-        this.userSchool = userSchool;
-        this.certificationCode = certificationCode;
+        this.school = school;
+        this.id = id;
+        this.pw = pw;
+        this.degree = degree;
+        this.sex = sex;
+        this.major = major;
+        this.nickname = nickname;
+        this.status = status;
+        this.createdAt = createdAt;
     }
 
-//    public static User from(UserCreate userCreate) {
-//        return User.builder()
-//                .email(userCreate.getEmail())
-//                .certificationCode(userCreate.get);
-//    }
+    // userCreate를 이용한 user제작
+    public static User from(UserCreate userCreate, ClockHolder clockHolder) {
+        return User.builder()
+                .email(userCreate.getEmail())
+                .id(userCreate.getId())
+                .pw(userCreate.getPw())
+                .school(userCreate.getSchool())
+                .degree(userCreate.getDegree())
+                .sex(userCreate.getSex())
+                .major(userCreate.getMajor())
+                .status(UserStatus.ABLE)
+                .nickname(userCreate.getNickname())
+                .createdAt(clockHolder.now())
+                .build();
+    }
+
 }
