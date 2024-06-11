@@ -17,6 +17,11 @@ public class JoinUserConcurrentMapRepository implements JoinUserRepository {
     }
 
     @Override
+    public boolean obtain(String email) {
+        return mapRepository.containsKey(email);
+    }
+
+    @Override
     public JoinUser findByEmail(String email) {
         return mapRepository.get(email);
     }

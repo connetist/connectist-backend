@@ -10,8 +10,12 @@ import com.example.userservice.user.domain.join.JoinUser;
 import com.example.userservice.user.infrastructure.join.JoinUserRepository;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
+@Slf4j
 @Builder
 @Service
 @RequiredArgsConstructor
@@ -25,7 +29,14 @@ public class JoinUserServiceImpl implements JoinUserService {
     @Override
     public JoinUser join(JoinUserCreate userCreate) {
         JoinUser joinUser = JoinUser.from(userCreate, certificationHolder);
-        System.out.println("joinUser = " + joinUser);
+
+        // 이메일과 학교 정보 대조
+        
+        // 이미 인증을 시도한 이메일인지 확인
+        if(joinUserRepository.obtain(joinUser.getEmail())){
+            certificationService.send(joinUser.getEmail(), joinUser.getCertificationCode());
+            return joinUser;
+        }
 
         joinUser = joinUserRepository.save(joinUser);
         certificationService.send(joinUser.getEmail(), joinUser.getCertificationCode());

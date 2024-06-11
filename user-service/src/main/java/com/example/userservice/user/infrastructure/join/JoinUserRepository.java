@@ -6,4 +6,6 @@ public interface JoinUserRepository {
     JoinUser findByEmail(String email);
 
     JoinUser save(JoinUser joinUser);
+
+    boolean obtain(String email);
 }
