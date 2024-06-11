@@ -12,6 +12,7 @@ public class ChatRoom {
     private final String id;
     private final String title;
     private final List<ChatMember> ChatMembers;
+    private final List<ChatMessage> chatMessages;
     private final Member admin;
     private final String deparature;
     private final String destination;
@@ -21,10 +22,11 @@ public class ChatRoom {
     private final int createdAt;
 
     @Builder
-    public ChatRoom(String id, String title, List<ChatMember> chatMembers, Member admin, String deparature, String destination, String timeTaken, String startTime, int fee, int createdAt) {
+    public ChatRoom(String id, String title, List<ChatMember> chatMembers, Member admin, String deparature, String destination, String timeTaken, String startTime, int fee, int createdAt, List<ChatMessage> chatMessages) {
         this.id = id;
         this.title = title;
         this.ChatMembers = chatMembers;
+        this.chatMessages = chatMessages;
         this.admin = admin;
         this.deparature = deparature;
         this.destination = destination;
@@ -34,24 +36,20 @@ public class ChatRoom {
         this.createdAt = createdAt;
     }
 
-    //Logic 1
-
-    public ChatRoom ChatRoomUpdate(Member newAdmin) {
-        return ChatRoom.builder()
-                .id(id)
-                .title(title)
-                .chatMembers(ChatMembers)
-                .admin(newAdmin)
-                .deparature(deparature)
-                .destination(destination)
-                .timeTaken(timeTaken)
-                .startTime(startTime)
-                .fee(fee)
-                .createdAt(createdAt)
-                .build();
+    // 채팅방 전체 메세지 가져오기
+    public List<ChatMessage> getChatMessages() {
+        return chatMessages;
     }
 
-    //Logic 2
+    //채팅방 메세지 추가
+    public void addMessage(ChatMessage chatMessage){
+        this.chatMessages.add(chatMessage);
+    }
+    // 채팅방에 사람 추가
+    public void addMember(Member member){
+
+    }
+
 
 
 }

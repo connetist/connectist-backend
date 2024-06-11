@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.example.chatservice.chatRoom.service.ChatRoomServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-06-09T12:44:38" hostname="jangjunhyeong-ui-MacBookPro.local" time="0.813">
-  <properties/>
-  <testcase name="채팅방생성()" classname="org.example.chatservice.chatRoom.service.ChatRoomServiceTest" time="0.813"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

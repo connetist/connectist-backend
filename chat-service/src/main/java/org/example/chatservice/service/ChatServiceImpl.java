@@ -4,6 +4,7 @@ package org.example.chatservice.service;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.chatservice.domain.ChatMember;
 import org.example.chatservice.domain.ChatRoom;
 import org.example.chatservice.infrastructure.entity.ChatRoomEntity;
 import org.example.chatservice.infrastructure.repository.ChatRepository;
@@ -23,10 +24,14 @@ public class ChatServiceImpl implements ChatService{
     }
 
     @Override
-    public ChatRoom saveMessage(ChatRoom chatRoom) {
+    public ChatRoom saveChatRoom(ChatRoom chatRoom) {
 
         ChatRoomEntity chatRoomEntity = chatRepository.save(ChatRoomEntity.from(chatRoom));
 
         return chatRoomEntity.toModel();
     }
+
+//    public void addMember(ChatMember chatMember){
+//        chatRepository.save(ChatRoomEntity.from(chaR))
+//    }
 }
