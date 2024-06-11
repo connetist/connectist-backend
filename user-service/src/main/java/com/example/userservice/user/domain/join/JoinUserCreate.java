@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+@ToString
 @Getter
 public class JoinUserCreate {
 

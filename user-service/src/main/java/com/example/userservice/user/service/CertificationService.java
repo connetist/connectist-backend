@@ -1,9 +1,11 @@
 package com.example.userservice.user.service;
 
 import com.example.userservice.user.service.port.MailSender;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+@Builder
 @Service
 @RequiredArgsConstructor
 public class CertificationService {
