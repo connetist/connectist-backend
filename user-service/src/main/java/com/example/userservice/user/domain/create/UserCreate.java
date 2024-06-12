@@ -1,4 +1,4 @@
-package com.example.userservice.user.domain;
+package com.example.userservice.user.domain.create;
 
 import com.example.userservice.user.domain.join.JoinUser;
 import com.example.userservice.user.domain.user.School;
@@ -12,10 +12,8 @@ import lombok.Getter;
 @Getter
 public class UserCreate {
 
-    private final String id;
     private final String pw;
     private final String email;
-    private final School school;
     private final UserDegree degree;
     private final UserSex sex;
     private final UserMajor major;
@@ -23,29 +21,47 @@ public class UserCreate {
 
     @Builder
     public UserCreate(
-            JoinUser joinUser,
-            String id,
+            String email,
             String pw,
-            Integer degree,
-            Integer sex,
-            Integer major,
+            UserDegree degree,
+            UserSex sex,
+            UserMajor major,
             String nickname
 
     ) {
-        this.email = joinUser.getEmail();
-        this.school = joinUser.getSchool();
-
-        this.id = id;
+        this.email = email;
         this.pw = pw;
-        this.degree = findDegree(degree);
-        this.sex = findUserSex(sex);
-        this.major = findUserMajor(major);
+        this.degree = degree;
+        this.sex = sex;
+        this.major = major;
         this.nickname = nickname;
+    }
 
+    public static UserCreate from(UserCreateDto dto) {
+
+        return UserCreate.builder()
+                .pw(dto.getPw())
+                .email(dto.getEmail())
+                .degree(findDegree(dto.getDegree()))
+                .sex(findUserSex(dto.getSex()))
+                .major(findUserMajor(dto.getMajor()))
+                .nickname(dto.getNickname())
+                .build();
+    }
+
+    public UserCreate updatePwAfterEncode(UserCreate userCreate, String newPw) {
+        return UserCreate.builder()
+                .pw(newPw)
+                .email(userCreate.getEmail())
+                .degree(userCreate.getDegree())
+                .sex(userCreate.getSex())
+                .major(userCreate.getMajor())
+                .nickname(userCreate.getNickname())
+                .build();
     }
 
     // 아래는 Integer -> Enum Method 입니다.
-    private UserDegree findDegree(Integer degree) {
+    private static UserDegree findDegree(Integer degree) {
         if (degree == 1) {
             return UserDegree.Bachelor;
         }
@@ -60,7 +76,7 @@ public class UserCreate {
         }
         throw new InputErrorException(degree);
     }
-    private UserSex findUserSex(Integer sex) {
+    private static UserSex findUserSex(Integer sex) {
         if (sex == 1) {
             return UserSex.MALE;
         }
@@ -73,7 +89,7 @@ public class UserCreate {
 
         throw new InputErrorException(sex);
     }
-    private UserMajor findUserMajor(Integer major) {
+    private static UserMajor findUserMajor(Integer major) {
         if (major == 1) {
             return UserMajor.AI;
         }

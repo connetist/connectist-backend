@@ -1,7 +1,11 @@
 package com.example.userservice.user.controller;
 
 import com.example.userservice.user.controller.port.JoinUserService;
+import com.example.userservice.user.controller.port.UserService;
 import com.example.userservice.user.controller.response.UserJoinResponse;
+import com.example.userservice.user.domain.User;
+import com.example.userservice.user.domain.create.UserCreate;
+import com.example.userservice.user.domain.create.UserCreateDto;
 import com.example.userservice.user.domain.join.JoinUserCertification;
 import com.example.userservice.user.domain.join.JoinUserCreate;
 import com.example.userservice.user.domain.join.JoinUser;
@@ -21,9 +25,14 @@ public class UserCreateController {
 
     private final JoinUserService joinUserService;
     private final EmailCertification emailCertification;
+    private final UserService userService;
+
     // user Create
-    @PostMapping
+    @PostMapping("/join/email")
     public ResponseEntity<UserJoinResponse> create(@RequestBody JoinUserCreate userCreate) {
+
+        log.info(userCreate.toString());
+
         if (!emailCertification.verify(userCreate.getSchool(), userCreate.getEmail())) {
             JoinUser joinUser = JoinUser.builder().email(userCreate.getEmail()).school(userCreate.getSchool())
                     .status(UserStatus.BANNED).build();
@@ -39,7 +48,7 @@ public class UserCreateController {
 
     // verify certification code after user create
     // 방식 1 번호 입력
-    @PostMapping("/certification")
+    @PostMapping("/join/certification")
     public ResponseEntity<UserJoinResponse> certificationByCode(
             @RequestBody JoinUserCertification joinUserCertification
     ){
@@ -60,6 +69,12 @@ public class UserCreateController {
 
 
     // 회원 가입
-
-
+    @PostMapping("/join")
+    public User join(
+            @RequestBody UserCreateDto userCreateDto
+    ){
+        UserCreate userCreate = UserCreate.from(userCreateDto);
+        User user = userService.create(userCreate);
+        return user;
+    }
 }

@@ -9,6 +9,7 @@ import com.example.userservice.user.domain.join.JoinUserCreate;
 import com.example.userservice.user.domain.join.JoinUser;
 import com.example.userservice.user.infrastructure.join.JoinUserRepository;
 import com.example.userservice.util.certification.email.EmailCertification;
+import com.example.userservice.util.exception.NotFoundException;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,8 +37,8 @@ public class JoinUserServiceImpl implements JoinUserService {
         }
         // 중복 유저가 아니라면 보안코드 생성
         JoinUser joinUser = JoinUser.from(userCreate, certificationHolder);
+        joinUserRepository.save(joinUser);
 
-        joinUser = joinUserRepository.save(joinUser);
         certificationService.send(joinUser.getEmail(), joinUser.getCertificationCode());
         return joinUser;
     }
@@ -60,7 +61,12 @@ public class JoinUserServiceImpl implements JoinUserService {
     }
 
     @Override
-    public User joinWithInfo(User user) {
-        return null;
+    public JoinUser emailCertificationBeforeJoin(String email) {
+        JoinUser userFind = joinUserRepository.findByEmail(email);
+        if (userFind.getStatus().equals(UserStatus.ABLE)) {
+            userFind = joinUserRepository.delete(userFind.getEmail());
+            return userFind;
+        }
+        throw new NotFoundException(email);
     }
 }

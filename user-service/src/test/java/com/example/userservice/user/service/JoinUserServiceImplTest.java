@@ -1,7 +1,6 @@
 package com.example.userservice.user.service;
 
 import com.example.userservice.user.controller.port.JoinUserService;
-import com.example.userservice.user.domain.UserCreate;
 import com.example.userservice.user.domain.join.JoinUser;
 import com.example.userservice.user.domain.join.JoinUserCertification;
 import com.example.userservice.user.domain.join.JoinUserCreate;
@@ -53,7 +52,7 @@ class JoinUserServiceImplTest {
                 .build();
     }
 
-//    @Test
+    @Test
     void 사용자메일인증하기() {
 
         System.out.println("joinUserCreate.toString() = " + joinUserCreate.toString());

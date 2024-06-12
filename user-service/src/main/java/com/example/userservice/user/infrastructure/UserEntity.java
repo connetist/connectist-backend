@@ -22,13 +22,14 @@ public class UserEntity {
     private UserMajor major;
     private UserStatus status;
     private String nickname;
-    private LocalDateTime createdAt;
+    private Long createdAt;
 
     public static UserEntity from(User user) {
         UserEntity userEntity = new UserEntity();
         userEntity.setId(user.getId());
         userEntity.setPw(user.getPw());
         userEntity.setEmail(user.getEmail());
+        userEntity.setSchool(user.getSchool());
         userEntity.setDegree(user.getDegree());
         userEntity.setSex(user.getSex());
         userEntity.setMajor(user.getMajor());
