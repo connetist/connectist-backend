@@ -1,11 +1,11 @@
-package org.example.chatservice.infrastructure.entity;
+package org.example.chatservice.chatRoom.infrastructure.entity;
 
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.chatservice.domain.ChatMember;
-import org.example.chatservice.domain.ChatRoom;
+import org.example.chatservice.chatRoom.domain.ChatMember;
+import org.example.chatservice.chatRoom.domain.ChatRoom;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -27,7 +27,7 @@ public class ChatRoomEntity {
     private String timeTaken;
     private String startTime;
     private int fee;
-    private int createdAt;
+    private long createdAt;
 
 
     public static ChatRoomEntity from(ChatRoom chatRoom){

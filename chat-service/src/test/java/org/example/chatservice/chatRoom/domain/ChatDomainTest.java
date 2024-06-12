@@ -1,6 +1,5 @@
 package org.example.chatservice.chatRoom.domain;
 
-import org.example.chatservice.domain.ChatRoom;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;

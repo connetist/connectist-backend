@@ -1,10 +1,10 @@
 package org.example.chatservice.chatRoom.mock;
 
 import lombok.Builder;
-import org.example.chatservice.controller.ChatController;
-import org.example.chatservice.infrastructure.repository.ChatRepository;
-import org.example.chatservice.service.ChatService;
-import org.example.chatservice.service.ChatServiceImpl;
+import org.example.chatservice.chatRoom.controller.ChatController;
+import org.example.chatservice.chatRoom.infrastructure.repository.ChatRepository;
+import org.example.chatservice.chatRoom.service.ChatService;
+import org.example.chatservice.chatRoom.service.ChatServiceImpl;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
