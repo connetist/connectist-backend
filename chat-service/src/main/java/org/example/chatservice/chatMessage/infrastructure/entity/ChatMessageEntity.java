@@ -15,7 +15,7 @@ public class ChatMessageEntity {
     private  String userId;
     private String roomId;
     private String content;
-    private  int createdAt;
+    private  long createdAt;
 
     public static ChatMessageEntity from(ChatMessage chatMessage){
         return ChatMessageEntity.builder()

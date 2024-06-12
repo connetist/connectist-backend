@@ -21,7 +21,7 @@ public class ChatRoomEntity {
     private String id;
     private String title;
     private List<ChatMember> chatMembers;
-    private Member admin;
+    private ChatMember admin;
     private String departure;
     private String destination;
     private String timeTaken;

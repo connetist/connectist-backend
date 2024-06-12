@@ -8,7 +8,6 @@ import org.example.chatservice.chatRoom.dto.UpdateChatRoomRequest;
 import org.example.chatservice.utils.ClockHolder;
 import org.example.chatservice.utils.UuidHolder;
 
-import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +16,7 @@ public class ChatRoom {
     private final String id;
     private final String title;
     private final List<ChatMember> chatMembers;
-    private final Member admin;
+    private final ChatMember admin;
     private final String deparature;
     private final String destination;
     private final String timeTaken;
@@ -26,10 +25,10 @@ public class ChatRoom {
     private final long createdAt;
 
     @Builder
-    public ChatRoom(String id, String title, List<ChatMember> chatMembers, Member admin, String deparature, String destination, String timeTaken, String startTime, int fee, long createdAt) {
+    public ChatRoom(String id, String title, List<ChatMember> chatMembers, ChatMember admin, String deparature, String destination, String timeTaken, String startTime, int fee, long createdAt) {
         this.id = id;
         this.title = title;
-        this.chatMembers = chatMembers !=null ? chatMembers : new ArrayList<>();
+        this.chatMembers = chatMembers;
         this.admin = admin;
         this.deparature = deparature;
         this.destination = destination;
@@ -40,11 +39,15 @@ public class ChatRoom {
     }
 
     public static ChatRoom createChatRoom(CreateChatRoomRequest rq, UuidHolder uuidHolder, ClockHolder clockHolder){
+
+        List<ChatMember> chatMemberList = new ArrayList<>();
+        ChatMember newAdmin = ChatMember.createChatMember(rq.getAdminId(),uuidHolder,clockHolder);
+        chatMemberList.add(newAdmin);
         return ChatRoom.builder()
                 .id(uuidHolder.random())
                 .title(rq.getTitle())
-                .chatMembers(new ArrayList<>())
-//                .admin(rq.getAdminId())
+                .chatMembers(chatMemberList)
+                .admin(newAdmin)
                 .deparature(rq.getDeparture())
                 .destination(rq.getDestination())
                 .timeTaken(rq.getTimeTaken())
@@ -70,43 +73,16 @@ public class ChatRoom {
     }
 
     //채팅방 사람 추가
-    public ChatRoom addMember(ChatMember chatMember){
+    public ChatRoom addMember(String userId, UuidHolder uuidHolder, ClockHolder clockHolder){
+        ChatMember chatMember = ChatMember.createChatMember(userId,uuidHolder,clockHolder);
         chatMembers.add(chatMember);
         return this;
-        //        List<ChatMember> newMembers = new ArrayList<>(this.chatMembers);
-//        newMembers.add(chatMember);
-//        return ChatRoom.builder()
-//                .id(id)
-//                .title(title)
-//                .chatMembers(newMembers)
-//                .admin(admin)
-//                .deparature(deparature)
-//                .destination(destination)
-//                .timeTaken(timeTaken)
-//                .startTime(startTime)
-//                .fee(fee)
-//                .build();
     }
 
     //특정 유저가 채팅방 나가기
     public ChatRoom deleteMember(String id){
         chatMembers.removeIf(chatMember -> chatMember.getId().equals(id));
         return this;
-//        List<ChatMember> newMembers = new ArrayList<>(this.chatMembers);
-//        newMembers.removeIf(chatMember -> chatMember.getId().equals(id));
-//        return ChatRoom.builder()
-//                .id(id)
-//                .title(title)
-//                .chatMembers(newMembers)
-//                .admin(admin)
-//                .deparature(deparature)
-//                .destination(destination)
-//                .timeTaken(timeTaken)
-//                .startTime(startTime)
-//                .fee(fee)
-//                .build();
-
-
     }
 
 
