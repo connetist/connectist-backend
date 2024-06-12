@@ -17,6 +17,16 @@ public class JoinUserConcurrentMapRepository implements JoinUserRepository {
     }
 
     @Override
+    public JoinUser replace(String email, JoinUser newJoinUser) {
+        return mapRepository.replace(email, newJoinUser);
+    }
+
+    @Override
+    public boolean obtain(String email) {
+        return mapRepository.containsKey(email);
+    }
+
+    @Override
     public JoinUser findByEmail(String email) {
         return mapRepository.get(email);
     }

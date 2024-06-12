@@ -22,8 +22,6 @@ public class User {
     private final LocalDateTime createdAt;
 
 
-
-
     //User Builder
     @Builder
     public User(String id, String pw, String email, School school, UserDegree degree, UserSex sex, UserMajor major, String nickname, UserStatus status, LocalDateTime createdAt) {

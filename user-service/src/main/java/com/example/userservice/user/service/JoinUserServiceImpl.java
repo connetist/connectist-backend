@@ -8,10 +8,13 @@ import com.example.userservice.user.controller.port.JoinUserService;
 import com.example.userservice.user.domain.join.JoinUserCreate;
 import com.example.userservice.user.domain.join.JoinUser;
 import com.example.userservice.user.infrastructure.join.JoinUserRepository;
+import com.example.userservice.util.certification.email.EmailCertification;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Builder
 @Service
 @RequiredArgsConstructor
@@ -20,12 +23,19 @@ public class JoinUserServiceImpl implements JoinUserService {
     private final CertificationHolder certificationHolder;
     private final JoinUserRepository joinUserRepository;
     private final CertificationService certificationService;
-
+    private final EmailCertification emailCertification;
 
     @Override
     public JoinUser join(JoinUserCreate userCreate) {
+
+        // 이미 인증을 시도한 이메일인지 확인
+        if(joinUserRepository.obtain(userCreate.getEmail())){
+            JoinUser duplicateUser = joinUserRepository.findByEmail(userCreate.getEmail());
+            certificationService.send(duplicateUser.getEmail(), duplicateUser.getCertificationCode());
+            return duplicateUser;
+        }
+        // 중복 유저가 아니라면 보안코드 생성
         JoinUser joinUser = JoinUser.from(userCreate, certificationHolder);
-        System.out.println("joinUser = " + joinUser);
 
         joinUser = joinUserRepository.save(joinUser);
         certificationService.send(joinUser.getEmail(), joinUser.getCertificationCode());
@@ -35,15 +45,12 @@ public class JoinUserServiceImpl implements JoinUserService {
     @Override
     public JoinUser certification(JoinUserCertification joinUserCertification) {
         JoinUser joinUser = joinUserRepository.findByEmail(joinUserCertification.getEmail());
+        // 보안코드가 맞는지 확인
         boolean compareResult = compare(joinUser.getCertificationCode(), joinUserCertification.getCertificationCode());
-
         if (compareResult) {
-            return joinUser.builder()
-                    .email(joinUser.getEmail())
-                    .school(joinUser.getSchool())
-                    .certificationCode((joinUserCertification.getCertificationCode()))
-                    .status(UserStatus.ABLE)
-                    .build();
+            joinUser = joinUser.updateStatus(joinUser, UserStatus.ABLE);
+            joinUserRepository.replace(joinUser.getEmail(), joinUser);
+            return joinUser;
         }
         return joinUser;
     }

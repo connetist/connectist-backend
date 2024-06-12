@@ -38,4 +38,13 @@ public class JoinUser {
                 .build();
     }
 
+    public JoinUser updateStatus(JoinUser joinUser, UserStatus status) {
+        return JoinUser.builder()
+                .email(joinUser.getEmail())
+                .school(joinUser.getSchool())
+                .status(status)
+                .certificationCode(joinUser.getCertificationCode())
+                .build();
+    }
+
 }
