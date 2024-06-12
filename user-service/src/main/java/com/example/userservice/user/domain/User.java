@@ -1,12 +1,12 @@
 package com.example.userservice.user.domain;
 
+import com.example.userservice.user.domain.create.UserCreate;
+import com.example.userservice.user.domain.join.JoinUser;
 import com.example.userservice.user.domain.user.*;
 import com.example.userservice.util.clock.ClockHolder;
 import com.example.userservice.util.id.IdGenerator;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
 
 @Getter
 public class User {
@@ -39,16 +39,16 @@ public class User {
     }
 
     // userCreate를 이용한 user제작
-    public static User from(UserCreate userCreate, ClockHolder clockHolder, IdGenerator idGenerator) {
+    public static User fromAfterCertification(UserCreate userCreate, JoinUser joinUser, ClockHolder clockHolder, IdGenerator idGenerator) {
         return User.builder()
-                .email(userCreate.getEmail())
+                .email(joinUser.getEmail())
                 .id(idGenerator.generate())
                 .pw(userCreate.getPw())
-                .school(userCreate.getSchool())
+                .school(joinUser.getSchool())
                 .degree(userCreate.getDegree())
                 .sex(userCreate.getSex())
                 .major(userCreate.getMajor())
-                .status(UserStatus.ABLE)
+                .status(joinUser.getStatus())
                 .nickname(userCreate.getNickname())
                 .createdAt(clockHolder.getNowUnixTime())
                 .build();

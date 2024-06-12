@@ -7,7 +7,6 @@ import com.example.userservice.user.domain.join.JoinUser;
 
 public interface JoinUserService {
     JoinUser join(JoinUserCreate UserCreate);
-
     // certification
     JoinUser certification(JoinUserCertification joinUserCertification);
 

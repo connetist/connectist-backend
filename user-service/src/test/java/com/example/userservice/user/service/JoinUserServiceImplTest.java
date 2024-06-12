@@ -1,7 +1,6 @@
 package com.example.userservice.user.service;
 
 import com.example.userservice.user.controller.port.JoinUserService;
-import com.example.userservice.user.domain.UserCreate;
 import com.example.userservice.user.domain.join.JoinUser;
 import com.example.userservice.user.domain.join.JoinUserCertification;
 import com.example.userservice.user.domain.join.JoinUserCreate;

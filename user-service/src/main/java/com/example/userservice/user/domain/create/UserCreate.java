@@ -1,4 +1,4 @@
-package com.example.userservice.user.domain;
+package com.example.userservice.user.domain.create;
 
 import com.example.userservice.user.domain.join.JoinUser;
 import com.example.userservice.user.domain.user.School;
@@ -14,7 +14,6 @@ public class UserCreate {
 
     private final String pw;
     private final String email;
-    private final School school;
     private final UserDegree degree;
     private final UserSex sex;
     private final UserMajor major;
@@ -23,7 +22,6 @@ public class UserCreate {
     @Builder
     public UserCreate(
             String email,
-            School school,
             String pw,
             UserDegree degree,
             UserSex sex,
@@ -32,7 +30,6 @@ public class UserCreate {
 
     ) {
         this.email = email;
-        this.school = school;
         this.pw = pw;
         this.degree = degree;
         this.sex = sex;
@@ -40,22 +37,15 @@ public class UserCreate {
         this.nickname = nickname;
     }
 
-    public UserCreate from(JoinUser joinUser,
-                           String id,
-                           String pw,
-                           Integer degree,
-                           Integer sex,
-                           Integer major,
-                           String nickname) {
+    public static UserCreate from(UserCreateDto dto) {
 
         return UserCreate.builder()
-                .pw(pw)
-                .email(joinUser.getEmail())
-                .school(joinUser.getSchool())
-                .degree(findDegree(degree))
-                .sex(findUserSex(sex))
-                .major(findUserMajor(major))
-                .nickname(nickname)
+                .pw(dto.getPw())
+                .email(dto.getEmail())
+                .degree(findDegree(dto.getDegree()))
+                .sex(findUserSex(dto.getSex()))
+                .major(findUserMajor(dto.getMajor()))
+                .nickname(dto.getNickname())
                 .build();
     }
 
@@ -63,7 +53,6 @@ public class UserCreate {
         return UserCreate.builder()
                 .pw(newPw)
                 .email(userCreate.getEmail())
-                .school(userCreate.getSchool())
                 .degree(userCreate.getDegree())
                 .sex(userCreate.getSex())
                 .major(userCreate.getMajor())
@@ -72,7 +61,7 @@ public class UserCreate {
     }
 
     // 아래는 Integer -> Enum Method 입니다.
-    private UserDegree findDegree(Integer degree) {
+    private static UserDegree findDegree(Integer degree) {
         if (degree == 1) {
             return UserDegree.Bachelor;
         }
@@ -87,7 +76,7 @@ public class UserCreate {
         }
         throw new InputErrorException(degree);
     }
-    private UserSex findUserSex(Integer sex) {
+    private static UserSex findUserSex(Integer sex) {
         if (sex == 1) {
             return UserSex.MALE;
         }
@@ -100,7 +89,7 @@ public class UserCreate {
 
         throw new InputErrorException(sex);
     }
-    private UserMajor findUserMajor(Integer major) {
+    private static UserMajor findUserMajor(Integer major) {
         if (major == 1) {
             return UserMajor.AI;
         }

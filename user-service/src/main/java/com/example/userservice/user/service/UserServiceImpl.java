@@ -3,7 +3,7 @@ package com.example.userservice.user.service;
 import com.example.userservice.user.controller.port.JoinUserService;
 import com.example.userservice.user.controller.port.UserService;
 import com.example.userservice.user.domain.User;
-import com.example.userservice.user.domain.UserCreate;
+import com.example.userservice.user.domain.create.UserCreate;
 import com.example.userservice.user.domain.join.JoinUser;
 import com.example.userservice.user.service.port.UserRespository;
 import com.example.userservice.util.clock.ClockHolder;
@@ -12,8 +12,6 @@ import com.example.userservice.util.id.IdGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 
 @Service
@@ -34,7 +32,7 @@ public class UserServiceImpl implements UserService {
         // 비번 암호화
         userCreate = userCreate.updatePwAfterEncode(userCreate, passwordEncoder.encode(userCreate.getPw()));
         // 유저 만들고
-        User user = User.from(userCreate, clockHolder, idGenerator);
+        User user = User.fromAfterCertification(userCreate, joinUser, clockHolder, idGenerator);
         // 저장하고
         user = userRespository.save(user);
         // 반환
