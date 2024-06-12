@@ -19,4 +19,11 @@ public class JoinUserCertification {
         this.email = email;
         this.certificationCode = certificationCode;
     }
+
+    public static JoinUserCertification from(String email, String certificationCode) {
+        return JoinUserCertification.builder()
+                .email(email)
+                .certificationCode(certificationCode)
+                .build();
+    }
 }

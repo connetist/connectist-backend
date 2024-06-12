@@ -8,4 +8,6 @@ public interface JoinUserRepository {
     JoinUser save(JoinUser joinUser);
 
     boolean obtain(String email);
+
+    JoinUser replace(String email, JoinUser newJoinUser);
 }
