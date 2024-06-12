@@ -30,6 +30,9 @@ public class UserCreateController {
     // user Create
     @PostMapping("/join/email")
     public ResponseEntity<UserJoinResponse> create(@RequestBody JoinUserCreate userCreate) {
+
+        log.info(userCreate.toString());
+
         if (!emailCertification.verify(userCreate.getSchool(), userCreate.getEmail())) {
             JoinUser joinUser = JoinUser.builder().email(userCreate.getEmail()).school(userCreate.getSchool())
                     .status(UserStatus.BANNED).build();

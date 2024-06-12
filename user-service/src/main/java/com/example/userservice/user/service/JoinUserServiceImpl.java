@@ -37,8 +37,8 @@ public class JoinUserServiceImpl implements JoinUserService {
         }
         // 중복 유저가 아니라면 보안코드 생성
         JoinUser joinUser = JoinUser.from(userCreate, certificationHolder);
+        joinUserRepository.save(joinUser);
 
-        joinUser = joinUserRepository.save(joinUser);
         certificationService.send(joinUser.getEmail(), joinUser.getCertificationCode());
         return joinUser;
     }
