@@ -10,4 +10,6 @@ public interface JoinUserRepository {
     boolean obtain(String email);
 
     JoinUser replace(String email, JoinUser newJoinUser);
+
+    JoinUser delete(String email);
 }

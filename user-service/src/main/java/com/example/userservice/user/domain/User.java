@@ -2,6 +2,7 @@ package com.example.userservice.user.domain;
 
 import com.example.userservice.user.domain.user.*;
 import com.example.userservice.util.clock.ClockHolder;
+import com.example.userservice.util.id.IdGenerator;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -19,12 +20,12 @@ public class User {
     private final UserMajor major;
     private final UserStatus status;
     private final String nickname;
-    private final LocalDateTime createdAt;
+    private final Long createdAt;
 
 
     //User Builder
     @Builder
-    public User(String id, String pw, String email, School school, UserDegree degree, UserSex sex, UserMajor major, String nickname, UserStatus status, LocalDateTime createdAt) {
+    public User(String id, String pw, String email, School school, UserDegree degree, UserSex sex, UserMajor major, String nickname, UserStatus status, Long createdAt) {
         this.email = email;
         this.school = school;
         this.id = id;
@@ -38,10 +39,10 @@ public class User {
     }
 
     // userCreate를 이용한 user제작
-    public static User from(UserCreate userCreate, ClockHolder clockHolder) {
+    public static User from(UserCreate userCreate, ClockHolder clockHolder, IdGenerator idGenerator) {
         return User.builder()
                 .email(userCreate.getEmail())
-                .id(userCreate.getId())
+                .id(idGenerator.generate())
                 .pw(userCreate.getPw())
                 .school(userCreate.getSchool())
                 .degree(userCreate.getDegree())
@@ -49,7 +50,7 @@ public class User {
                 .major(userCreate.getMajor())
                 .status(UserStatus.ABLE)
                 .nickname(userCreate.getNickname())
-                .createdAt(clockHolder.now())
+                .createdAt(clockHolder.getNowUnixTime())
                 .build();
     }
 

@@ -10,4 +10,9 @@ public class SystemClockHolder implements ClockHolder {
     public LocalDateTime now() {
         return LocalDateTime.now();
     }
+
+    @Override
+    public Long getNowUnixTime() {
+        return System.currentTimeMillis() / 1000;
+    }
 }

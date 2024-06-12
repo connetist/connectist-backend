@@ -53,7 +53,7 @@ class JoinUserServiceImplTest {
                 .build();
     }
 
-//    @Test
+    @Test
     void 사용자메일인증하기() {
 
         System.out.println("joinUserCreate.toString() = " + joinUserCreate.toString());

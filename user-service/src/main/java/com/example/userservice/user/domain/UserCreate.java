@@ -12,7 +12,6 @@ import lombok.Getter;
 @Getter
 public class UserCreate {
 
-    private final String id;
     private final String pw;
     private final String email;
     private final School school;
@@ -23,25 +22,53 @@ public class UserCreate {
 
     @Builder
     public UserCreate(
-            JoinUser joinUser,
-            String id,
+            String email,
+            School school,
             String pw,
-            Integer degree,
-            Integer sex,
-            Integer major,
+            UserDegree degree,
+            UserSex sex,
+            UserMajor major,
             String nickname
 
     ) {
-        this.email = joinUser.getEmail();
-        this.school = joinUser.getSchool();
-
-        this.id = id;
+        this.email = email;
+        this.school = school;
         this.pw = pw;
-        this.degree = findDegree(degree);
-        this.sex = findUserSex(sex);
-        this.major = findUserMajor(major);
+        this.degree = degree;
+        this.sex = sex;
+        this.major = major;
         this.nickname = nickname;
+    }
 
+    public UserCreate from(JoinUser joinUser,
+                           String id,
+                           String pw,
+                           Integer degree,
+                           Integer sex,
+                           Integer major,
+                           String nickname) {
+
+        return UserCreate.builder()
+                .pw(pw)
+                .email(joinUser.getEmail())
+                .school(joinUser.getSchool())
+                .degree(findDegree(degree))
+                .sex(findUserSex(sex))
+                .major(findUserMajor(major))
+                .nickname(nickname)
+                .build();
+    }
+
+    public UserCreate updatePwAfterEncode(UserCreate userCreate, String newPw) {
+        return UserCreate.builder()
+                .pw(newPw)
+                .email(userCreate.getEmail())
+                .school(userCreate.getSchool())
+                .degree(userCreate.getDegree())
+                .sex(userCreate.getSex())
+                .major(userCreate.getMajor())
+                .nickname(userCreate.getNickname())
+                .build();
     }
 
     // 아래는 Integer -> Enum Method 입니다.
