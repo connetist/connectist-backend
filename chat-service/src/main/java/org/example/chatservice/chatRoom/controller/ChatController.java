@@ -27,8 +27,8 @@ public class ChatController {
     private String serverPort;
 
     @Builder
-    public ChatController(ChatRoomService chatService) {
-        this.chatRoomService = chatService;
+    public ChatController(ChatRoomService chatRoomService) {
+        this.chatRoomService = chatRoomService;
     }
 
     @GetMapping("/health")

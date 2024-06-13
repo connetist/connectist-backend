@@ -2,9 +2,9 @@ package org.example.chatservice.chatRoom.mock;
 
 import lombok.Builder;
 import org.example.chatservice.chatRoom.controller.ChatController;
-import org.example.chatservice.chatRoom.infrastructure.repository.ChatRepository;
-import org.example.chatservice.chatRoom.service.ChatService;
-import org.example.chatservice.chatRoom.service.ChatServiceImpl;
+import org.example.chatservice.chatRoom.infrastructure.repository.ChatRoomRepository;
+import org.example.chatservice.chatRoom.service.ChatRoomService;
+import org.example.chatservice.chatRoom.service.ChatRoomServiceImpl;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -13,16 +13,16 @@ import static org.mockito.Mockito.mock;
 @ExtendWith(MockitoExtension.class)
 public class TestContainer {
     public final ChatController chatController;
-    public final ChatRepository chatRepository;
-    public final ChatService chatService;
+    public final ChatRoomRepository chatRoomRepository;
+    public final ChatRoomService chatRoomService;
     @Builder
     public TestContainer() {
-        this.chatRepository = mock(ChatRepository.class);
-        this.chatService = ChatServiceImpl.builder()
-                .chatRepository(chatRepository)
+        this.chatRoomRepository = mock(ChatRoomRepository.class);
+        this.chatRoomService = ChatRoomServiceImpl.builder()
+                .chatRoomRepository(chatRoomRepository)
                 .build();
         this.chatController = ChatController.builder()
-                .chatService(chatService)
+                .chatRoomService(chatRoomService)
                 .build();
 
     }

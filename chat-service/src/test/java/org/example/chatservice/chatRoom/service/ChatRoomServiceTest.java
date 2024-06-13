@@ -30,15 +30,5 @@ public class ChatRoomServiceTest {
     }
     @Test
     public void 채팅방생성() {
-//        ChatRoom chatRoom = ChatRoom.builder().
-//                id("TestId").
-//                title("title").build();
-//
-//        ChatRoomEntity chatRoomEntity = ChatRoomEntity.from(chatRoom);
-//        when(chatRoomRepository.save(any(ChatRoomEntity.class))).thenReturn(chatRoomEntity);
-////
-//        ChatRoom newChatRoom = chatRoomService.(chatRoom);
-//        assertThat(newChatRoom.getId()).isEqualTo("TestId");
-//        assertThat(newChatRoom.getTitle()).isEqualTo("title");
     }
 }
