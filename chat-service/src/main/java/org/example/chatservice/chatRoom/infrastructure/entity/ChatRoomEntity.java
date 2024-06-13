@@ -24,8 +24,8 @@ public class ChatRoomEntity {
     private ChatMember admin;
     private String departure;
     private String destination;
-    private String timeTaken;
-    private String startTime;
+    private long timeTaken;
+    private long startTime;
     private int fee;
     private long createdAt;
 

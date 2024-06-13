@@ -19,13 +19,13 @@ public class ChatRoom {
     private final ChatMember admin;
     private final String deparature;
     private final String destination;
-    private final String timeTaken;
-    private final String startTime;
+    private final long timeTaken;
+    private final long startTime;
     private final int fee;
     private final long createdAt;
 
     @Builder
-    public ChatRoom(String id, String title, List<ChatMember> chatMembers, ChatMember admin, String deparature, String destination, String timeTaken, String startTime, int fee, long createdAt) {
+    public ChatRoom(String id, String title, List<ChatMember> chatMembers, ChatMember admin, String deparature, String destination, long timeTaken, long startTime, int fee, long createdAt) {
         this.id = id;
         this.title = title;
         this.chatMembers = chatMembers;
@@ -66,9 +66,10 @@ public class ChatRoom {
                 .admin(admin)
                 .deparature(rq.getDeparture() != null ? rq.getDeparture() : deparature)
                 .destination(rq.getDestination() != null ? rq.getDestination(): destination)
-                .timeTaken(rq.getTimeTaken() != null ? rq.getTimeTaken() : timeTaken)
-                .startTime(rq.getStartTime() != null ? rq.getStartTime() : startTime)
+                .timeTaken(rq.getTimeTaken() != 0 ? rq.getTimeTaken() : timeTaken)
+                .startTime(rq.getStartTime() != 0 ? rq.getStartTime() : startTime)
                 .fee(rq.getFee() != 0 ? rq.getFee() : fee)
+                .createdAt(createdAt)
                 .build();
     }
 

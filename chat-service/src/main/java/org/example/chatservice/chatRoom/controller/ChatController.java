@@ -5,10 +5,7 @@ import lombok.Builder;
 import org.apache.coyote.Response;
 import org.example.chatservice.chatMessage.service.ChatMessageService;
 import org.example.chatservice.chatRoom.domain.ChatRoom;
-import org.example.chatservice.chatRoom.dto.CreateChatRoomRequest;
-import org.example.chatservice.chatRoom.dto.DeleteChatRoomRequest;
-import org.example.chatservice.chatRoom.dto.DeleteMemberRequest;
-import org.example.chatservice.chatRoom.dto.UpdateMemberRequest;
+import org.example.chatservice.chatRoom.dto.*;
 import org.example.chatservice.chatRoom.service.ChatRoomService;
 import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
@@ -55,8 +52,18 @@ public class ChatController {
     // Create
     @PostMapping("/room")
     public ResponseEntity<ChatRoom> createChatRoom(@RequestBody CreateChatRoomRequest rq){
+        ChatRoom chatRoom = chatRoomService.createChatRoom(rq);
+        return ResponseEntity
+                .ok()
+                .body(chatRoom);
+    }
 
-        return null;
+    @PatchMapping("/room")
+    public ResponseEntity<ChatRoom> updateChatRoom(@RequestBody UpdateChatRoomRequest rq){
+        ChatRoom chatRoom = chatRoomService.updateChatRoom(rq);
+        return ResponseEntity
+                .ok()
+                .body(chatRoom);
     }
 
     @PutMapping("/room")

@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @Builder
 public class ChatRoomServiceImpl implements ChatRoomService{
 
