@@ -4,10 +4,12 @@ package org.example.chatservice.chatRoom.service;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.common.errors.ResourceNotFoundException;
 import org.example.chatservice.chatRoom.domain.ChatRoom;
 import org.example.chatservice.chatRoom.dto.CreateChatRoomRequest;
 import org.example.chatservice.chatRoom.dto.DeleteChatRoomRequest;
 import org.example.chatservice.chatRoom.dto.UpdateChatRoomRequest;
+import org.example.chatservice.chatRoom.infrastructure.repository.ChatRoomMongoRepository;
 import org.example.chatservice.chatRoom.infrastructure.repository.ChatRoomRepository;
 import org.example.chatservice.chatRoom.infrastructure.entity.ChatRoomEntity;
 import org.example.chatservice.utils.ClockHolder;
@@ -15,6 +17,7 @@ import org.example.chatservice.utils.UuidHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,43 +40,34 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
     @Override
     public List<ChatRoom> getAllChatRooms() {
-        List<ChatRoomEntity> chatRoomEntities = chatRoomRepository.findAll();
-        return chatRoomEntities.stream()
-                .map(ChatRoomEntity::toModel)
-                .collect(Collectors.toList());
+
+        return chatRoomRepository.findAll().orElseThrow(() -> new ResourceNotFoundException("전체 룸을 조회할 수 없습니다."));
     }
 
     @Override
     public ChatRoom getChatRoom(String chatRoomId) {
-        ChatRoomEntity chatRoomEntity = chatRoomRepository.findById(chatRoomId)
-                .orElseThrow(() -> new RuntimeException());
-
-        ChatRoom chatRoom = chatRoomEntity.toModel();
-        return chatRoom;
+        return chatRoomRepository.findById(chatRoomId).orElseThrow(()-> new ResourceNotFoundException("해당 채팅방을 조회할 수 없습니다"));
     }
 
 
     @Override
     public ChatRoom createChatRoom(CreateChatRoomRequest rq) {
         ChatRoom chatRoom = ChatRoom.createChatRoom(rq,uuidHolder,clockHolder);
-        ChatRoomEntity chatRoomEntity = chatRoomRepository.save(ChatRoomEntity.from(chatRoom));
-        return chatRoomEntity.toModel();
+        chatRoom = chatRoomRepository.save(chatRoom);
+        return chatRoom;
     }
     @Override
     public ChatRoom updateChatRoom(UpdateChatRoomRequest rq) {
-        ChatRoomEntity chatRoomEntity = chatRoomRepository.findById(rq.getId())
-                .orElseThrow(() -> new RuntimeException());
-        ChatRoom chatRoom = chatRoomEntity.toModel();
-        ChatRoom newChatRoom = chatRoom.updateRoom(rq);
-        chatRoomRepository.save(ChatRoomEntity.from(newChatRoom));
-        return newChatRoom;
+        ChatRoom chatRoom = chatRoomRepository.findById(rq.getId()).orElseThrow(()-> new ResourceNotFoundException("해당 채팅방을 조회할 수 없습니다"));
+        chatRoom = chatRoom.updateRoom(rq);
+        chatRoom = chatRoomRepository.save(chatRoom);
+        return chatRoom;
     }
     @Override
     public void deleteChatRoom(DeleteChatRoomRequest rq) {
-        ChatRoomEntity chatRoomEntity = chatRoomRepository.findById(rq.getRoomId())
-                .orElseThrow(()-> new RuntimeException());
 
-        ChatRoom chatRoom = chatRoomEntity.toModel();
+        ChatRoom chatRoom = chatRoomRepository.findById(rq.getRoomId()).orElseThrow(()-> new ResourceNotFoundException("해당 채팅방을 찾을 수 없습니다"));
+
         if (chatRoom.getAdmin().getId() == rq.getUserId()){
             chatRoomRepository.deleteById(rq.getRoomId());
         }else{
@@ -84,22 +78,18 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
     @Override
     public void deleteMember(String chatRoomId, String memberId){
-        ChatRoomEntity chatRoomEntity = chatRoomRepository.findById(chatRoomId)
-                .orElseThrow(() -> new RuntimeException());
 
-        ChatRoom chatRoom = chatRoomEntity.toModel();
-        ChatRoom newChatRoom = chatRoom.deleteMember(memberId);
-        chatRoomRepository.save(ChatRoomEntity.from(newChatRoom));
+        ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(()-> new ResourceNotFoundException("해당 채팅방을 찾을 수 없습니다"));
+        chatRoom = chatRoom.deleteMember(memberId);
+        chatRoomRepository.save(chatRoom);
     }
 
     @Override
     public void addMember(String roomId, String userId){
-        ChatRoomEntity chatRoomEntity = chatRoomRepository.findById(roomId)
-                .orElseThrow(() -> new RuntimeException());
 
-        ChatRoom chatRoom = chatRoomEntity.toModel();
-        ChatRoom newChatRoom = chatRoom.addMember(userId,uuidHolder,clockHolder);
-        chatRoomRepository.save(ChatRoomEntity.from(newChatRoom));
+        ChatRoom chatRoom = chatRoomRepository.findById(roomId).orElseThrow(()-> new ResourceNotFoundException("해당 채팅방을 찾을 수 없습니다"));
+        chatRoom= chatRoom.addMember(userId,uuidHolder,clockHolder);
+        chatRoomRepository.save(chatRoom);
     }
 
 

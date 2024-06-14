@@ -1,11 +1,21 @@
 package org.example.chatservice.chatRoom.infrastructure.repository;
 
+import org.example.chatservice.chatRoom.domain.ChatRoom;
 import org.example.chatservice.chatRoom.infrastructure.entity.ChatRoomEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 
+public interface ChatRoomRepository  {
 
-public interface ChatRoomRepository extends MongoRepository<ChatRoomEntity,String>,ChatRoomRepositoryCustom {
+    ChatRoom save(ChatRoom chatRoom);
+
+    Optional<ChatRoom> findById(String id);
+    Optional<List<ChatRoom>> findAll();
+
+    void deleteById(String id);
+
 
 }
