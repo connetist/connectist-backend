@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/users/join")
 @RequiredArgsConstructor
 public class UserCreateController {
 
@@ -28,7 +28,7 @@ public class UserCreateController {
     private final UserService userService;
 
     // user Create
-    @PostMapping("/join/email")
+    @PostMapping("/email")
     public ResponseEntity<UserJoinResponse> create(@RequestBody JoinUserCreate userCreate) {
 
         log.info(userCreate.toString());
@@ -48,7 +48,7 @@ public class UserCreateController {
 
     // verify certification code after user create
     // 방식 1 번호 입력
-    @PostMapping("/join/certification")
+    @PostMapping("/certification")
     public ResponseEntity<UserJoinResponse> certificationByCode(
             @RequestBody JoinUserCertification joinUserCertification
     ){
@@ -69,7 +69,7 @@ public class UserCreateController {
 
 
     // 회원 가입
-    @PostMapping("/join")
+    @PostMapping
     public User join(
             @RequestBody UserCreateDto userCreateDto
     ){

@@ -1,7 +1,7 @@
 package com.example.userservice.user.infrastructure;
 
 import com.example.userservice.user.domain.User;
-import com.example.userservice.user.service.port.UserRespository;
+import com.example.userservice.user.service.port.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -9,14 +9,13 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class UserRepositoryImpl implements UserRespository {
+public class UserRepositoryImpl implements UserRepository {
 
     private final UserMongoRepository userMongoRepository;
 
     @Override
     public Optional<User> findByEmail(String email) {
         return userMongoRepository.findByEmail(email).map(UserEntity::toModel);
-
     }
 
     @Override
@@ -28,6 +27,8 @@ public class UserRepositoryImpl implements UserRespository {
     public User save(User user) {
         return userMongoRepository.save(UserEntity.from(user)).toModel();
     }
+
+
 
     /**
      * TODO
