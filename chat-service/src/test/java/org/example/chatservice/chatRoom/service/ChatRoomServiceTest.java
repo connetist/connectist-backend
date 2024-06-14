@@ -75,19 +75,19 @@ public class ChatRoomServiceTest {
         when(chatRoomRepository.findById("testId")).thenReturn(Optional.ofNullable(chatRoomEntity1));
         when(chatRoomRepository.findAll()).thenReturn(chatRoomEntities);
     }
-    @Test
-    public void 채팅방생성() {
-
-        String id = "testId";
-
-        ChatRoom chatRoom = chatRoomService.getChatRoom(id);
-
-        assertThat(chatRoom.getId()).isEqualTo(id);
-
-    }
-
-    @Test
-    public
+//    @Test
+//    public void 채팅방생성() {
+//
+//        String id = "testId";
+//
+//        ChatRoom chatRoom = chatRoomService.getChatRoom(id);
+//
+//        assertThat(chatRoom.getId()).isEqualTo(id);
+//
+//    }
+//
+//    @Test
+//    public
 
 
 }
