@@ -4,6 +4,7 @@ import com.example.userservice.user.controller.port.JoinUserService;
 import com.example.userservice.user.controller.port.UserService;
 import com.example.userservice.user.controller.request.UserLogin;
 import com.example.userservice.user.domain.User;
+import com.example.userservice.user.domain.UserUpdate;
 import com.example.userservice.user.domain.create.UserCreate;
 import com.example.userservice.user.domain.join.JoinUser;
 import com.example.userservice.user.domain.token.UserWithToken;
@@ -37,14 +38,11 @@ public class UserServiceImpl implements UserService {
     public User create(UserCreate userCreate) {
         // eamil 인증 받았는지 확인
         JoinUser joinUser = joinUserService.emailCertificationBeforeJoin(userCreate.getEmail());
-        // 비번 암호화
-        userCreate = userCreate.updatePwAfterEncode(userCreate, passwordEncoder.encode(userCreate.getPw()));
         // 유저 만들고
         User user = User.fromAfterCertification(userCreate, joinUser, clockHolder, idGenerator);
+        User pwEncodedUser = user.encodePw(user, passwordEncoder.encode(user.getPw()));
         // 저장하고
-        user = userRepository.save(user);
-        // 반환
-        return user;
+        return userRepository.save(pwEncodedUser);
     }
 
     @Override
@@ -62,8 +60,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(User user) {
-        return null;
+    public User update(UserUpdate userUpdate) {
+        User user = findByEmail(userUpdate.getEmail());
+
+        User updatedUser = User.fromWithUserUpdate(user, userUpdate);
+        updatedUser = user.encodePw(user, passwordEncoder.encode(user.getPw()));
+        return userRepository.update(updatedUser);
     }
 
     @Override

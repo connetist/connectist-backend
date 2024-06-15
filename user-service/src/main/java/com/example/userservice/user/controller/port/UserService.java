@@ -2,6 +2,7 @@ package com.example.userservice.user.controller.port;
 
 import com.example.userservice.user.controller.request.UserLogin;
 import com.example.userservice.user.domain.User;
+import com.example.userservice.user.domain.UserUpdate;
 import com.example.userservice.user.domain.create.UserCreate;
 import com.example.userservice.user.domain.token.UserWithToken;
 
@@ -13,7 +14,7 @@ public interface UserService {
     // 로그인
     UserWithToken login(UserLogin userLogin);
 
-    User update(User user);
+    User update(UserUpdate userUpdate);
 
     User delete(String id);
 

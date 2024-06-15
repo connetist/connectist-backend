@@ -7,7 +7,9 @@ import com.example.userservice.util.clock.ClockHolder;
 import com.example.userservice.util.id.IdGenerator;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 @Getter
 public class User {
 
@@ -54,4 +56,34 @@ public class User {
                 .build();
     }
 
+    //UserUpdate롤 이용한 user제작
+    public static User fromWithUserUpdate(User user, UserUpdate userUpdate) {
+        return User.builder()
+                .email(userUpdate.getEmail())
+                .id(user.getId())
+                .pw(userUpdate.getPw())
+                .school(userUpdate.getSchool())
+                .degree(userUpdate.getDegree())
+                .sex(userUpdate.getSex())
+                .major(userUpdate.getMajor())
+                .status(user.getStatus())
+                .nickname(userUpdate.getNickname())
+                .createdAt(user.getCreatedAt())
+                .build();
+    }
+
+    public User encodePw(User user, String encodedPw) {
+        return User.builder()
+                .email(user.getEmail())
+                .id(user.getId())
+                .pw(encodedPw)
+                .school(user.getSchool())
+                .degree(user.getDegree())
+                .sex(user.getSex())
+                .major(user.getMajor())
+                .status(user.getStatus())
+                .nickname(user.getNickname())
+                .createdAt(user.getCreatedAt())
+                .build();
+    }
 }

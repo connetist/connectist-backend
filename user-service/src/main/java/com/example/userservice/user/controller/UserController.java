@@ -2,10 +2,11 @@ package com.example.userservice.user.controller;
 
 import com.example.userservice.user.controller.port.UserService;
 import com.example.userservice.user.controller.request.UserLogin;
+import com.example.userservice.user.controller.request.UserUpdateRequest;
 import com.example.userservice.user.domain.User;
+import com.example.userservice.user.domain.UserUpdate;
 import com.example.userservice.user.domain.token.UserWithToken;
-import com.example.userservice.user.service.auth.JwtUtil;
-import com.example.userservice.user.service.port.UserRepository;
+
 import com.example.userservice.util.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,24 +14,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Optional;
+import org.springframework.web.bind.annotation.*;
+
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -60,6 +47,43 @@ public class UserController {
                 .header(HttpHeaders.SET_COOKIE, accessCookie.toString())
                 .header(HttpHeaders.SET_COOKIE, refreshCookie.toString())
                 .body(userWithToken.getUser());
+    }
+
+
+    // user id로 찾기
+    @GetMapping("/id/{id}")
+    public User findByIdController(
+            @PathVariable("id") String id
+    ) {
+        try {
+            return userService.findById(id);
+        } catch (Exception e) {
+            throw new NotFoundException(e.getMessage());
+        }
+    }
+
+    // user email로 찾기
+    @GetMapping("/email/{email}")
+    public User findByEmailController(
+            @PathVariable ("email") String email
+    ) {
+        try {
+            return userService.findByEmail(email);
+        } catch (Exception e) {
+            throw new NotFoundException(e.getMessage());
+        }
+    }
+
+    @PatchMapping("/{email}")
+    public User updateUserController(
+            @PathVariable("email") String email,
+            @RequestBody UserUpdateRequest userUpdateRequest
+    ) throws Exception {
+        if(!email.equals(userUpdateRequest.getEmail())){
+            throw new Exception("email과 request가 다릅니다.");
+        }
+        UserUpdate userUpdate = UserUpdate.fromWithRequest(userUpdateRequest);
+        return userService.update(userUpdate);
     }
 }
 
