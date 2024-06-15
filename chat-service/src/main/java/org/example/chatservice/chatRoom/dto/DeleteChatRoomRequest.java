@@ -9,4 +9,9 @@ import lombok.Getter;
 public class DeleteChatRoomRequest {
     private String roomId;
     private String userId;
+
+    public DeleteChatRoomRequest(String roomId, String userId) {
+        this.roomId = roomId;
+        this.userId = userId;
+    }
 }
