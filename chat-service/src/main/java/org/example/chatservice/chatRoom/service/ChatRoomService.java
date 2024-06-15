@@ -19,9 +19,15 @@ public interface ChatRoomService {
 
 
     //멤버
-    void deleteMember(String chatRoomId, String memberId);
+    ChatRoom deleteMember(String chatRoomId, String memberId);
 
-    void addMember(String roomId, String userId);
+    ChatRoom addMember(String roomId, String userId);
 
+
+    //TODO
+
+    // 1. 방장이 채팅방 나가면 채팅방 삭제
+    // 2. RuntimeException말고 다른걸로 처리
+    // 3. Optional
 
 }
