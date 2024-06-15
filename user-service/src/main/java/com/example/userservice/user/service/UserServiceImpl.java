@@ -6,7 +6,10 @@ import com.example.userservice.user.controller.request.UserLogin;
 import com.example.userservice.user.domain.User;
 import com.example.userservice.user.domain.create.UserCreate;
 import com.example.userservice.user.domain.join.JoinUser;
+import com.example.userservice.user.domain.token.UserWithToken;
 import com.example.userservice.user.service.auth.JwtUtil;
+import com.example.userservice.user.service.port.JwtTokenService;
+import com.example.userservice.user.service.port.TokenRepository;
 import com.example.userservice.user.service.port.UserRepository;
 import com.example.userservice.util.clock.ClockHolder;
 import com.example.userservice.util.exception.NotFoundException;
@@ -22,7 +25,8 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     private final ClockHolder clockHolder;
-    private final UserRepository userRespository;
+    private final UserRepository userRepository;
+    private final JwtTokenService jwtTokenService;
     private final JoinUserService joinUserService;
     private final PasswordEncoder passwordEncoder;
     private final IdGenerator idGenerator;
@@ -30,7 +34,6 @@ public class UserServiceImpl implements UserService {
 
     // 회원가입
     @Override
-
     public User create(UserCreate userCreate) {
         // eamil 인증 받았는지 확인
         JoinUser joinUser = joinUserService.emailCertificationBeforeJoin(userCreate.getEmail());
@@ -39,21 +42,23 @@ public class UserServiceImpl implements UserService {
         // 유저 만들고
         User user = User.fromAfterCertification(userCreate, joinUser, clockHolder, idGenerator);
         // 저장하고
-        user = userRespository.save(user);
+        user = userRepository.save(user);
         // 반환
         return user;
     }
 
     @Override
-    public String login(UserLogin userLogin) {
+    public UserWithToken login(UserLogin userLogin) {
         log.info(userLogin.getEmail());
-        User user = userRespository.findByEmail(userLogin.getEmail()).orElseThrow(
+        User user = userRepository.findByEmail(userLogin.getEmail()).orElseThrow(
                 () -> new NotFoundException("존재하지 않습니다.")
         );
         if (!passwordEncoder.matches(userLogin.getPassword(), user.getPw())) {
             throw new NotFoundException("비번 오류입니다.");
         }
-        return jwtUtil.createJwt(user.getId(), String.valueOf(user.getStatus()));
+        String accessToken = jwtTokenService.accessToken(user);
+        String refreshToken = jwtTokenService.refreshToken(user).getRefreshToken();
+        return UserWithToken.from(user, accessToken, refreshToken);
     }
 
     @Override
@@ -68,13 +73,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByEmail(String email) {
-        return userRespository.findByEmail(email)
+        return userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException(email));
     }
 
     @Override
     public User findById(String id) {
-        return userRespository.findById(id)
+        return userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(id));
     }
 }

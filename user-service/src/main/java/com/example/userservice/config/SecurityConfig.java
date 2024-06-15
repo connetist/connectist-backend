@@ -1,7 +1,6 @@
 package com.example.userservice.config;
 
 import com.example.userservice.user.service.auth.JwtUtil;
-import com.example.userservice.user.service.auth.LoginFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -49,10 +48,6 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );
 
-        http.
-                addFilterAt(
-                        new LoginFilter(authenticationManager(authenticationConfiguration), objectMapper, jwtUtil), UsernamePasswordAuthenticationFilter.class
-                );
 
         return http.build();
     }

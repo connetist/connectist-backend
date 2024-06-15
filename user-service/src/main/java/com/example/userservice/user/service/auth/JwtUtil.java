@@ -41,7 +41,7 @@ public class JwtUtil {
                 .getExpiration().before(new Date());
     }
 
-    public String createJwt(String userId, String role) {
+    public String createAccessTokenJWT(String userId, String role) {
 
         Date now = new Date();
         Date exp = new Date(System.currentTimeMillis() + 1 * (1000 * 60 * 60));
@@ -49,6 +49,18 @@ public class JwtUtil {
         return Jwts.builder()
                 .claim("userId", userId)
                 .claim("role", role)
+                .issuedAt(now)
+                .expiration(exp)
+                .signWith(secretKey)
+                .compact();
+    }
+
+    public String createRefreshTokenJWT(String userId, int expireDay) {
+        Date now = new Date();
+        Date exp = new Date(System.currentTimeMillis() + 1 * (1000 * 60 * 60 * 24 * expireDay));
+
+        return Jwts.builder()
+                .claim("userId", userId)
                 .issuedAt(now)
                 .expiration(exp)
                 .signWith(secretKey)
