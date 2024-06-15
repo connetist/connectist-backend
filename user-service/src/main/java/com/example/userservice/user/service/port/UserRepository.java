@@ -4,7 +4,7 @@ import com.example.userservice.user.domain.User;
 
 import java.util.Optional;
 
-public interface UserRespository {
+public interface UserRepository {
 
     Optional<User> findByEmail(String email);
 
