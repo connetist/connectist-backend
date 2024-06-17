@@ -23,10 +23,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @AllArgsConstructor
 public class SecurityConfig {
 
-    private final AuthenticationConfiguration authenticationConfiguration;
-    private final ObjectMapper objectMapper;
-    private final JwtUtil jwtUtil;
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -38,8 +34,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers("/api/users/join/**").permitAll()
-                                .requestMatchers("/api/users/login").permitAll()
+                                .requestMatchers("/api/users/**").permitAll()
                                 .anyRequest().authenticated()
                 );
 
@@ -50,11 +45,6 @@ public class SecurityConfig {
 
 
         return http.build();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
-        return configuration.getAuthenticationManager();
     }
 
     @Bean

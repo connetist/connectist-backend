@@ -2,14 +2,15 @@ package com.example.userservice.user.service;
 
 import com.example.userservice.user.controller.port.JoinUserService;
 import com.example.userservice.user.controller.port.UserService;
-import com.example.userservice.user.controller.request.UserLogin;
+import com.example.userservice.user.dto.request.UserDeleteRequest;
+import com.example.userservice.user.dto.request.UserLogin;
 import com.example.userservice.user.domain.User;
+import com.example.userservice.user.domain.UserUpdate;
 import com.example.userservice.user.domain.create.UserCreate;
 import com.example.userservice.user.domain.join.JoinUser;
 import com.example.userservice.user.domain.token.UserWithToken;
 import com.example.userservice.user.service.auth.JwtUtil;
 import com.example.userservice.user.service.port.JwtTokenService;
-import com.example.userservice.user.service.port.TokenRepository;
 import com.example.userservice.user.service.port.UserRepository;
 import com.example.userservice.util.clock.ClockHolder;
 import com.example.userservice.util.exception.NotFoundException;
@@ -35,41 +36,52 @@ public class UserServiceImpl implements UserService {
     // 회원가입
     @Override
     public User create(UserCreate userCreate) {
-        // eamil 인증 받았는지 확인
+
         JoinUser joinUser = joinUserService.emailCertificationBeforeJoin(userCreate.getEmail());
-        // 비번 암호화
-        userCreate = userCreate.updatePwAfterEncode(userCreate, passwordEncoder.encode(userCreate.getPw()));
-        // 유저 만들고
+
         User user = User.fromAfterCertification(userCreate, joinUser, clockHolder, idGenerator);
-        // 저장하고
-        user = userRepository.save(user);
-        // 반환
-        return user;
+        User pwEncodedUser = user.encodePw(user, passwordEncoder.encode(user.getPassword()));
+
+        return userRepository.save(pwEncodedUser);
     }
 
     @Override
     public UserWithToken login(UserLogin userLogin) {
-        log.info(userLogin.getEmail());
+
         User user = userRepository.findByEmail(userLogin.getEmail()).orElseThrow(
                 () -> new NotFoundException("존재하지 않습니다.")
         );
-        if (!passwordEncoder.matches(userLogin.getPassword(), user.getPw())) {
+
+        if (!passwordEncoder.matches(userLogin.getPassword(), user.getPassword())) {
             throw new NotFoundException("비번 오류입니다.");
         }
+
         String accessToken = jwtTokenService.accessToken(user);
         String refreshToken = jwtTokenService.refreshToken(user).getRefreshToken();
         return UserWithToken.from(user, accessToken, refreshToken);
     }
 
     @Override
-    public User update(User user) {
-        return null;
+    public User update(UserUpdate userUpdate) {
+        User user = findByEmail(userUpdate.getEmail());
+        User updatedUser = User.fromWithUserUpdate(user, userUpdate);
+        updatedUser = user.encodePw(user, passwordEncoder.encode(updatedUser.getPassword()));
+
+        return userRepository.update(updatedUser);
     }
 
     @Override
-    public User delete(String id) {
-        return null;
+    public User delete(UserDeleteRequest userDeleteRequest) {
+
+        User user = findByEmail(userDeleteRequest.getEmail());
+
+        if (!passwordEncoder.matches(userDeleteRequest.getPassword(), user.getPassword())) {
+            throw new NotFoundException("pw 다름");
+        }
+
+        return userRepository.delete(user);
     }
+
 
     @Override
     public User findByEmail(String email) {

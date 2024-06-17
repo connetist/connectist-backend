@@ -18,7 +18,7 @@ public class UserAuthEntity {
         UserAuthEntity userAuthEntity = new UserAuthEntity();
         userAuthEntity.setId(user.getId());
         userAuthEntity.setEmail(user.getEmail());
-        userAuthEntity.setPw(user.getPw());
+        userAuthEntity.setPw(user.getPassword());
         userAuthEntity.setUserStatus(user.getStatus());
         return userAuthEntity;
     }
