@@ -2,6 +2,9 @@ package org.example.chatservice.chatMessage.domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.example.chatservice.chatMessage.dto.CreateChatMessageRequest;
+import org.example.chatservice.utils.ClockHolder;
+import org.example.chatservice.utils.UuidHolder;
 
 @Getter
 public class ChatMessage {
@@ -19,6 +22,18 @@ public class ChatMessage {
         this.roomId = roomId;
         this.content = content;
         this.createdAt = createdAt;
+    }
+
+
+    public static ChatMessage createChatMessage(CreateChatMessageRequest rq, UuidHolder uuidHolder, ClockHolder clockHolder){
+        return ChatMessage.builder().
+                id(uuidHolder.random()).
+                userId(rq.getUserId()).
+                roomId(rq.getRoomId()).
+                content(rq.getContent()).
+                createdAt(clockHolder.mills()).
+                build();
+
     }
 
 

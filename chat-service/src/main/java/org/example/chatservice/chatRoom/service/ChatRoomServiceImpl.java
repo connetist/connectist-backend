@@ -66,7 +66,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     @Override
     public void deleteChatRoom(DeleteChatRoomRequest rq) {
 
-        ChatRoom chatRoom = chatRoomRepository.findById(rq.getRoomId()).orElseThrow(()-> new ResourceNotFoundException("해당 채팅방을 찾을 수 없습니다"));
+        ChatRoom chatRoom = chatRoomRepository.findById(rq.getRoomId()).orElseThrow(()-> new GlobalException(ResultCode.CHAT_ROOM_NOT_FOUND));
 
         if (chatRoom.getAdmin().getId() == rq.getUserId()){
             chatRoomRepository.deleteById(rq.getRoomId());

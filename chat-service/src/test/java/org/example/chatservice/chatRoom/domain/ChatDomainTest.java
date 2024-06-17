@@ -17,32 +17,6 @@ public class ChatDomainTest {
     private UuidHolder uuidHolder = new UuidHolderImpl();
     private ClockHolder clockHolder = new ClockHolderImpl();
 
-    public ChatRoom ChatRoomGenerate(){
-        ChatMember member = ChatMember.builder()
-                .id("memberId")
-                .userId("memberUserId")
-                .createdAt(100)
-                .lastMessageIdx(0)
-                .build();
-        List<ChatMember> chatMemberList = new ArrayList<>();
-        chatMemberList.add(member);
-
-
-        ChatRoom chatRoom = ChatRoom.builder().
-                id("testId").
-                title("testTitle").
-                chatMembers(chatMemberList).
-                deparature("testDeparture").
-                destination("testDestination").
-                timeTaken(100).
-                startTime(100).
-                fee(1000).
-                createdAt(10000).
-                build();
-
-        return chatRoom;
-
-    }
     @Test
     public void 채팅멤버_도메인_생성(){
         ChatMember member = ChatMember.builder()
