@@ -11,4 +11,6 @@ public interface JoinUserService {
     JoinUser certification(JoinUserCertification joinUserCertification);
 
     JoinUser emailCertificationBeforeJoin(String email);
+
+    boolean checkEmailBeforeCertification(String email);
 }
