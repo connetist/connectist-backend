@@ -14,7 +14,7 @@ import lombok.ToString;
 public class User {
 
     private final String id;
-    private final String pw;
+    private final String password;
     private final String email;
     private final School school;
     private final UserDegree degree;
@@ -31,7 +31,7 @@ public class User {
         this.email = email;
         this.school = school;
         this.id = id;
-        this.pw = pw;
+        this.password = pw;
         this.degree = degree;
         this.sex = sex;
         this.major = major;
@@ -61,7 +61,7 @@ public class User {
         return User.builder()
                 .email(userUpdate.getEmail())
                 .id(user.getId())
-                .pw(userUpdate.getPw())
+                .pw(userUpdate.getPassword())
                 .school(userUpdate.getSchool())
                 .degree(userUpdate.getDegree())
                 .sex(userUpdate.getSex())

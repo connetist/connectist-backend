@@ -27,7 +27,7 @@ public class UserEntity {
     public static UserEntity from(User user) {
         UserEntity userEntity = new UserEntity();
         userEntity.setId(user.getId());
-        userEntity.setPw(user.getPw());
+        userEntity.setPw(user.getPassword());
         userEntity.setEmail(user.getEmail());
         userEntity.setSchool(user.getSchool());
         userEntity.setDegree(user.getDegree());

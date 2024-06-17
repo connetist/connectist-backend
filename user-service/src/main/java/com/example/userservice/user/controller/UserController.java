@@ -1,8 +1,9 @@
 package com.example.userservice.user.controller;
 
 import com.example.userservice.user.controller.port.UserService;
-import com.example.userservice.user.controller.request.UserLogin;
-import com.example.userservice.user.controller.request.UserUpdateRequest;
+import com.example.userservice.user.dto.request.UserDeleteRequest;
+import com.example.userservice.user.dto.request.UserLogin;
+import com.example.userservice.user.dto.request.UserUpdateRequest;
 import com.example.userservice.user.domain.User;
 import com.example.userservice.user.domain.UserUpdate;
 import com.example.userservice.user.domain.token.UserWithToken;
@@ -74,6 +75,7 @@ public class UserController {
         }
     }
 
+    // user update
     @PatchMapping("/{email}")
     public User updateUserController(
             @PathVariable("email") String email,
@@ -84,6 +86,21 @@ public class UserController {
         }
         UserUpdate userUpdate = UserUpdate.fromWithRequest(userUpdateRequest);
         return userService.update(userUpdate);
+    }
+
+    // user delete
+    @DeleteMapping("/{email}")
+    public ResponseEntity<User> deleteUserController(
+            @PathVariable("email") String email,
+            @RequestBody UserDeleteRequest userDeleteRequest
+    ) throws Exception {
+        if(!email.equals(userDeleteRequest.getEmail())){
+            throw new Exception("email과 request가 다릅니다.");
+        }
+        User user = userService.delete(userDeleteRequest);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(user);
     }
 }
 

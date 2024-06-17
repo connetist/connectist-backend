@@ -1,6 +1,7 @@
 package com.example.userservice.user.controller.port;
 
-import com.example.userservice.user.controller.request.UserLogin;
+import com.example.userservice.user.dto.request.UserDeleteRequest;
+import com.example.userservice.user.dto.request.UserLogin;
 import com.example.userservice.user.domain.User;
 import com.example.userservice.user.domain.UserUpdate;
 import com.example.userservice.user.domain.create.UserCreate;
@@ -14,12 +15,27 @@ public interface UserService {
     // 로그인
     UserWithToken login(UserLogin userLogin);
 
+    // 사용자 정보 업데이트
     User update(UserUpdate userUpdate);
 
-    User delete(String id);
+    /**
+     * 사용자 삭제하기
+     * @param userDeleteRequest
+     * @return User(삭제한 객체)
+     */
+    User delete(UserDeleteRequest userDeleteRequest);
 
-    // Read
+    /**
+     * 이메일로부터 사용자 찾기
+     * @param email
+     * @return User
+     */
     User findByEmail(String email);
 
+    /**
+     * 아이디로부터 사용자 찾기
+     * @param id
+     * @return User
+     */
     User findById(String id);
 }

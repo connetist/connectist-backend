@@ -35,9 +35,9 @@ public class UserRepositoryImpl implements UserRepository {
         return save.toModel();
     }
 
-
-    /**
-     * TODO
-     * update(
-     */
+    @Override
+    public User delete(User user) {
+        userMongoRepository.deleteById(UserEntity.from(user).getId());
+        return user;
+    }
 }

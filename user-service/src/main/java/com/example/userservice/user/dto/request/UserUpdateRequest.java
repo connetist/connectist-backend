@@ -1,4 +1,4 @@
-package com.example.userservice.user.controller.request;
+package com.example.userservice.user.dto.request;
 
 import com.example.userservice.user.domain.user.School;
 import com.example.userservice.user.domain.user.UserDegree;
@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 public class UserUpdateRequest {
     @NonNull private String email;
-    @NonNull private String pw;
+    @NonNull private String password;
     @NonNull private School school;
     @NonNull private UserDegree degree;
     @NonNull private UserSex sex;

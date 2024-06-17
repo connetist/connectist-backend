@@ -1,4 +1,4 @@
-package com.example.userservice.user.controller.response;
+package com.example.userservice.user.dto.response;
 
 import com.example.userservice.user.domain.user.School;
 import com.example.userservice.user.domain.join.JoinUser;

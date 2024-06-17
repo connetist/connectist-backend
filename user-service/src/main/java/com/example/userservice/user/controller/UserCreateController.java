@@ -2,7 +2,7 @@ package com.example.userservice.user.controller;
 
 import com.example.userservice.user.controller.port.JoinUserService;
 import com.example.userservice.user.controller.port.UserService;
-import com.example.userservice.user.controller.response.UserJoinResponse;
+import com.example.userservice.user.dto.response.UserJoinResponse;
 import com.example.userservice.user.domain.User;
 import com.example.userservice.user.domain.create.UserCreate;
 import com.example.userservice.user.domain.create.UserCreateDto;

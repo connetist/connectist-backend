@@ -15,9 +15,5 @@ public interface UserRepository {
 
     User update(User user);
 
-    /**
-     * TODO
-     * delete(String id)
-     * update(User user)
-     */
+    User delete(User user);
 }

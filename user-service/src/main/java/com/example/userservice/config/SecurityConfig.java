@@ -23,10 +23,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @AllArgsConstructor
 public class SecurityConfig {
 
-    private final AuthenticationConfiguration authenticationConfiguration;
-    private final ObjectMapper objectMapper;
-    private final JwtUtil jwtUtil;
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
