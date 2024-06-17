@@ -54,7 +54,7 @@ public class ChatController {
     public ResponseEntity<ChatRoom> createChatRoom(@RequestBody CreateChatRoomRequest rq){
         ChatRoom chatRoom = chatRoomService.createChatRoom(rq);
         return ResponseEntity
-                .ok()
+                .status(HttpStatus.CREATED)
                 .body(chatRoom);
     }
 
@@ -67,30 +67,30 @@ public class ChatController {
     }
 
     @PutMapping("/room")
-    public ResponseEntity<Void> deleteChatRoom(@RequestBody DeleteChatRoomRequest rq){
+    public ResponseEntity<ChatRoom> deleteChatRoom(@RequestBody DeleteChatRoomRequest rq){
         chatRoomService.deleteChatRoom(rq);
 
         return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
+                .ok()
                 .build();
     }
 
     @PutMapping("/member")
-    public ResponseEntity<Void> deleteMember(@RequestBody DeleteMemberRequest rq){
-        chatRoomService.deleteMember(rq.getRoomId(),rq.getUserId());
+    public ResponseEntity<ChatRoom> deleteMember(@RequestBody DeleteMemberRequest rq){
+        ChatRoom chatRoom = chatRoomService.deleteMember(rq.getRoomId(),rq.getUserId());
 
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
-                .build();
+                .body(chatRoom);
     }
 
     @PostMapping("/member")
-    public ResponseEntity<Void> addMember(@RequestBody UpdateMemberRequest rq){
-        chatRoomService.addMember(rq.getRoomId(),rq.getUserId());
+    public ResponseEntity<ChatRoom> addMember(@RequestBody UpdateMemberRequest rq){
+        ChatRoom chatRoom = chatRoomService.addMember(rq.getRoomId(),rq.getUserId());
 
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
-                .build();
+                .body(chatRoom);
 
     }
 

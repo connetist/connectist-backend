@@ -59,6 +59,9 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     @Override
     public ChatRoom updateChatRoom(UpdateChatRoomRequest rq) {
         ChatRoom chatRoom = chatRoomRepository.findById(rq.getId()).orElseThrow(()-> new ResourceNotFoundException("해당 채팅방을 조회할 수 없습니다"));
+        if (rq.getUserId() != chatRoom.getAdmin().getUserId()){
+            throw new RuntimeException();
+        }
         chatRoom = chatRoom.updateRoom(rq);
         chatRoom = chatRoomRepository.save(chatRoom);
         return chatRoom;
@@ -77,19 +80,20 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
 
     @Override
-    public void deleteMember(String chatRoomId, String memberId){
+    public ChatRoom deleteMember(String chatRoomId, String memberId){
 
         ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(()-> new ResourceNotFoundException("해당 채팅방을 찾을 수 없습니다"));
         chatRoom = chatRoom.deleteMember(memberId);
-        chatRoomRepository.save(chatRoom);
+
+        return chatRoomRepository.save(chatRoom);
     }
 
     @Override
-    public void addMember(String roomId, String userId){
+    public ChatRoom addMember(String roomId, String userId){
 
         ChatRoom chatRoom = chatRoomRepository.findById(roomId).orElseThrow(()-> new ResourceNotFoundException("해당 채팅방을 찾을 수 없습니다"));
         chatRoom= chatRoom.addMember(userId,uuidHolder,clockHolder);
-        chatRoomRepository.save(chatRoom);
+        return chatRoomRepository.save(chatRoom);
     }
 
 

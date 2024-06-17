@@ -82,7 +82,7 @@ public class ChatRoom {
 
     //특정 유저가 채팅방 나가기
     public ChatRoom deleteMember(String id){
-        chatMembers.removeIf(chatMember -> chatMember.getId().equals(id));
+        chatMembers.removeIf(chatMember -> chatMember.getUserId().equals(id));
         return this;
     }
 

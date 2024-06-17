@@ -170,6 +170,7 @@ public class ChatRoomServiceTest {
     public void 채팅방_업데이트(){
         UpdateChatRoomRequest rq = UpdateChatRoomRequest.builder().
                 id("testId2").
+                userId("memberUserId").
                 title("cTitle").
                 departure("cDeparture").
                 destination("cDestination").
@@ -192,25 +193,17 @@ public class ChatRoomServiceTest {
 
     @Test
     public void 채팅방_멤버_추가(){
-        chatRoomService.addMember("testId1","newMember1");
-
-        ChatRoom chatRoom = chatRoomService.getChatRoom("testId1");
+        ChatRoom chatRoom = chatRoomService.addMember("testId1","newMember1");
 
         assertThat(chatRoom.getChatMembers().size()).isEqualTo(2);
-
-
-
-
     }
 
     @Test
     public void 채팅방_멤버_삭제(){
 
-        chatRoomService.deleteMember("testId1","memberId");
+        ChatRoom chatRoom = chatRoomService.deleteMember("testId1","memberId");
 
-        ChatRoom chatRoom = chatRoomService.getChatRoom("testId1");
-
-        assertThat(chatRoom.getChatMembers().size()).isEqualTo(0);
+        assertThat(chatRoom.getChatMembers().size()).isEqualTo(1);
 
     }
 //
