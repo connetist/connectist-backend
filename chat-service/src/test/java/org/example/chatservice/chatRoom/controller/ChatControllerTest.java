@@ -1,10 +1,13 @@
 package org.example.chatservice.chatRoom.controller;
 
-import org.apache.coyote.Response;
 import org.example.chatservice.chatRoom.domain.ChatMember;
 import org.example.chatservice.chatRoom.domain.ChatRoom;
-import org.example.chatservice.chatRoom.dto.*;
+import org.example.chatservice.chatRoom.dto.Request.*;
 import org.example.chatservice.chatRoom.mock.TestContainer;
+import org.example.chatservice.error.GlobalException;
+import org.example.chatservice.error.GlobalExceptionHandler;
+import org.example.chatservice.chatRoom.dto.Response.RestResponse;
+import org.example.chatservice.error.ResultCode;
 import org.example.chatservice.utils.ClockHolder;
 import org.example.chatservice.utils.ClockHolderImpl;
 import org.example.chatservice.utils.UuidHolder;
@@ -14,22 +17,22 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.time.Clock;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
 
 public class ChatControllerTest {
 
     private TestContainer testContainer;
 
+    private GlobalExceptionHandler globalExceptionHandler;
+
     @BeforeEach
     public void init(){
         UuidHolder uuidHolder = new UuidHolderImpl();
         ClockHolder clockHolder = new ClockHolderImpl();
+        globalExceptionHandler = new GlobalExceptionHandler();
         this.testContainer = TestContainer.builder()
                 .uuidHolder(uuidHolder)
                 .clockHolder(clockHolder)
@@ -77,7 +80,7 @@ public class ChatControllerTest {
 
     @Test
     public void 헬스체크_할_수_있다(){
-        ResponseEntity<String> result = testContainer.chatController.status();
+        ResponseEntity<RestResponse<String>> result = testContainer.chatController.status();
 
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.valueOf(200));
         assertThat(result.getBody()).isNotNull();
@@ -85,28 +88,38 @@ public class ChatControllerTest {
 
     @Test
     public void 모든_방_조회(){
-        ResponseEntity<List<ChatRoom>> result = testContainer.chatController.getAllChatRooms();
+        ResponseEntity<RestResponse<List<ChatRoom>>> result = testContainer.chatController.getAllChatRooms();
 
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.valueOf(200));
         assertThat(result.getBody()).isNotNull();
-        assertThat(result.getBody().size()).isEqualTo(2);
+        assertThat(result.getBody().getData().size()).isEqualTo(2);
     }
 
     @Test
     public void 특정_방_조회(){
 
-        ResponseEntity<ChatRoom> result = testContainer.chatController.getChatRoom("testId1");
+        ResponseEntity<RestResponse<ChatRoom>> result = testContainer.chatController.getChatRoom("testId1");
+        System.out.println(result);
 
+        assertThat(result.getBody().getData().getId()).isEqualTo("testId1");
+        assertThat(result.getBody().getData().getTitle()).isEqualTo("testTitle1");
+        assertThat(result.getBody().getData().getDeparature()).isEqualTo("testDeparture1");
+        assertThat(result.getBody().getData().getDestination()).isEqualTo("testDestination1");
+        assertThat(result.getBody().getData().getStartTime()).isEqualTo(100);
+        assertThat(result.getBody().getData().getTimeTaken()).isEqualTo(100);
+        assertThat(result.getBody().getData().getFee()).isEqualTo(1000);
+        assertThat(result.getBody().getData().getChatMembers().size()).isEqualTo(1);
 
-        assertThat(result.getBody().getId()).isEqualTo("testId1");
-        assertThat(result.getBody().getTitle()).isEqualTo("testTitle1");
-        assertThat(result.getBody().getDeparature()).isEqualTo("testDeparture1");
-        assertThat(result.getBody().getDestination()).isEqualTo("testDestination1");
-        assertThat(result.getBody().getStartTime()).isEqualTo(100);
-        assertThat(result.getBody().getTimeTaken()).isEqualTo(100);
-        assertThat(result.getBody().getFee()).isEqualTo(1000);
-        assertThat(result.getBody().getChatMembers().size()).isEqualTo(1);
+    }
 
+    @Test
+    public void 특정방_조회시_없을떄(){
+        ResponseEntity<RestResponse<ChatRoom>> result;
+        try {
+            result = testContainer.chatController.getChatRoom("Hello");
+        } catch (GlobalException ex) {
+            assertThat(ex.getResultCode()).isEqualTo(ResultCode.CHAT_ROOM_NOT_FOUND);
+        }
     }
 
     @Test
@@ -121,17 +134,17 @@ public class ChatControllerTest {
                 fee(2000).
                 build();
 
-        ResponseEntity<ChatRoom> result = testContainer.chatController.createChatRoom(rq);
+        ResponseEntity<RestResponse<ChatRoom>> result = testContainer.chatController.createChatRoom(rq);
 
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(result.getBody()).isNotNull();
-        assertThat(result.getBody().getAdmin().getUserId()).isEqualTo("testId3");
-        assertThat(result.getBody().getTitle()).isEqualTo("testTitle3");
-        assertThat(result.getBody().getDeparature()).isEqualTo("testDeparture3");
-        assertThat(result.getBody().getDestination()).isEqualTo("testDestination3");
-        assertThat(result.getBody().getTimeTaken()).isEqualTo(200);
-        assertThat(result.getBody().getStartTime()).isEqualTo(200);
-        assertThat(result.getBody().getFee()).isEqualTo(2000);
+        assertThat(result.getBody().getData().getAdmin().getUserId()).isEqualTo("testId3");
+        assertThat(result.getBody().getData().getTitle()).isEqualTo("testTitle3");
+        assertThat(result.getBody().getData().getDeparature()).isEqualTo("testDeparture3");
+        assertThat(result.getBody().getData().getDestination()).isEqualTo("testDestination3");
+        assertThat(result.getBody().getData().getTimeTaken()).isEqualTo(200);
+        assertThat(result.getBody().getData().getStartTime()).isEqualTo(200);
+        assertThat(result.getBody().getData().getFee()).isEqualTo(2000);
     }
 
     @Test
@@ -141,7 +154,7 @@ public class ChatControllerTest {
                 userId("memberId").
                 build();
 
-        ResponseEntity<ChatRoom> result= testContainer.chatController.deleteChatRoom(rq);
+        ResponseEntity<RestResponse<ChatRoom>> result= testContainer.chatController.deleteChatRoom(rq);
 
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
@@ -159,16 +172,16 @@ public class ChatControllerTest {
                 .fee(3000)
                 .build();
 
-        ResponseEntity<ChatRoom> result = testContainer.chatController.updateChatRoom(rq);
+        ResponseEntity<RestResponse<ChatRoom>> result = testContainer.chatController.updateChatRoom(rq);
 
-        assertThat(result.getBody().getId()).isEqualTo("testId1");
+        assertThat(result.getBody().getData().getId()).isEqualTo("testId1");
 //        assertThat(result.getBody().getAdmin())
-        assertThat(result.getBody().getTitle()).isEqualTo("cTitle");
-        assertThat(result.getBody().getDeparature()).isEqualTo("cDeparture");
-        assertThat(result.getBody().getDestination()).isEqualTo("cDestination");
-        assertThat(result.getBody().getTimeTaken()).isEqualTo(300);
-        assertThat(result.getBody().getStartTime()).isEqualTo(300);
-        assertThat(result.getBody().getFee()).isEqualTo(3000);
+        assertThat(result.getBody().getData().getTitle()).isEqualTo("cTitle");
+        assertThat(result.getBody().getData().getDeparature()).isEqualTo("cDeparture");
+        assertThat(result.getBody().getData().getDestination()).isEqualTo("cDestination");
+        assertThat(result.getBody().getData().getTimeTaken()).isEqualTo(300);
+        assertThat(result.getBody().getData().getStartTime()).isEqualTo(300);
+        assertThat(result.getBody().getData().getFee()).isEqualTo(3000);
     }
 
     @Test
@@ -178,9 +191,9 @@ public class ChatControllerTest {
                 .roomId("testId1")
                 .build();
 
-        ResponseEntity<ChatRoom> result = testContainer.chatController.addMember(rq);
+        ResponseEntity<RestResponse<ChatRoom>> result = testContainer.chatController.addMember(rq);
 
-        assertThat(result.getBody().getChatMembers().size()).isEqualTo(2);
+        assertThat(result.getBody().getData().getChatMembers().size()).isEqualTo(2);
 
 
     }
@@ -193,17 +206,17 @@ public class ChatControllerTest {
                 .roomId("testId1")
                 .build();
 
-        ResponseEntity<ChatRoom> result = testContainer.chatController.deleteMember(rq);
+        ResponseEntity<RestResponse<ChatRoom>> result = testContainer.chatController.deleteMember(rq);
 
 
-        assertThat(result.getBody().getChatMembers().size()).isEqualTo(0);
-        assertThat(result.getBody().getId()).isEqualTo("testId1");
-        assertThat(result.getBody().getTitle()).isEqualTo("testTitle1");
-        assertThat(result.getBody().getDeparature()).isEqualTo("testDeparture1");
-        assertThat(result.getBody().getDestination()).isEqualTo("testDestination1");
-        assertThat(result.getBody().getStartTime()).isEqualTo(100);
-        assertThat(result.getBody().getTimeTaken()).isEqualTo(100);
-        assertThat(result.getBody().getFee()).isEqualTo(1000);
+        assertThat(result.getBody().getData().getChatMembers().size()).isEqualTo(0);
+        assertThat(result.getBody().getData().getId()).isEqualTo("testId1");
+        assertThat(result.getBody().getData().getTitle()).isEqualTo("testTitle1");
+        assertThat(result.getBody().getData().getDeparature()).isEqualTo("testDeparture1");
+        assertThat(result.getBody().getData().getDestination()).isEqualTo("testDestination1");
+        assertThat(result.getBody().getData().getStartTime()).isEqualTo(100);
+        assertThat(result.getBody().getData().getTimeTaken()).isEqualTo(100);
+        assertThat(result.getBody().getData().getFee()).isEqualTo(1000);
 
     }
 

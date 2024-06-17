@@ -3,8 +3,8 @@ package org.example.chatservice.chatRoom.domain;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.example.chatservice.chatRoom.dto.CreateChatRoomRequest;
-import org.example.chatservice.chatRoom.dto.UpdateChatRoomRequest;
+import org.example.chatservice.chatRoom.dto.Request.CreateChatRoomRequest;
+import org.example.chatservice.chatRoom.dto.Request.UpdateChatRoomRequest;
 import org.example.chatservice.utils.ClockHolder;
 import org.example.chatservice.utils.UuidHolder;
 
