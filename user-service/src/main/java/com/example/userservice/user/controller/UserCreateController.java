@@ -17,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/users/join")
@@ -26,6 +28,16 @@ public class UserCreateController {
     private final JoinUserService joinUserService;
     private final EmailCertification emailCertification;
     private final UserService userService;
+
+    @GetMapping("/check")
+    public ResponseEntity<String> check(
+            @RequestBody Map<String, String> emailMap
+    ) {
+        boolean value = joinUserService.checkEmailBeforeCertification(emailMap.get("email"));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(String.valueOf(value));
+    }
+
 
     // user Create
     @PostMapping("/email")

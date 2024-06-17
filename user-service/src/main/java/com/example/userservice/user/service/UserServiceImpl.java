@@ -9,6 +9,7 @@ import com.example.userservice.user.domain.UserUpdate;
 import com.example.userservice.user.domain.create.UserCreate;
 import com.example.userservice.user.domain.join.JoinUser;
 import com.example.userservice.user.domain.token.UserWithToken;
+import com.example.userservice.user.infrastructure.join.JoinUserRepository;
 import com.example.userservice.user.service.auth.JwtUtil;
 import com.example.userservice.user.service.port.JwtTokenService;
 import com.example.userservice.user.service.port.UserRepository;
@@ -31,6 +32,7 @@ public class UserServiceImpl implements UserService {
     private final JoinUserService joinUserService;
     private final PasswordEncoder passwordEncoder;
     private final IdGenerator idGenerator;
+    private final JoinUserRepository joinUserRepository;
     private final JwtUtil jwtUtil;
 
     // 회원가입
@@ -42,7 +44,9 @@ public class UserServiceImpl implements UserService {
         User user = User.fromAfterCertification(userCreate, joinUser, clockHolder, idGenerator);
         User pwEncodedUser = user.encodePw(user, passwordEncoder.encode(user.getPassword()));
 
-        return userRepository.save(pwEncodedUser);
+        User save = userRepository.save(pwEncodedUser);
+        joinUserRepository.delete(save.getEmail());
+        return save;
     }
 
     @Override

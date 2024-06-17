@@ -3,6 +3,7 @@ package com.example.userservice.user.service;
 import com.example.userservice.user.domain.User;
 import com.example.userservice.user.domain.join.JoinUserCertification;
 import com.example.userservice.user.domain.user.UserStatus;
+import com.example.userservice.user.service.port.UserRepository;
 import com.example.userservice.util.certification.CertificationHolder;
 import com.example.userservice.user.controller.port.JoinUserService;
 import com.example.userservice.user.domain.join.JoinUserCreate;
@@ -25,6 +26,19 @@ public class JoinUserServiceImpl implements JoinUserService {
     private final JoinUserRepository joinUserRepository;
     private final CertificationService certificationService;
     private final EmailCertification emailCertification;
+    private final UserRepository userRepository;
+
+    @Override
+    public boolean checkEmailBeforeCertification(String email) {
+
+        if (joinUserRepository.obtain(email)) {
+            return false;
+        }
+        if(userRepository.findByEmail(email).isPresent()){
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public JoinUser join(JoinUserCreate userCreate) {
@@ -35,6 +49,8 @@ public class JoinUserServiceImpl implements JoinUserService {
             certificationService.send(duplicateUser.getEmail(), duplicateUser.getCertificationCode());
             return duplicateUser;
         }
+
+
         // 중복 유저가 아니라면 보안코드 생성
         JoinUser joinUser = JoinUser.from(userCreate, certificationHolder);
         joinUserRepository.save(joinUser);
