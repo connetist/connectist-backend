@@ -2,11 +2,10 @@ package org.example.chatservice.chatRoom.controller;
 
 
 import lombok.Builder;
-import org.apache.coyote.Response;
-import org.example.chatservice.chatMessage.service.ChatMessageService;
 import org.example.chatservice.chatRoom.domain.ChatRoom;
-import org.example.chatservice.chatRoom.dto.*;
+import org.example.chatservice.chatRoom.dto.Request.*;
 import org.example.chatservice.chatRoom.service.ChatRoomService;
+import org.example.chatservice.chatRoom.dto.Response.RestResponse;
 import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -29,70 +28,62 @@ public class ChatController {
     }
 
     @GetMapping("/health")
-    public ResponseEntity<String> status() {
-        return ResponseEntity.ok()
-                .body("Chat-service는 " + serverPort + "에서 실행 중입니다.");
+    public ResponseEntity<RestResponse<String>> status() {
+        String str = "Chat-service는" + serverPort + "에서 실행 중입니다";
+        RestResponse<String> response = RestResponse.success(str);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     //GET
     @GetMapping("/rooms")
-    public ResponseEntity<List<ChatRoom>> getAllChatRooms(){
-        return ResponseEntity
-                .ok()
-                .body(chatRoomService.getAllChatRooms());
+    public ResponseEntity<RestResponse<List<ChatRoom>>> getAllChatRooms(){
+        List<ChatRoom> chatRooms = chatRoomService.getAllChatRooms();
+        RestResponse<List<ChatRoom>> response = RestResponse.success(chatRooms);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/room/{roomId}")
-    public ResponseEntity<ChatRoom> getChatRoom(@PathVariable String roomId){
-        return ResponseEntity
-                .ok()
-                .body(chatRoomService.getChatRoom(roomId));
+    public ResponseEntity<RestResponse<ChatRoom>> getChatRoom(@PathVariable String roomId){
+        ChatRoom chatRoom = chatRoomService.getChatRoom(roomId);
+        RestResponse<ChatRoom> response = RestResponse.success(chatRoom);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // Create
     @PostMapping("/room")
-    public ResponseEntity<ChatRoom> createChatRoom(@RequestBody CreateChatRoomRequest rq){
+    public ResponseEntity<RestResponse<ChatRoom>> createChatRoom(@RequestBody CreateChatRoomRequest rq){
         ChatRoom chatRoom = chatRoomService.createChatRoom(rq);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(chatRoom);
+        RestResponse<ChatRoom> response = RestResponse.success(chatRoom);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PatchMapping("/room")
-    public ResponseEntity<ChatRoom> updateChatRoom(@RequestBody UpdateChatRoomRequest rq){
+    public ResponseEntity<RestResponse<ChatRoom>> updateChatRoom(@RequestBody UpdateChatRoomRequest rq){
         ChatRoom chatRoom = chatRoomService.updateChatRoom(rq);
-        return ResponseEntity
-                .ok()
-                .body(chatRoom);
+
+        RestResponse<ChatRoom> response = RestResponse.success(chatRoom);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PutMapping("/room")
-    public ResponseEntity<ChatRoom> deleteChatRoom(@RequestBody DeleteChatRoomRequest rq){
+    public ResponseEntity<RestResponse<ChatRoom>> deleteChatRoom(@RequestBody DeleteChatRoomRequest rq){
         chatRoomService.deleteChatRoom(rq);
-
-        return ResponseEntity
-                .ok()
-                .build();
+        RestResponse<ChatRoom> response = RestResponse.success();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PutMapping("/member")
-    public ResponseEntity<ChatRoom> deleteMember(@RequestBody DeleteMemberRequest rq){
+    public ResponseEntity<RestResponse<ChatRoom>> deleteMember(@RequestBody DeleteMemberRequest rq){
         ChatRoom chatRoom = chatRoomService.deleteMember(rq.getRoomId(),rq.getUserId());
-
-        return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .body(chatRoom);
+        RestResponse<ChatRoom> response = RestResponse.success(chatRoom);
+       return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping("/member")
-    public ResponseEntity<ChatRoom> addMember(@RequestBody UpdateMemberRequest rq){
+    public ResponseEntity<RestResponse<ChatRoom>> addMember(@RequestBody UpdateMemberRequest rq){
         ChatRoom chatRoom = chatRoomService.addMember(rq.getRoomId(),rq.getUserId());
-
-        return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .body(chatRoom);
-
+        RestResponse<ChatRoom> response = RestResponse.success(chatRoom);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
-
-
 }

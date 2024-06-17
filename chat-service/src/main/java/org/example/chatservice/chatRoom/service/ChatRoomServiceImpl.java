@@ -2,23 +2,20 @@ package org.example.chatservice.chatRoom.service;
 
 
 import lombok.Builder;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.errors.ResourceNotFoundException;
 import org.example.chatservice.chatRoom.domain.ChatRoom;
-import org.example.chatservice.chatRoom.dto.CreateChatRoomRequest;
-import org.example.chatservice.chatRoom.dto.DeleteChatRoomRequest;
-import org.example.chatservice.chatRoom.dto.UpdateChatRoomRequest;
-import org.example.chatservice.chatRoom.infrastructure.repository.ChatRoomMongoRepository;
+import org.example.chatservice.chatRoom.dto.Request.CreateChatRoomRequest;
+import org.example.chatservice.chatRoom.dto.Request.DeleteChatRoomRequest;
+import org.example.chatservice.chatRoom.dto.Request.UpdateChatRoomRequest;
 import org.example.chatservice.chatRoom.infrastructure.repository.ChatRoomRepository;
-import org.example.chatservice.chatRoom.infrastructure.entity.ChatRoomEntity;
+import org.example.chatservice.error.GlobalException;
+import org.example.chatservice.error.ResultCode;
 import org.example.chatservice.utils.ClockHolder;
 import org.example.chatservice.utils.UuidHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -41,12 +38,12 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     @Override
     public List<ChatRoom> getAllChatRooms() {
 
-        return chatRoomRepository.findAll().orElseThrow(() -> new ResourceNotFoundException("전체 룸을 조회할 수 없습니다."));
+        return chatRoomRepository.findAll().orElseThrow(() -> new GlobalException(ResultCode.CHAT_ROOMS_NOT_FOUND));
     }
 
     @Override
     public ChatRoom getChatRoom(String chatRoomId) {
-        return chatRoomRepository.findById(chatRoomId).orElseThrow(()-> new ResourceNotFoundException("해당 채팅방을 조회할 수 없습니다"));
+        return chatRoomRepository.findById(chatRoomId).orElseThrow(()-> new GlobalException(ResultCode.CHAT_ROOM_NOT_FOUND));
     }
 
 
@@ -60,7 +57,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     public ChatRoom updateChatRoom(UpdateChatRoomRequest rq) {
         ChatRoom chatRoom = chatRoomRepository.findById(rq.getId()).orElseThrow(()-> new ResourceNotFoundException("해당 채팅방을 조회할 수 없습니다"));
         if (rq.getUserId() != chatRoom.getAdmin().getUserId()){
-            throw new RuntimeException();
+            throw new GlobalException(ResultCode.UNAUTHROIZED);
         }
         chatRoom = chatRoom.updateRoom(rq);
         chatRoom = chatRoomRepository.save(chatRoom);
@@ -74,7 +71,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         if (chatRoom.getAdmin().getId() == rq.getUserId()){
             chatRoomRepository.deleteById(rq.getRoomId());
         }else{
-            throw new RuntimeException("권한이 없습니다.");
+            throw new GlobalException(ResultCode.UNAUTHROIZED);
         }
     }
 
@@ -82,7 +79,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     @Override
     public ChatRoom deleteMember(String chatRoomId, String memberId){
 
-        ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(()-> new ResourceNotFoundException("해당 채팅방을 찾을 수 없습니다"));
+        ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(()-> new GlobalException(ResultCode.CHAT_ROOM_NOT_FOUND));
         chatRoom = chatRoom.deleteMember(memberId);
 
         return chatRoomRepository.save(chatRoom);
@@ -91,7 +88,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     @Override
     public ChatRoom addMember(String roomId, String userId){
 
-        ChatRoom chatRoom = chatRoomRepository.findById(roomId).orElseThrow(()-> new ResourceNotFoundException("해당 채팅방을 찾을 수 없습니다"));
+        ChatRoom chatRoom = chatRoomRepository.findById(roomId).orElseThrow(()-> new GlobalException(ResultCode.CHAT_ROOM_NOT_FOUND));
         chatRoom= chatRoom.addMember(userId,uuidHolder,clockHolder);
         return chatRoomRepository.save(chatRoom);
     }
