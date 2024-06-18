@@ -1,10 +1,9 @@
 package com.example.userservice.user.domain.create;
 
-import com.example.userservice.user.domain.join.JoinUser;
-import com.example.userservice.user.domain.user.School;
 import com.example.userservice.user.domain.user.UserDegree;
 import com.example.userservice.user.domain.user.UserMajor;
 import com.example.userservice.user.domain.user.UserSex;
+import com.example.userservice.user.dto.request.UserCreateRequest;
 import com.example.userservice.util.exception.InputErrorException;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,7 +36,7 @@ public class UserCreate {
         this.nickname = nickname;
     }
 
-    public static UserCreate from(UserCreateDto dto) {
+    public static UserCreate from(UserCreateRequest dto) {
 
         return UserCreate.builder()
                 .pw(dto.getPw())

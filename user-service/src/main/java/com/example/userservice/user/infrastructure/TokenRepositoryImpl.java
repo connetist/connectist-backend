@@ -1,8 +1,10 @@
 package com.example.userservice.user.infrastructure;
 
+import com.example.userservice.util.exception.ErrorCode;
 import com.example.userservice.user.domain.token.Token;
+import com.example.userservice.util.exception.code.GlobalException;
+import com.example.userservice.user.infrastructure.entity.TokenEntity;
 import com.example.userservice.user.service.port.TokenRepository;
-import com.example.userservice.util.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -19,37 +21,50 @@ public class TokenRepositoryImpl implements TokenRepository {
     @Override
 
     public Token findById(String id) {
-        ValueOperations<String, TokenEntity> valueOperations = redisTemplate.opsForValue();
         try {
-            TokenEntity entity = (TokenEntity) valueOperations.get(id);
+            ValueOperations<String, TokenEntity> valueOperations = redisTemplate.opsForValue();
+            TokenEntity tokenEntity = valueOperations.get(id);
+
+            assert tokenEntity != null;
+
+            return Token.builder()
+                    .id(tokenEntity.getId())
+                    .refreshToken(tokenEntity.getRefreshToken())
+                    .build();
+        } catch (Exception e) {
+            throw new GlobalException(ErrorCode.INTERNAL_SERVER_ERROR);
+        }
+
+
+    }
+
+    @Override
+    public Token save(TokenEntity entity) {
+        try {
+            ValueOperations<String, TokenEntity> valueOperations = redisTemplate.opsForValue();
+            valueOperations.set(entity.getId(), entity);
+            redisTemplate.expire(entity.getId(), entity.getExpiration(), TimeUnit.DAYS);
+
             return Token.builder()
                     .id(entity.getId())
                     .refreshToken(entity.getRefreshToken())
                     .build();
         } catch (Exception e) {
-            throw new NotFoundException(id);
+            throw new GlobalException(ErrorCode.INTERNAL_SERVER_ERROR);
         }
-    }
 
-    @Override
-    public Token save(TokenEntity entity) {
-        ValueOperations<String, TokenEntity> valueOperations = redisTemplate.opsForValue();
-        valueOperations.set(entity.getId(), entity);
-        redisTemplate.expire(entity.getId(), entity.getExpiration(), TimeUnit.DAYS);
-        if (!isContain(entity.getId())) {
-            throw new NotFoundException(entity.getId());
-        }
-        return Token.builder()
-                .id(entity.getId())
-                .refreshToken(entity.getRefreshToken())
-                .build();
     }
 
     @Override
     public void delete(String id) {
-        if (isContain(id)) {
-            redisTemplate.delete(id);
+        try {
+            if (isContain(id)) {
+                redisTemplate.delete(id);
+            }
+        } catch (Exception e) {
+            throw new GlobalException(ErrorCode.INTERNAL_SERVER_ERROR);
         }
+
     }
 
     private boolean isContain(String id) {

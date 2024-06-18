@@ -1,7 +1,7 @@
 package com.example.userservice.user.service.port;
 
 import com.example.userservice.user.domain.token.Token;
-import com.example.userservice.user.infrastructure.TokenEntity;
+import com.example.userservice.user.infrastructure.entity.TokenEntity;
 
 public interface TokenRepository {
 

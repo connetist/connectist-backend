@@ -1,4 +1,4 @@
-package com.example.userservice.user.domain.join;
+package com.example.userservice.user.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
@@ -7,21 +7,21 @@ import lombok.ToString;
 
 @ToString
 @Getter
-public class JoinUserCertification {
+public class UserJoinCertificationRequest {
 
     private final String email;
     private final String certificationCode;
 
     @Builder
-    public JoinUserCertification(
+    public UserJoinCertificationRequest(
             @JsonProperty("email") String email,
             @JsonProperty("certification-code") String certificationCode) {
         this.email = email;
         this.certificationCode = certificationCode;
     }
 
-    public static JoinUserCertification from(String email, String certificationCode) {
-        return JoinUserCertification.builder()
+    public static UserJoinCertificationRequest from(String email, String certificationCode) {
+        return UserJoinCertificationRequest.builder()
                 .email(email)
                 .certificationCode(certificationCode)
                 .build();

@@ -1,10 +1,10 @@
-package com.example.userservice.user.domain.create;
+package com.example.userservice.user.dto.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class UserCreateDto {
+public class UserCreateRequest {
 
     private final String pw;
     private final String email;
@@ -14,7 +14,7 @@ public class UserCreateDto {
     private final String nickname;
 
     @Builder
-    public UserCreateDto(
+    public UserCreateRequest(
             @JsonProperty("email") String email,
             @JsonProperty("pw") String pw,
             @JsonProperty("degree") Integer degree,

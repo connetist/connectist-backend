@@ -1,4 +1,4 @@
-package com.example.userservice.user.infrastructure;
+package com.example.userservice.user.infrastructure.entity;
 
 import com.example.userservice.user.domain.token.Token;
 import lombok.Getter;
