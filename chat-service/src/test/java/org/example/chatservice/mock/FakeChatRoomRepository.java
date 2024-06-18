@@ -1,4 +1,4 @@
-package org.example.chatservice.chatRoom.mock;
+package org.example.chatservice.mock;
 
 import org.example.chatservice.chatRoom.domain.ChatRoom;
 import org.example.chatservice.chatRoom.infrastructure.repository.ChatRoomRepository;

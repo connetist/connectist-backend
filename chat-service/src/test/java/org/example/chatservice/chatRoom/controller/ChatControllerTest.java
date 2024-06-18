@@ -3,7 +3,7 @@ package org.example.chatservice.chatRoom.controller;
 import org.example.chatservice.chatRoom.domain.ChatMember;
 import org.example.chatservice.chatRoom.domain.ChatRoom;
 import org.example.chatservice.chatRoom.dto.Request.*;
-import org.example.chatservice.chatRoom.mock.TestContainer;
+import org.example.chatservice.mock.TestContainer;
 import org.example.chatservice.error.GlobalException;
 import org.example.chatservice.error.GlobalExceptionHandler;
 import org.example.chatservice.chatRoom.dto.Response.RestResponse;

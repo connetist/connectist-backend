@@ -1,12 +1,11 @@
 package org.example.chatservice.chatRoom.service;
 
-import org.apache.kafka.common.errors.ResourceNotFoundException;
 import org.example.chatservice.chatRoom.domain.ChatMember;
 import org.example.chatservice.chatRoom.domain.ChatRoom;
 import org.example.chatservice.chatRoom.dto.Request.DeleteChatRoomRequest;
 import org.example.chatservice.chatRoom.dto.Request.UpdateChatRoomRequest;
 import org.example.chatservice.chatRoom.infrastructure.repository.ChatRoomRepository;
-import org.example.chatservice.chatRoom.mock.FakeChatRoomRepository;
+import org.example.chatservice.mock.FakeChatRoomRepository;
 import org.example.chatservice.error.GlobalException;
 import org.example.chatservice.utils.ClockHolder;
 import org.example.chatservice.utils.ClockHolderImpl;
