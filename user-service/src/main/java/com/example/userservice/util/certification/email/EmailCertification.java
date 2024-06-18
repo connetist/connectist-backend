@@ -1,6 +1,8 @@
 package com.example.userservice.util.certification.email;
 
+import com.example.userservice.user.controller.response.code.ErrorCode;
 import com.example.userservice.user.domain.user.School;
+import com.example.userservice.user.error.GlobalException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -34,14 +36,14 @@ public class EmailCertification {
         emailCertificationMap.put(School.KENTECH, eamilCertificateStringsOfKentech);
     }
 
-    public boolean verify(School school, String email) {
+    public String verify(School school, String email) {
         String schoolEmailString = (email.split("@"))[1];
         for(String emailCertification : emailCertificationMap.get(school)){
             if (emailCertification.equals(schoolEmailString)) {
-                return true;
+                return email;
             }
         }
-        return false;
+        throw new GlobalException(ErrorCode.USER_EMAIL_CHECK_FAIL);
     }
 
 }

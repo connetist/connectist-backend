@@ -1,6 +1,5 @@
 package com.example.userservice.user.service;
 
-import com.example.userservice.user.domain.User;
 import com.example.userservice.user.domain.join.JoinUserCertification;
 import com.example.userservice.user.domain.user.UserStatus;
 import com.example.userservice.user.service.port.UserRepository;
@@ -31,12 +30,7 @@ public class JoinUserServiceImpl implements JoinUserService {
     @Override
     public boolean checkEmailBeforeCertification(String email) {
 
-        if (joinUserRepository.obtain(email)) {
-            return false;
-        }
-        if(userRepository.findByEmail(email).isPresent()){
-            return false;
-        }
+        if ((joinUserRepository.obtain(email)) || (userRepository.findByEmail(email).isPresent())) return false;
         return true;
     }
 

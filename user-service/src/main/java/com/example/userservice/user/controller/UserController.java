@@ -1,6 +1,8 @@
 package com.example.userservice.user.controller;
 
 import com.example.userservice.user.controller.port.UserService;
+import com.example.userservice.user.controller.response.GlobalResponse;
+import com.example.userservice.user.controller.response.code.SuccessCode;
 import com.example.userservice.user.dto.request.UserDeleteRequest;
 import com.example.userservice.user.dto.request.UserLogin;
 import com.example.userservice.user.dto.request.UserUpdateRequest;
@@ -8,15 +10,15 @@ import com.example.userservice.user.domain.User;
 import com.example.userservice.user.domain.UserUpdate;
 import com.example.userservice.user.domain.token.UserWithToken;
 
-import com.example.userservice.util.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
+
+import static com.example.userservice.user.controller.response.GlobalResponse.*;
 
 
 @Slf4j
@@ -29,7 +31,7 @@ public class UserController {
 
     // login
     @PostMapping("/login")
-    public ResponseEntity<User> login(
+    public ResponseEntity<GlobalResponse<User>> login(
             @RequestBody UserLogin userLogin
     ) {
         UserWithToken userWithToken = userService.login(userLogin);
@@ -44,63 +46,58 @@ public class UserController {
                 .secure(true)
                 .build();
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .header(HttpHeaders.SET_COOKIE, accessCookie.toString())
-                .header(HttpHeaders.SET_COOKIE, refreshCookie.toString())
-                .body(userWithToken.getUser());
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.SET_COOKIE, accessCookie.toString());
+        headers.add(HttpHeaders.SET_COOKIE, refreshCookie.toString());
+        return of(SuccessCode.LOGIN_OK, userWithToken.getUser(), headers);
+
     }
 
 
     // user id로 찾기
     @GetMapping("/id/{id}")
-    public User findByIdController(
+    public ResponseEntity<GlobalResponse<User>> findByIdController(
             @PathVariable("id") String id
     ) {
-        try {
-            return userService.findById(id);
-        } catch (Exception e) {
-            throw new NotFoundException(e.getMessage());
-        }
+        return of(SuccessCode.VALUE_OK, userService.findById(id));
     }
 
     // user email로 찾기
     @GetMapping("/email/{email}")
-    public User findByEmailController(
+    public ResponseEntity<GlobalResponse<User>> findByEmailController(
             @PathVariable ("email") String email
     ) {
-        try {
-            return userService.findByEmail(email);
-        } catch (Exception e) {
-            throw new NotFoundException(e.getMessage());
-        }
+        return of(SuccessCode.VALUE_OK, userService.findByEmail(email));
+
     }
 
     // user update
     @PatchMapping("/{email}")
-    public User updateUserController(
+    public ResponseEntity<GlobalResponse<UserUpdate>> updateUserController(
             @PathVariable("email") String email,
             @RequestBody UserUpdateRequest userUpdateRequest
     ) throws Exception {
+        // request parameter 검사 로직 수정 요
         if(!email.equals(userUpdateRequest.getEmail())){
             throw new Exception("email과 request가 다릅니다.");
         }
         UserUpdate userUpdate = UserUpdate.fromWithRequest(userUpdateRequest);
-        return userService.update(userUpdate);
+        return of(SuccessCode.UPDATE_OK, userUpdate);
     }
 
     // user delete
     @DeleteMapping("/{email}")
-    public ResponseEntity<User> deleteUserController(
+    public ResponseEntity<GlobalResponse<User>> deleteUserController(
             @PathVariable("email") String email,
             @RequestBody UserDeleteRequest userDeleteRequest
     ) throws Exception {
+        // request parameter 검사 로직 수정 요
         if(!email.equals(userDeleteRequest.getEmail())){
             throw new Exception("email과 request가 다릅니다.");
         }
+
         User user = userService.delete(userDeleteRequest);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(user);
+        return of(SuccessCode.DELETE_OK, user);
     }
 }
 
