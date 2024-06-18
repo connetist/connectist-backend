@@ -1,6 +1,7 @@
 package com.example.userservice.user.domain.join;
 
 import com.example.userservice.user.domain.user.UserStatus;
+import com.example.userservice.user.dto.request.UserJoinRequest;
 import com.example.userservice.util.certification.CertificationHolder;
 import com.example.userservice.user.domain.user.School;
 import lombok.Builder;
@@ -29,7 +30,7 @@ public class JoinUser {
         this.status = status;
     }
 
-    public static JoinUser from(JoinUserCreate userCreate, CertificationHolder certificationHolder) {
+    public static JoinUser from(UserJoinRequest userCreate, CertificationHolder certificationHolder) {
         return JoinUser.builder()
                 .email(userCreate.getEmail())
                 .school(userCreate.getSchool())

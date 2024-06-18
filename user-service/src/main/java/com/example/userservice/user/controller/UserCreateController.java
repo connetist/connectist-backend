@@ -2,28 +2,24 @@ package com.example.userservice.user.controller;
 
 import com.example.userservice.user.controller.port.JoinUserService;
 import com.example.userservice.user.controller.port.UserService;
-import com.example.userservice.user.controller.response.GlobalResponse;
-import com.example.userservice.user.controller.response.code.ErrorCode;
-import com.example.userservice.user.controller.response.code.SuccessCode;
+import com.example.userservice.user.dto.response.GlobalResponse;
+import com.example.userservice.util.exception.code.SuccessCode;
 import com.example.userservice.user.dto.response.UserJoinResponse;
 import com.example.userservice.user.domain.User;
 import com.example.userservice.user.domain.create.UserCreate;
-import com.example.userservice.user.domain.create.UserCreateDto;
-import com.example.userservice.user.domain.join.JoinUserCertification;
-import com.example.userservice.user.domain.join.JoinUserCreate;
+import com.example.userservice.user.dto.request.UserCreateRequest;
+import com.example.userservice.user.dto.request.UserJoinCertificationRequest;
+import com.example.userservice.user.dto.request.UserJoinRequest;
 import com.example.userservice.user.domain.join.JoinUser;
-import com.example.userservice.user.domain.user.UserStatus;
-import com.example.userservice.user.error.GlobalException;
 import com.example.userservice.util.certification.email.EmailCertification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-import static com.example.userservice.user.controller.response.GlobalResponse.of;
+import static com.example.userservice.user.dto.response.GlobalResponse.of;
 
 @Slf4j
 @RestController
@@ -46,7 +42,7 @@ public class UserCreateController {
 
     // user Create
     @PostMapping("/email")
-    public ResponseEntity<GlobalResponse<JoinUser>> create(@RequestBody JoinUserCreate userCreate) {
+    public ResponseEntity<GlobalResponse<JoinUser>> create(@RequestBody UserJoinRequest userCreate) {
         emailCertification.verify(userCreate.getSchool(), userCreate.getEmail());
         JoinUser joinUser = joinUserService.join(userCreate);
         return of(SuccessCode.EMAIL_CREATED, joinUser);
@@ -56,7 +52,7 @@ public class UserCreateController {
     // 방식 1 번호 입력
     @PostMapping("/certification")
     public ResponseEntity<GlobalResponse<UserJoinResponse>> certificationByCode(
-            @RequestBody JoinUserCertification joinUserCertification
+            @RequestBody UserJoinCertificationRequest joinUserCertification
     ){
         JoinUser joinUser = joinUserService.certification(joinUserCertification);
         return of(SuccessCode.EMAIL_VERIFIED, UserJoinResponse.from(joinUser));
@@ -69,7 +65,7 @@ public class UserCreateController {
             @PathVariable String email,
             @RequestParam String certificationCode
     ){
-        JoinUserCertification joinUserCertification = JoinUserCertification.from(email, certificationCode);
+        UserJoinCertificationRequest joinUserCertification = UserJoinCertificationRequest.from(email, certificationCode);
         JoinUser certification = joinUserService.certification(joinUserCertification);
         return of(SuccessCode.EMAIL_VERIFIED, UserJoinResponse.from(certification));
     }
@@ -78,7 +74,7 @@ public class UserCreateController {
     // 회원 가입
     @PostMapping
     public ResponseEntity<GlobalResponse<User>> createUser(
-            @RequestBody UserCreateDto userCreateDto
+            @RequestBody UserCreateRequest userCreateDto
     ){
         UserCreate userCreate = UserCreate.from(userCreateDto);
         return of(SuccessCode.USER_CREATED, userService.create(userCreate));

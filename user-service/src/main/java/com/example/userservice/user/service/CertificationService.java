@@ -1,6 +1,7 @@
 package com.example.userservice.user.service;
 
-import com.example.userservice.user.domain.user.School;
+import com.example.userservice.util.exception.ErrorCode;
+import com.example.userservice.util.exception.code.GlobalException;
 import com.example.userservice.user.service.port.MailSender;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +14,16 @@ public class CertificationService {
 
     private final MailSender mailSender;
 
-    private final static String TITLE = "Please certify your email address";
-    private final static String CONTENT = "Please click the following link to certify your email address: ";
+    private static final String TITLE = "Please certify your email address";
+    private static final String CONTENT = "Please click the following link to certify your email address: ";
 
     public void send(String email, String certificationCode) {
-        String certificationUrl = generateCertificationUrl(email, certificationCode);
-        mailSender.send(email, TITLE, CONTENT + certificationUrl);
+        try {
+            String certificationUrl = generateCertificationUrl(email, certificationCode);
+            mailSender.send(email, TITLE, CONTENT + certificationUrl);
+        } catch (Exception e) {
+            throw new GlobalException(ErrorCode.INTERNAL_SERVER_ERROR);
+        }
     }
 
     private String generateCertificationUrl(String email, String certificationCode) {

@@ -2,14 +2,16 @@ package com.example.userservice.user.infrastructure.join;
 
 import com.example.userservice.user.domain.join.JoinUser;
 
+import java.util.Optional;
+
 public interface JoinUserRepository {
-    JoinUser findByEmail(String email);
+    Optional<JoinUser> findByEmail(String email);
 
     JoinUser save(JoinUser joinUser);
 
     boolean obtain(String email);
 
-    JoinUser replace(String email, JoinUser newJoinUser);
+    Optional<JoinUser> replace(String email, JoinUser newJoinUser);
 
-    JoinUser delete(String email);
+    Optional<JoinUser> delete(String email);
 }

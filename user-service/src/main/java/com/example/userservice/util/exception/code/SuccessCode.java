@@ -1,4 +1,4 @@
-package com.example.userservice.user.controller.response.code;
+package com.example.userservice.util.exception.code;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,7 +27,4 @@ public enum SuccessCode {
     private final HttpStatus status;
     private final String message;
 
-    public int getStatusCode() {
-        return status.value();
-    }
 }

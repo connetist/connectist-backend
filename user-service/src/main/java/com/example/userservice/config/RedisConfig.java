@@ -1,6 +1,6 @@
 package com.example.userservice.config;
 
-import com.example.userservice.user.infrastructure.TokenEntity;
+import com.example.userservice.user.infrastructure.entity.TokenEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

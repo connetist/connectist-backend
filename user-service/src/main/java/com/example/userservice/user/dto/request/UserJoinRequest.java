@@ -1,4 +1,4 @@
-package com.example.userservice.user.domain.join;
+package com.example.userservice.user.dto.request;
 
 import com.example.userservice.user.domain.user.School;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,13 +8,13 @@ import lombok.ToString;
 
 @ToString
 @Getter
-public class JoinUserCreate {
+public class UserJoinRequest {
 
     private final String email;
     private final School school;
 
     @Builder
-    public JoinUserCreate(
+    public UserJoinRequest(
             @JsonProperty("email") String email,
             @JsonProperty("school") Integer school
     ) {

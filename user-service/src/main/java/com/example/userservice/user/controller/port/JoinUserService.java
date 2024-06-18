@@ -1,14 +1,13 @@
 package com.example.userservice.user.controller.port;
 
-import com.example.userservice.user.domain.User;
-import com.example.userservice.user.domain.join.JoinUserCertification;
-import com.example.userservice.user.domain.join.JoinUserCreate;
+import com.example.userservice.user.dto.request.UserJoinCertificationRequest;
+import com.example.userservice.user.dto.request.UserJoinRequest;
 import com.example.userservice.user.domain.join.JoinUser;
 
 public interface JoinUserService {
-    JoinUser join(JoinUserCreate UserCreate);
+    JoinUser join(UserJoinRequest userCreate);
     // certification
-    JoinUser certification(JoinUserCertification joinUserCertification);
+    JoinUser certification(UserJoinCertificationRequest joinUserCertification);
 
     JoinUser emailCertificationBeforeJoin(String email);
 

@@ -1,12 +1,10 @@
-package com.example.userservice.user.infrastructure;
+package com.example.userservice.user.infrastructure.entity;
 
 import com.example.userservice.user.domain.User;
 import com.example.userservice.user.domain.user.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter

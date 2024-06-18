@@ -1,8 +1,7 @@
-package com.example.userservice.user.controller.response.code;
+package com.example.userservice.util.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @Getter
@@ -15,6 +14,7 @@ public enum ErrorCode {
     USER_CREATE_ERROR(HttpStatus.FORBIDDEN, "유저 생성에 실패하였습니다"),
     USER_DUPLICATE_ERROR(HttpStatus.CONFLICT, "이미 존재하는 유저입니다."),
     USER_INVALID_ERROR(HttpStatus.UNAUTHORIZED, "확인되지 않은 이메일입니다."),
+    USER_CERTIFICATION_NOT_MATCHED(HttpStatus.UNAUTHORIZED, "인증코드가 일치하지 않습니다."),
     USER_EMAIL_CHECK_FAIL(HttpStatus.FORBIDDEN, "이메일과 학교 정보가 유효하지 않습니다."),
     WRONG_USER_PASSWORD(HttpStatus.FORBIDDEN, "아이디나 비밀번호가 잘못되었습니다."),
 
@@ -34,7 +34,4 @@ public enum ErrorCode {
     private final HttpStatus status;
     private final String message;
 
-    public int getStatusCode() {
-        return status.value();
-    }
 }

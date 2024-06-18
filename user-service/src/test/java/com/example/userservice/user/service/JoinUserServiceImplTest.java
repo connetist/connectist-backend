@@ -2,8 +2,8 @@ package com.example.userservice.user.service;
 
 import com.example.userservice.user.controller.port.JoinUserService;
 import com.example.userservice.user.domain.join.JoinUser;
-import com.example.userservice.user.domain.join.JoinUserCertification;
-import com.example.userservice.user.domain.join.JoinUserCreate;
+import com.example.userservice.user.dto.request.UserJoinCertificationRequest;
+import com.example.userservice.user.dto.request.UserJoinRequest;
 import com.example.userservice.user.infrastructure.MailSenderImpl;
 import com.example.userservice.user.infrastructure.join.JoinUserConcurrentMapRepository;
 import com.example.userservice.user.infrastructure.join.JoinUserRepository;
@@ -30,7 +30,7 @@ class JoinUserServiceImplTest {
     private CertificationService certificationService;
     private JavaMailSender javaMailSender;
     private MailSender mailSender;
-    private JoinUserCreate joinUserCreate;
+    private UserJoinRequest joinUserCreate;
     @BeforeEach
     void init() {
         certificationHolder = mock(CertificationDigitHolder.class);
@@ -46,7 +46,7 @@ class JoinUserServiceImplTest {
                 .certificationHolder(certificationHolder)
                 .build();
 
-        joinUserCreate = JoinUserCreate.builder()
+        joinUserCreate = UserJoinRequest.builder()
                 .email("khj010909@gmail.com")
                 .school(3)
                 .build();
@@ -60,8 +60,8 @@ class JoinUserServiceImplTest {
 
         System.out.println("joinUser1 = " + joinUser1.getEmail());
 
-        JoinUserCertification joinUserCertification =
-                JoinUserCertification.builder()
+        UserJoinCertificationRequest joinUserCertification =
+                UserJoinCertificationRequest.builder()
                         .email(joinUser1.getEmail())
                         .certificationCode(joinUser1.getCertificationCode())
                         .build();

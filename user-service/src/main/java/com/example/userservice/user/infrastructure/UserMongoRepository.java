@@ -1,5 +1,6 @@
 package com.example.userservice.user.infrastructure;
 
+import com.example.userservice.user.infrastructure.entity.UserEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;

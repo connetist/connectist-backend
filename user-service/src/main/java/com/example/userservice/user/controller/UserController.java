@@ -1,10 +1,10 @@
 package com.example.userservice.user.controller;
 
 import com.example.userservice.user.controller.port.UserService;
-import com.example.userservice.user.controller.response.GlobalResponse;
-import com.example.userservice.user.controller.response.code.SuccessCode;
+import com.example.userservice.user.dto.response.GlobalResponse;
+import com.example.userservice.util.exception.code.SuccessCode;
 import com.example.userservice.user.dto.request.UserDeleteRequest;
-import com.example.userservice.user.dto.request.UserLogin;
+import com.example.userservice.user.dto.request.UserLoginRequest;
 import com.example.userservice.user.dto.request.UserUpdateRequest;
 import com.example.userservice.user.domain.User;
 import com.example.userservice.user.domain.UserUpdate;
@@ -18,7 +18,7 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
 
-import static com.example.userservice.user.controller.response.GlobalResponse.*;
+import static com.example.userservice.user.dto.response.GlobalResponse.*;
 
 
 @Slf4j
@@ -32,7 +32,7 @@ public class UserController {
     // login
     @PostMapping("/login")
     public ResponseEntity<GlobalResponse<User>> login(
-            @RequestBody UserLogin userLogin
+            @RequestBody UserLoginRequest userLogin
     ) {
         UserWithToken userWithToken = userService.login(userLogin);
         ResponseCookie accessCookie = ResponseCookie
