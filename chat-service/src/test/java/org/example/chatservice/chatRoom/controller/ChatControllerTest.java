@@ -5,7 +5,6 @@ import org.example.chatservice.chatRoom.domain.ChatRoom;
 import org.example.chatservice.chatRoom.dto.Request.*;
 import org.example.chatservice.mock.TestContainer;
 import org.example.chatservice.error.GlobalException;
-import org.example.chatservice.error.GlobalExceptionHandler;
 import org.example.chatservice.chatRoom.dto.Response.RestResponse;
 import org.example.chatservice.error.ResultCode;
 import org.example.chatservice.utils.ClockHolder;
@@ -26,13 +25,11 @@ public class ChatControllerTest {
 
     private TestContainer testContainer;
 
-    private GlobalExceptionHandler globalExceptionHandler;
 
     @BeforeEach
     public void init(){
         UuidHolder uuidHolder = new UuidHolderImpl();
         ClockHolder clockHolder = new ClockHolderImpl();
-        globalExceptionHandler = new GlobalExceptionHandler();
         this.testContainer = TestContainer.builder()
                 .uuidHolder(uuidHolder)
                 .clockHolder(clockHolder)

@@ -12,6 +12,6 @@ import java.util.Optional;
 public interface ChatMessageRepository  {
     ChatMessage save(ChatMessage chatMessage);
 
-    Optional<List<ChatMessage>> findAll();
+    Optional<List<ChatMessage>> findAllByRoomId(String roomId);
 
 }

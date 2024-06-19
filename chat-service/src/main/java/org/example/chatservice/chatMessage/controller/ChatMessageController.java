@@ -1,6 +1,7 @@
 package org.example.chatservice.chatMessage.controller;
 
 
+import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.example.chatservice.chatMessage.domain.ChatMessage;
 import org.example.chatservice.chatMessage.dto.CreateChatMessageRequest;
@@ -24,6 +25,7 @@ public class ChatMessageController {
     @Value("${server.port}")
     private String serverPort;
 
+    @Builder
     public ChatMessageController(ChatMessageService chatMessageService){
         this.chatMessageService = chatMessageService;
     }
@@ -35,9 +37,9 @@ public class ChatMessageController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/messages")
-    public ResponseEntity<RestResponse<List<ChatMessage>>> getAllChatMesages(){
-        List<ChatMessage> chatMessages = chatMessageService.getAllMessages();
+    @GetMapping("/messages/{roomId}")
+    public ResponseEntity<RestResponse<List<ChatMessage>>> getAllChatMesages(@PathVariable String roomId){
+        List<ChatMessage> chatMessages = chatMessageService.getAllMessages(roomId);
 
         RestResponse<List<ChatMessage>> response = RestResponse.success(chatMessages);
 
