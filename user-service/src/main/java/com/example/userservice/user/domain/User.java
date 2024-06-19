@@ -72,7 +72,8 @@ public class User {
                 .build();
     }
 
-    public User encodePw(User user, String encodedPw) {
+    // static으로 작성하는 이점이 있을까요?
+    public static User encodePw(User user, String encodedPw) {
         return User.builder()
                 .email(user.getEmail())
                 .id(user.getId())
