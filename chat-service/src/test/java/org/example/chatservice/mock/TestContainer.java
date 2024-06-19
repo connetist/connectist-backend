@@ -2,8 +2,6 @@ package org.example.chatservice.mock;
 
 import lombok.Builder;
 import org.example.chatservice.chatMessage.controller.ChatMessageController;
-import org.example.chatservice.chatMessage.controller.ChatMessageControllerTest;
-import org.example.chatservice.chatMessage.domain.ChatMessage;
 import org.example.chatservice.chatMessage.infrastructure.repository.ChatMessageRepository;
 import org.example.chatservice.chatMessage.service.ChatMessageService;
 import org.example.chatservice.chatMessage.service.ChatMessageServiceImpl;
