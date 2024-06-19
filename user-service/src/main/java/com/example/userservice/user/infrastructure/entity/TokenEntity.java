@@ -20,4 +20,12 @@ public class TokenEntity {
         tokenEntity.setExpiration(token.getExpiration());
         return tokenEntity;
     }
+
+    public Token toModel() {
+        return Token.builder()
+                .refreshToken(refreshToken)
+                .id(id)
+                .expiration(expiration)
+                .build();
+    }
 }
