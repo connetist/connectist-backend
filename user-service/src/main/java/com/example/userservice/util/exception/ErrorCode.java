@@ -10,6 +10,9 @@ public enum ErrorCode {
     // 500 서버 에러
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 오류입니다."),
 
+
+
+
     // 회원 C, R, U, D 실패
     USER_CREATE_ERROR(HttpStatus.FORBIDDEN, "유저 생성에 실패하였습니다"),
     USER_DUPLICATE_ERROR(HttpStatus.CONFLICT, "이미 존재하는 유저입니다."),
@@ -29,7 +32,8 @@ public enum ErrorCode {
     LOGIN_ERROR(HttpStatus.FORBIDDEN, "로그인에 실패하였습니다."),
 
     // request error
-    INVALID_REQUEST(HttpStatus.FORBIDDEN, "잘못된 입력입니다.");
+    INVALID_INPUT(HttpStatus.BAD_REQUEST, "잘못된 입력입니다"),
+    INVALID_REQUEST(HttpStatus.FORBIDDEN, "잘못된 접근 권한입니다.");
 
     private final HttpStatus status;
     private final String message;

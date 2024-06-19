@@ -4,7 +4,8 @@ import com.example.userservice.user.domain.user.UserDegree;
 import com.example.userservice.user.domain.user.UserMajor;
 import com.example.userservice.user.domain.user.UserSex;
 import com.example.userservice.user.dto.request.UserCreateRequest;
-import com.example.userservice.util.exception.InputErrorException;
+import com.example.userservice.util.exception.ErrorCode;
+import com.example.userservice.util.exception.code.GlobalException;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -73,7 +74,7 @@ public class UserCreate {
         if (degree == 4) {
             return UserDegree.OTHERS;
         }
-        throw new InputErrorException(degree);
+        throw new GlobalException(ErrorCode.INVALID_INPUT);
     }
     private static UserSex findUserSex(Integer sex) {
         if (sex == 1) {
@@ -86,7 +87,7 @@ public class UserCreate {
             return UserSex.OTHERS;
         }
 
-        throw new InputErrorException(sex);
+        throw new GlobalException(ErrorCode.INVALID_INPUT);
     }
     private static UserMajor findUserMajor(Integer major) {
         if (major == 1) {
@@ -108,6 +109,6 @@ public class UserCreate {
             return UserMajor.MaterialScience;
         }
 
-        throw new InputErrorException(major);
+        throw new GlobalException(ErrorCode.INVALID_INPUT);
     }
 }

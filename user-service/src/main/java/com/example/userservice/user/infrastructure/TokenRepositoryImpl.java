@@ -26,11 +26,8 @@ public class TokenRepositoryImpl implements TokenRepository {
             TokenEntity tokenEntity = valueOperations.get(id);
 
             assert tokenEntity != null;
+            return tokenEntity.toModel();
 
-            return Token.builder()
-                    .id(tokenEntity.getId())
-                    .refreshToken(tokenEntity.getRefreshToken())
-                    .build();
         } catch (Exception e) {
             throw new GlobalException(ErrorCode.INTERNAL_SERVER_ERROR);
         }
@@ -44,11 +41,8 @@ public class TokenRepositoryImpl implements TokenRepository {
             ValueOperations<String, TokenEntity> valueOperations = redisTemplate.opsForValue();
             valueOperations.set(entity.getId(), entity);
             redisTemplate.expire(entity.getId(), entity.getExpiration(), TimeUnit.DAYS);
+            return entity.toModel();
 
-            return Token.builder()
-                    .id(entity.getId())
-                    .refreshToken(entity.getRefreshToken())
-                    .build();
         } catch (Exception e) {
             throw new GlobalException(ErrorCode.INTERNAL_SERVER_ERROR);
         }
