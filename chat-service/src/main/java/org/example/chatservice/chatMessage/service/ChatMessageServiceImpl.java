@@ -41,7 +41,7 @@ public class ChatMessageServiceImpl implements ChatMessageService{
     }
 
     @Override
-    public List<ChatMessage> getAllMessages() {
-        return chatMessageRepository.findAll().orElseThrow(() -> new GlobalException(ResultCode.CHAT_ROOMS_NOT_FOUND));
+    public List<ChatMessage> getAllMessages(String roomId) {
+        return chatMessageRepository.findAllByRoomId(roomId).orElseThrow(() -> new GlobalException(ResultCode.CHAT_ROOMS_NOT_FOUND));
     }
 }

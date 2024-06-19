@@ -1,7 +1,9 @@
 package org.example.chatservice.chatRoom.service;
 
+import org.example.chatservice.chatMessage.dto.CreateChatMessageRequest;
 import org.example.chatservice.chatRoom.domain.ChatMember;
 import org.example.chatservice.chatRoom.domain.ChatRoom;
+import org.example.chatservice.chatRoom.dto.Request.CreateChatRoomRequest;
 import org.example.chatservice.chatRoom.dto.Request.DeleteChatRoomRequest;
 import org.example.chatservice.chatRoom.dto.Request.UpdateChatRoomRequest;
 import org.example.chatservice.chatRoom.infrastructure.repository.ChatRoomRepository;
@@ -83,42 +85,50 @@ public class ChatRoomServiceTest {
     @Test
     public void 채팅방생성() {
 
-        ChatMember member = ChatMember.builder()
-                .id("memberId")
-                .userId("memberUserId")
-                .createdAt(100)
-                .lastMessageIdx(0)
-                .build();
-        List<ChatMember> chatMemberList = new ArrayList<>();
-        chatMemberList.add(member);
 
-        ChatRoom chatRoom = ChatRoom.builder()
-                .id("testId3")
-                .title("testTitle3")
-                .admin(member)
-                .chatMembers(chatMemberList)
-                .deparature("testDeparture3")
-                .destination("testDestination3")
-                .timeTaken(100)
-                .startTime(100)
+//        ChatMember member = ChatMember.builder()
+//                .id("memberId")
+//                .userId("memberUserId")
+//                .createdAt(100)
+//                .lastMessageIdx(0)
+//                .build();
+//        List<ChatMember> chatMemberList = new ArrayList<>();
+//        chatMemberList.add(member);
+//
+//        ChatRoom chatRoom = ChatRoom.builder()
+//                .id("testId3")
+//                .title("testTitle3")
+//                .admin(member)
+//                .chatMembers(chatMemberList)
+//                .deparature("testDeparture3")
+//                .destination("testDestination3")
+//                .timeTaken(100)
+//                .startTime(100)
+//                .fee(1000)
+//                .createdAt(10000)
+//                .build();
+        CreateChatRoomRequest rq= CreateChatRoomRequest.builder()
+                .title("testTitle")
+                .adminId("testAdminId")
+                .departure("testDeparture")
+                .destination("testDestination")
+                .startTime(1000)
+                .timeTaken(1000)
                 .fee(1000)
-                .createdAt(10000)
                 .build();
 
-        chatRoomRepository.save(chatRoom);
+        ChatRoom newChatRoom = chatRoomService.createChatRoom(rq);
 
-        ChatRoom newChatRoom = chatRoomService.getChatRoom("testId3");
+        assertThat(newChatRoom.getTitle()).isEqualTo("testTitle");
+        assertThat(newChatRoom.getChatMembers().size()).isEqualTo(1);
+        assertThat(newChatRoom.getAdmin().getUserId()).isEqualTo("testAdminId");
+        assertThat(newChatRoom.getDeparature()).isEqualTo("testDeparture");
+        assertThat(newChatRoom.getDestination()).isEqualTo("testDestination");
+        assertThat(newChatRoom.getTimeTaken()).isEqualTo(1000);
+        assertThat(newChatRoom.getStartTime()).isEqualTo(1000);
+        assertThat(newChatRoom.getFee()).isEqualTo(1000);
 
-        assertThat(newChatRoom.getId()).isEqualTo(chatRoom.getId());
-        assertThat(newChatRoom.getTitle()).isEqualTo(chatRoom.getTitle());
-//        assertThat(newChatRoom.getChatMembers()).isEqualTo(chatMemberList);
-//        assertThat(updatedChatRoom.getAdmin()).isEqualTo(member);
-        assertThat(newChatRoom.getDeparature()).isEqualTo(chatRoom.getDeparature());
-        assertThat(newChatRoom.getDestination()).isEqualTo(chatRoom.getDestination());
-        assertThat(newChatRoom.getTimeTaken()).isEqualTo(chatRoom.getTimeTaken());
-        assertThat(newChatRoom.getStartTime()).isEqualTo(chatRoom.getStartTime());
-        assertThat(newChatRoom.getFee()).isEqualTo(chatRoom.getFee());
-//        assertThat(newChatRoom.getCreatedAt()).isEqualTo(chatRoom.getCreatedAt());
+
 
 
     }

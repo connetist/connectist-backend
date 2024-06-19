@@ -10,5 +10,5 @@ public interface ChatMessageService {
     //메세지 생성
     ChatMessage addMessage(CreateChatMessageRequest rq);
     //모든 메세지 받기
-    List<ChatMessage> getAllMessages();
+    List<ChatMessage> getAllMessages(String roomId);
 }
