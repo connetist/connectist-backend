@@ -11,6 +11,8 @@ spring:
       auto-offset-reset: latest
       max-poll-records: 600000
 
+    bootstrap-servers: 127.0.0.1:9092
+
 logging:
   level:
     org.apache.kafka: ERROR

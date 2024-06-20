@@ -9,6 +9,7 @@ import org.example.chatservice.chatMessage.infrastructure.repository.ChatMessage
 import org.example.chatservice.chatRoom.infrastructure.repository.ChatRoomMongoRepository;
 import org.example.chatservice.error.GlobalException;
 import org.example.chatservice.error.ResultCode;
+import org.example.chatservice.kafka.KafkaProducer;
 import org.example.chatservice.utils.ClockHolder;
 import org.example.chatservice.utils.UuidHolder;
 import org.springframework.stereotype.Service;
@@ -23,18 +24,22 @@ public class ChatMessageServiceImpl implements ChatMessageService{
     private ChatMessageRepository chatMessageRepository;
     private UuidHolder uuidHolder;
     private ClockHolder clockHolder;
+    private KafkaProducer kafkaProducer;
 
-    public ChatMessageServiceImpl(ChatMessageRepository chatMessageRepository, UuidHolder uuidHolder, ClockHolder clockHolder) {
+    public ChatMessageServiceImpl(ChatMessageRepository chatMessageRepository, UuidHolder uuidHolder, ClockHolder clockHolder, KafkaProducer kafkaProducer) {
         this.chatMessageRepository = chatMessageRepository;
         this.uuidHolder = uuidHolder;
         this.clockHolder = clockHolder;
+        this.kafkaProducer=kafkaProducer;
     }
 
     @Override
-    public ChatMessage addMessage(CreateChatMessageRequest rq) {
+    public ChatMessage addMessage(CreateChatMessageRequest rq) throws Exception {
         ChatMessage chatMessage = ChatMessage.createChatMessage(rq,uuidHolder,clockHolder);
 
         chatMessage = chatMessageRepository.save(chatMessage);
+
+        kafkaProducer.send("chatting",chatMessage);
 
         return chatMessage;
 

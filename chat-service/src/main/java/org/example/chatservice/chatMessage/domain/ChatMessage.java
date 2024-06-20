@@ -35,6 +35,16 @@ public class ChatMessage {
                 build();
 
     }
+    @Override
+    public String toString() {
+        return "ChatMessage{" +
+                "id='" + id + '\'' +
+                ", roomId='" + roomId + '\'' +
+                ", content='" + content + '\'' +
+                ", createdAt=" + createdAt +
+                ", userId='" + userId + '\'' +
+                '}';
+    }
 
 
 }
