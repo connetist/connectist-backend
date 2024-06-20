@@ -23,7 +23,6 @@ public class KafkaProducer {
     public void send(String topic, ChatMessage chatMessage) throws Exception{
 
         System.out.println("Kafka producer : " + chatMessage.toString());
-        System.out.println("Topic: " + topic);
         String kafkaMessage = objectMapper.writeValueAsString(chatMessage);
         kafkaTemplate.send(topic, String.valueOf(kafkaMessage));
     }

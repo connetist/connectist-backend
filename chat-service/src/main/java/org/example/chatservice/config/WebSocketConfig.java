@@ -22,7 +22,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.addEndpoint("/chatting")
                 .setAllowedOriginPatterns("*")
                 .withSockJS();
-        registry.addEndpoint("/chatting");
+
+        // 일반 WebSocket 엔드포인트 등록
+        registry.addEndpoint("/chatting")
+                .setAllowedOriginPatterns("*");
     }
 
 }

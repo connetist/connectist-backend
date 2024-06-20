@@ -20,7 +20,8 @@ public class WebSocketController {
 
     @MessageMapping("/chat")
     public void createChatMessage( CreateChatMessageRequest rq) throws Exception {
-        System.out.println(rq.getContent());
+//        System.out.println(rq.getContent());
+        log.info("Received message: {}", rq.getContent());
         ChatMessage chatMessage = chatMessageService.addMessage(rq);
         System.out.println("CHAT MESSAGE: " + chatMessage.toString());
 
