@@ -46,8 +46,7 @@ public class UserCreateController {
     // user Create
     @PostMapping("/email")
     public ResponseEntity<GlobalResponse<JoinUser>> create(@RequestBody UserJoinRequest userCreate) {
-        RequestCheck rcUserCreate = new RequestCheck(userCreate);
-        rcUserCreate.check();
+        new RequestCheck(userCreate).check();
 
         emailCertification.verify(userCreate.getSchool(), userCreate.getEmail());
         JoinUser joinUser = joinUserService.join(userCreate);
@@ -60,8 +59,7 @@ public class UserCreateController {
     public ResponseEntity<GlobalResponse<UserJoinResponse>> certificationByCode(
             @RequestBody UserJoinCertificationRequest joinUserCertification
     ){
-        RequestCheck rcUserJoinCertificationRequest = new RequestCheck(joinUserCertification);
-        rcUserJoinCertificationRequest.check();
+        new RequestCheck(joinUserCertification).check();
 
         JoinUser joinUser = joinUserService.certification(joinUserCertification);
         return of(SuccessCode.EMAIL_VERIFIED, UserJoinResponse.from(joinUser));
@@ -74,10 +72,8 @@ public class UserCreateController {
             @PathVariable String email,
             @RequestParam String certificationCode
     ){
-        RequestCheck rcEmail = new RequestCheck(email);
-        rcEmail.checkString();
-        RequestCheck rcCertification = new RequestCheck(certificationCode);
-        rcCertification.checkString();
+        new RequestCheck(email).checkString();
+        new RequestCheck(certificationCode).checkString();
 
         UserJoinCertificationRequest joinUserCertification = UserJoinCertificationRequest.from(email, certificationCode);
         JoinUser certification = joinUserService.certification(joinUserCertification);
@@ -90,8 +86,7 @@ public class UserCreateController {
     public ResponseEntity<GlobalResponse<User>> createUser(
             @RequestBody UserCreateRequest userCreateDto
     ){
-        RequestCheck rcUserCreateDto = new RequestCheck(userCreateDto);
-        rcUserCreateDto.check();
+        new RequestCheck(userCreateDto).check();
 
         UserCreate userCreate = UserCreate.from(userCreateDto);
         return of(SuccessCode.USER_CREATED, userService.create(userCreate));

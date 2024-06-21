@@ -3,8 +3,6 @@ package com.example.userservice.user.controller;
 import com.example.userservice.user.controller.port.UserService;
 import com.example.userservice.user.dto.request.RequestCheck;
 import com.example.userservice.user.dto.response.GlobalResponse;
-import com.example.userservice.util.exception.ErrorCode;
-import com.example.userservice.util.exception.code.GlobalException;
 import com.example.userservice.util.exception.code.SuccessCode;
 import com.example.userservice.user.dto.request.UserDeleteRequest;
 import com.example.userservice.user.dto.request.UserLoginRequest;
@@ -37,8 +35,7 @@ public class UserController {
     public ResponseEntity<GlobalResponse<User>> login(
             @RequestBody UserLoginRequest userLogin
     ) {
-        RequestCheck requestCheck = new RequestCheck(userLogin);
-        requestCheck.check();
+        new RequestCheck(userLogin).check();
 
         UserWithToken userWithToken = userService.login(userLogin);
         ResponseCookie accessCookie = ResponseCookie
@@ -65,8 +62,7 @@ public class UserController {
     public ResponseEntity<GlobalResponse<User>> findByIdController(
             @PathVariable("id") String id
     ) {
-        RequestCheck requestCheck = new RequestCheck(id);
-        requestCheck.checkString();
+        new RequestCheck(id).checkString();
 
         return of(SuccessCode.VALUE_OK, userService.findById(id));
     }
@@ -76,8 +72,7 @@ public class UserController {
     public ResponseEntity<GlobalResponse<User>> findByEmailController(
             @PathVariable ("email") String email
     ) {
-        RequestCheck requestCheck = new RequestCheck(email);
-        requestCheck.checkString();
+        new RequestCheck(email).checkString();
 
         return of(SuccessCode.VALUE_OK, userService.findByEmail(email));
     }
@@ -88,10 +83,8 @@ public class UserController {
             @PathVariable("email") String email,
             @RequestBody UserUpdateRequest userUpdateRequest
     ) {
-        RequestCheck emailCheck = new RequestCheck(email);
-        emailCheck.checkString();
-        RequestCheck requestCheck = new RequestCheck(userUpdateRequest);
-        requestCheck.check();
+        new RequestCheck(email).checkString();
+        new RequestCheck(userUpdateRequest).check();
 
         UserUpdate userUpdate = UserUpdate.fromWithRequest(userUpdateRequest);
         return of(SuccessCode.UPDATE_OK, userUpdate);

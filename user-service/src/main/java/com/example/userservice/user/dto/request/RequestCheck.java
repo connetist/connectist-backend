@@ -3,8 +3,6 @@ package com.example.userservice.user.dto.request;
 import com.example.userservice.util.exception.ErrorCode;
 import com.example.userservice.util.exception.code.GlobalException;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 
@@ -17,7 +15,7 @@ public class RequestCheck {
         if (!(targetObject instanceof String)) {
             throw new GlobalException(ErrorCode.INTERNAL_SERVER_ERROR);
         }
-        if (targetObject == null || String.valueOf(targetObject).isEmpty()) {
+        if ( String.valueOf(targetObject).isEmpty()) {
             throw new GlobalException(ErrorCode.INVALID_INPUT);
         }
     }
