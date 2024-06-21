@@ -2,6 +2,7 @@ package com.example.userservice.user.controller;
 
 import com.example.userservice.user.controller.port.JoinUserService;
 import com.example.userservice.user.controller.port.UserService;
+import com.example.userservice.user.dto.request.RequestCheck;
 import com.example.userservice.user.dto.response.GlobalResponse;
 import com.example.userservice.util.exception.code.SuccessCode;
 import com.example.userservice.user.dto.response.UserJoinResponse;
@@ -35,6 +36,8 @@ public class UserCreateController {
     public ResponseEntity<GlobalResponse<String>> check(
             @RequestBody Map<String, String> emailMap
     ) {
+        new RequestCheck(emailMap.get("email")).checkString();
+
         boolean value = joinUserService.checkEmailBeforeCertification(emailMap.get("email"));
         return of(SuccessCode.OK, String.valueOf(value));
     }
@@ -43,6 +46,9 @@ public class UserCreateController {
     // user Create
     @PostMapping("/email")
     public ResponseEntity<GlobalResponse<JoinUser>> create(@RequestBody UserJoinRequest userCreate) {
+        RequestCheck rcUserCreate = new RequestCheck(userCreate);
+        rcUserCreate.check();
+
         emailCertification.verify(userCreate.getSchool(), userCreate.getEmail());
         JoinUser joinUser = joinUserService.join(userCreate);
         return of(SuccessCode.EMAIL_CREATED, joinUser);
@@ -54,6 +60,9 @@ public class UserCreateController {
     public ResponseEntity<GlobalResponse<UserJoinResponse>> certificationByCode(
             @RequestBody UserJoinCertificationRequest joinUserCertification
     ){
+        RequestCheck rcUserJoinCertificationRequest = new RequestCheck(joinUserCertification);
+        rcUserJoinCertificationRequest.check();
+
         JoinUser joinUser = joinUserService.certification(joinUserCertification);
         return of(SuccessCode.EMAIL_VERIFIED, UserJoinResponse.from(joinUser));
     }
@@ -65,6 +74,11 @@ public class UserCreateController {
             @PathVariable String email,
             @RequestParam String certificationCode
     ){
+        RequestCheck rcEmail = new RequestCheck(email);
+        rcEmail.checkString();
+        RequestCheck rcCertification = new RequestCheck(certificationCode);
+        rcCertification.checkString();
+
         UserJoinCertificationRequest joinUserCertification = UserJoinCertificationRequest.from(email, certificationCode);
         JoinUser certification = joinUserService.certification(joinUserCertification);
         return of(SuccessCode.EMAIL_VERIFIED, UserJoinResponse.from(certification));
@@ -76,6 +90,9 @@ public class UserCreateController {
     public ResponseEntity<GlobalResponse<User>> createUser(
             @RequestBody UserCreateRequest userCreateDto
     ){
+        RequestCheck rcUserCreateDto = new RequestCheck(userCreateDto);
+        rcUserCreateDto.check();
+
         UserCreate userCreate = UserCreate.from(userCreateDto);
         return of(SuccessCode.USER_CREATED, userService.create(userCreate));
     }
