@@ -16,6 +16,7 @@ import com.example.userservice.user.service.port.JwtTokenService;
 import com.example.userservice.user.service.port.UserRepository;
 import com.example.userservice.util.clock.ClockHolder;
 import com.example.userservice.util.id.IdGenerator;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
+@Builder
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -74,7 +76,7 @@ public class UserServiceImpl implements UserService {
         User user = findByEmail(userUpdate.getEmail());
 
         User updatedUser = User.fromWithUserUpdate(user, userUpdate);
-        updatedUser = user.encodePw(user, passwordEncoder.encode(updatedUser.getPassword()));
+        updatedUser = User.encodePw(updatedUser, passwordEncoder.encode(updatedUser.getPassword()));
         if (updatedUser == null) {
             throw new GlobalException(ErrorCode.USER_UPDATE_ERROR);
         }

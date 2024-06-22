@@ -6,6 +6,7 @@ import com.example.userservice.user.service.port.UserRepository;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -36,7 +37,9 @@ public class FakeUserRepository implements UserRepository {
 
     @Override
     public User update(User user) {
-        return userMap.replace(UserEntity.from(user).getEmail(), UserEntity.from(user)).toModel();
+        userMap.remove(user.getEmail());
+        userMap.put(user.getEmail(), UserEntity.from(user));
+        return userMap.get(user.getEmail()).toModel();
     }
 
     @Override
