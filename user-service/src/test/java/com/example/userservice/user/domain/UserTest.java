@@ -144,4 +144,5 @@ class UserTest {
             return encode(rawPassword).equals(encodedPassword);
         }
     }
+
 }

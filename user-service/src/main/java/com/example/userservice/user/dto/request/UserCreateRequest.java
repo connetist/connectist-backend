@@ -31,5 +31,4 @@ public class UserCreateRequest {
         this.nickname = nickname;
     }
 
-
 }
