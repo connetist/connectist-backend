@@ -8,7 +8,7 @@ public class Lab {
 //    private enum major
     private String professor;
     private String contents;
-    private float liked;
+    private float likeSum;
     private List<Board> boards;
     private List<Like> likes;
 //    private
