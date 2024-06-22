@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Scanner;
 
 @Slf4j
 @RestController()
@@ -31,6 +32,7 @@ public class ChatController {
     public ResponseEntity<RestResponse<String>> status() {
         String str = "Chat-service는" + serverPort + "에서 실행 중입니다";
         RestResponse<String> response = RestResponse.success(str);
+        
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
