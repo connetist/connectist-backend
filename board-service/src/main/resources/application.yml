@@ -1,0 +1,20 @@
+server:
+  port: 0
+spring:
+  application:
+    name: board-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/connectist-db
+    username: root
+    driver-class-name: com.mysql.jdbc.Driver
+    password: "kevin0459"
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    generate-ddl: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+
