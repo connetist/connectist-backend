@@ -13,9 +13,9 @@ public class LikeEntity {
 
     private int likeUnit;
 
-    @ManyToOne
-    @JoinColumn(name = "lab_id", nullable = true)
-    private LabEntity labEntity;
+//    @ManyToOne
+//    @JoinColumn(name = "lab_id", nullable = true)
+//    private LabEntity labEntity;
 
     @ManyToOne
     @JoinColumn(name= "board_id",nullable = true)

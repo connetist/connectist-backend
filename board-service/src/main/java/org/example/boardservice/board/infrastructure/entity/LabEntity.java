@@ -22,7 +22,7 @@ public class LabEntity {
     @OneToMany(mappedBy = "labEntity", cascade = CascadeType.ALL)
     private List<BoardEntity> boardEntityList;
     @OneToMany(mappedBy = "labEntity", cascade = CascadeType.ALL)
-    private List<LikeEntity> likeList;
+    private List<StarEntity> starEntityList;
     private long createdAt;
 
 

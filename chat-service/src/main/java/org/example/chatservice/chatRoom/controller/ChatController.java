@@ -17,7 +17,7 @@ import java.util.Scanner;
 
 @Slf4j
 @RestController()
-@RequestMapping("/chat")
+@RequestMapping("/api/chat")
 public class ChatController {
     private ChatRoomService chatRoomService;
     @Value("${server.port}")
