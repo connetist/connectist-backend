@@ -1,17 +1,34 @@
 package org.example.boardservice.board.domain;
 
+import lombok.Builder;
+import lombok.Getter;
+
 import java.util.List;
 
+
+@Getter
 public class Lab {
     private String labId;
-//    private enum shcool
-//    private enum major
+    private String school;
+    private String major;
     private String professor;
     private String contents;
-    private float likeSum;
-    private List<Board> boards;
-    private List<Like> likes;
-//    private
+    private long likeSum;
     private long createdAt;
+
+
+    @Builder
+    public Lab(String labId, String school, String major, String professor, String contents, long likeSum, long createdAt) {
+        this.labId = labId;
+        this.school = school;
+        this.major = major;
+        this.professor = professor;
+        this.contents = contents;
+        this.likeSum = likeSum;
+        this.createdAt = createdAt;
+    }
+
+
+
 
 }
