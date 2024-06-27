@@ -22,11 +22,11 @@ public class CommentEntity {
     private String boardId;
     private String userId;
     private String contents;
-
-
     private boolean deleted;
     private long createdAt;
     private long deletedAt;
+
+
 
     public CommentEntity() {
 

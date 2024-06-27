@@ -1,4 +1,4 @@
-package org.example.boardservice.board.infrastructure.repository;
+package org.example.boardservice.board.infrastructure.repository.board;
 
 
 import org.example.boardservice.board.infrastructure.entity.BoardEntity;

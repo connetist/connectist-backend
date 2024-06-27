@@ -1,7 +1,10 @@
 package org.example.boardservice.board.domain;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Getter;
+import org.example.boardservice.board.infrastructure.entity.StarEntity;
 
 import java.util.List;
 
@@ -15,6 +18,9 @@ public class Lab {
     private String contents;
     private long likeSum;
     private long createdAt;
+
+    @OneToMany(mappedBy = "lab", cascade = CascadeType.ALL)
+    private List<StarEntity> stars;
 
 
     @Builder

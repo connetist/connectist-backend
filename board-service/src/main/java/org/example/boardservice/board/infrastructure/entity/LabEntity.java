@@ -2,14 +2,10 @@ package org.example.boardservice.board.infrastructure.entity;
 
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.boardservice.board.domain.Lab;
-import org.example.boardservice.board.domain.Like;
 
-import java.util.List;
 
 
 @Entity
