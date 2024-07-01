@@ -2,23 +2,24 @@ package org.example.boardservice.board.domain;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.example.boardservice.board.infrastructure.entity.RecommentEntity;
+
 
 import java.util.List;
+
 @Getter
 public class Recomment {
-    private final String id;
-    private final String boardId;
-    private final String userId;
-    private final String contents;
-    private final boolean deleted;
-    private final long createdAt;
-    private final long deletedAt;
+    private String id;
+    private String commentId;
+    private String userId;
+    private String contents;
+    private boolean deleted;
+    private long createdAt;
+    private long deletedAt;
 
     @Builder
-    public Recomment(String id, String boardId, String userId, String contents, boolean deleted, long createdAt, long deletedAt) {
+    public Recomment(String id, String commentId, String userId, String contents, boolean deleted, long createdAt, long deletedAt) {
         this.id = id;
-        this.boardId = boardId;
+        this.commentId = commentId;
         this.userId = userId;
         this.contents = contents;
         this.deleted = deleted;
