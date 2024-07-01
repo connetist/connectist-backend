@@ -19,9 +19,11 @@ public class Board {
     private final boolean deleted;
     private final long createdAt;
     private final long deletedAt;
+    private List<Star> starList;
+
 
     @Builder
-    public Board(String id, String labId, String userId, String contents, boolean deleted, long createdAt, long deletedAt) {
+    public Board(String id, String labId, String userId, String contents, boolean deleted, long createdAt, long deletedAt, List<Star> starList) {
         this.id = id;
         this.labId = labId;
         this.userId = userId;
@@ -29,27 +31,22 @@ public class Board {
         this.deleted = deleted;
         this.createdAt = createdAt;
         this.deletedAt = deletedAt;
+        this.starList = starList;
     }
 
-    static Board CreateBoard(String labId, String userId, String contents, boolean deleted, long deletedAt, UuidHolder uuidHolder, ClockHolder clockHolder){
+    public static Board CreateBoard(String labId, String userId, String contents,UuidHolder uuidHolder, ClockHolder clockHolder){
 
         return Board.builder()
                 .id(uuidHolder.random())
                 .labId(labId)
                 .userId(userId)
                 .contents(contents)
-                .deleted(deleted)
+                .deleted(false)
                 .createdAt(clockHolder.mills())
-                .deletedAt(deletedAt)
+                .deletedAt(clockHolder.mills())
                 .build();
     }
 
-//    static Board DeleteBoard(Board board, ClockHolder clockHolder){
-//        return Board.builder()
-//                .id(board.id)
-//
-//
-//    }
 
 
 

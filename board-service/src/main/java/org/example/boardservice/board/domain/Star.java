@@ -11,17 +11,24 @@ public class Star {
     private String id;
     private String userId;
     private int starCount;
-    private String labId;
 
 
 
     @Builder
-    public Star(String id, String userId, int starCount, String labId) {
+    public Star(String id, String userId, int starCount) {
         this.id = id;
         this.userId = userId;
         this.starCount = starCount;
-        this.labId = labId;
     }
+
+    public void updateStarCount(int newStarCount) {
+        this.starCount = newStarCount;
+    }
+
+
+
+
+
 
 
 

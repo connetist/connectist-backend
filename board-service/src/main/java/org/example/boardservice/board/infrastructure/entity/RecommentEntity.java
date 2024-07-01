@@ -16,17 +16,20 @@ public class RecommentEntity {
     @Column(name = "recomment_id")
     private String id;
 
-    private String commentId;
     private String userId;
     private String contents;
     private boolean deleted;
     private long createdAt;
     private long deletedAt;
 
+    @ManyToOne
+    @JoinColumn(name = "comment_id")
+    private CommentEntity comment;
+
     public static RecommentEntity from(Recomment recomment) {
         RecommentEntity recommentEntity = new RecommentEntity();
         recommentEntity.id = recomment.getId();
-        recommentEntity.commentId = recomment.getCommentId();
+//        recommentEntity.commentId = recomment.getCommentId();
         recommentEntity.userId = recomment.getUserId();
         recommentEntity.contents = recomment.getContents();
         recommentEntity.deleted = recomment.isDeleted();

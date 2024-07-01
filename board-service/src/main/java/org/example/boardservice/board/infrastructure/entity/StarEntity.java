@@ -16,7 +16,6 @@ public class StarEntity {
     @Id
     @Column(name = "star_id")
     private String id;
-//    private String labId;
     private int starCount;
     private String userId;
 
@@ -24,23 +23,23 @@ public class StarEntity {
     @JoinColumn(name= "lab_id")
     private LabEntity lab;
 
-//    public static StarEntity from(Star star){
-//        StarEntity starEntity = new StarEntity();
-//        starEntity.setId(star.getId());
-//        starEntity.setLabId(star.getLabId());
-//        starEntity.setUserId(star.getUserId());
-//        starEntity.setStarCount(star.getStarCount());
-//        return starEntity;
-//
-//    }
-//
-//    public Star toModel(){
-//        return Star.builder()
-//                .id(id)
-//                .labId(labId)
-//                .starCount(starCount)
-//                .userId(userId)
-//                .build();
-//    }
+    public static StarEntity from(Star star, LabEntity labEntity){
+        StarEntity starEntity = new StarEntity();
+        starEntity.id = star.getId();
+        starEntity.starCount = star.getStarCount();
+        starEntity.userId = star.getUserId();
+        starEntity.lab = labEntity;
+        return starEntity;
+    }
+
+    public Star toModel(){
+        return Star.builder()
+                .id(id)
+                .starCount(starCount)
+                .userId(userId)
+                .build();
+
+    }
+
 
 }
