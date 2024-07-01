@@ -37,7 +37,7 @@ public class FcmSenderToOne implements FcmSender {
 
             okHttpClient.newCall(request).execute();
 
-        } catch (IOException ignored) {
+        } catch (IOException ignored ) {
             log.error(ignored.getMessage());
         }
     }

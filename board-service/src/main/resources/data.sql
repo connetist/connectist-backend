@@ -1,4 +1,3 @@
-
 -- Labs 테이블 생성
 CREATE TABLE labs (
                       lab_id VARCHAR(255) PRIMARY KEY,

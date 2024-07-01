@@ -1,5 +1,6 @@
 package org.example.boardservice.board.domain;
 
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.OneToMany;
 import lombok.Builder;
@@ -31,6 +32,7 @@ public class Lab {
         this.professor = professor;
         this.contents = contents;
         this.likeSum = likeSum;
+
         this.createdAt = createdAt;
     }
 

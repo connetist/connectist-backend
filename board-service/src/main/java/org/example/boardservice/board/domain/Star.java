@@ -1,5 +1,8 @@
 package org.example.boardservice.board.domain;
 
+import lombok.Builder;
+import lombok.Getter;
+
 
 import jakarta.persistence.*;
 import lombok.Builder;

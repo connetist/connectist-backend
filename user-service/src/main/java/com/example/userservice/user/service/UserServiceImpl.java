@@ -16,6 +16,7 @@ import com.example.userservice.user.service.port.JwtTokenService;
 import com.example.userservice.user.service.port.UserRepository;
 import com.example.userservice.util.clock.ClockHolder;
 import com.example.userservice.util.id.IdGenerator;
+import jakarta.transaction.Transactional;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +45,11 @@ public class UserServiceImpl implements UserService {
 
         try {
             User user = User.fromAfterCertification(userCreate, joinUser, clockHolder, idGenerator);
-            User pwEncodedUser = user.encodePw(user, passwordEncoder.encode(user.getPassword()));
+            if(userRepository.findByEmail(user.getEmail()).isPresent()){
+                throw new GlobalException(ErrorCode.USER_DUPLICATE_ERROR);
+            }
+
+            User pwEncodedUser = User.encodePw(user, passwordEncoder.encode(user.getPassword()));
 
             User save = userRepository.save(pwEncodedUser);
             joinUserRepository.delete(save.getEmail());
@@ -83,6 +88,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.update(updatedUser);
     }
 
+    @Transactional
     @Override
     public User delete(UserDeleteRequest userDeleteRequest) {
 
