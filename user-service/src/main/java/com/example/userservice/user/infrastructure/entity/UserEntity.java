@@ -2,24 +2,47 @@ package com.example.userservice.user.infrastructure.entity;
 
 import com.example.userservice.user.domain.User;
 import com.example.userservice.user.domain.user.*;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
-@Document(collection = "user")
+@Entity
+@Table(name = "user")
 public class UserEntity {
 
+    @Id
     private String id;
+
+    @Column(name = "pw")
     private String pw;
+    @Column
     private String email;
+
+    @Column
+    @Enumerated(EnumType.STRING)
     private School school;
+
+    @Column(name = "degree")
+    @Enumerated(EnumType.STRING)
     private UserDegree degree;
+
+    @Column(name = "sex")
+    @Enumerated(EnumType.STRING)
     private UserSex sex;
+
+    @Column(name = "major")
+    @Enumerated(EnumType.STRING)
     private UserMajor major;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private UserStatus status;
+
+    @Column(name = "nickname")
     private String nickname;
+    @Column
     private Long createdAt;
 
     public static UserEntity from(User user) {

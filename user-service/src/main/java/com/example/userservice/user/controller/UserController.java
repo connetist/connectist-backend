@@ -79,7 +79,7 @@ public class UserController {
 
     // user update
     @PatchMapping("/{email}")
-    public ResponseEntity<GlobalResponse<UserUpdate>> updateUserController(
+    public ResponseEntity<GlobalResponse<User>> updateUserController(
             @PathVariable("email") String email,
             @RequestBody UserUpdateRequest userUpdateRequest
     ) {
@@ -87,7 +87,8 @@ public class UserController {
         new RequestCheck(userUpdateRequest).check();
 
         UserUpdate userUpdate = UserUpdate.fromWithRequest(userUpdateRequest);
-        return of(SuccessCode.UPDATE_OK, userUpdate);
+        User update = userService.update(userUpdate);
+        return of(SuccessCode.UPDATE_OK, update);
     }
 
     // user delete
