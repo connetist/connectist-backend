@@ -1,6 +1,7 @@
 package com.example.alarmservice.alarm.domain.value;
 
 import com.example.alarmservice.alarm.domain.enumeration.School;
+import com.example.alarmservice.alarm.dto.request.AlarmRequest;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -20,5 +21,15 @@ public class ReceiverInfo {
         this.nickname = nickname;
         this.token = token;
         this.school = school;
+    }
+
+    public static ReceiverInfo receiverInfoBuilderAfterRequest(AlarmRequest alarmRequest, String token) {
+        return ReceiverInfo.builder()
+                .id(alarmRequest.getReceiverInfoRequest().getId())
+                .email(alarmRequest.getReceiverInfoRequest().getEmail())
+                .nickname(alarmRequest.getReceiverInfoRequest().getNickname())
+                .token(token)
+                .school(School.valueOf(alarmRequest.getReceiverInfoRequest().getSchool()))
+                .build();
     }
 }

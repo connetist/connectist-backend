@@ -3,6 +3,7 @@ package org.example.boardservice.board.infrastructure.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.example.boardservice.board.domain.Star;
 
 @Data
 @Entity
@@ -17,4 +18,23 @@ public class StarEntity {
     private LabEntity labEntity;
 
 
+    public Star toModel() {
+        return Star.builder()
+                .id(id)
+                .userId(userId)
+                .labId(labEntity != null ? String.valueOf(labEntity.getId()) : null)
+                .build();
+    }
+
+    public static StarEntity from(Star star){
+        StarEntity starEntity = new StarEntity();
+        starEntity.setId(star.getId());
+        starEntity.setUserId(star.getUserId());
+        if (star.getLabId() != null) {
+            LabEntity labEntity = new LabEntity();
+            labEntity.setId(String.valueOf(star.getLabId()));
+            starEntity.setLabEntity(labEntity);
+        }
+        return starEntity;
+    }
 }

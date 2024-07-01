@@ -17,11 +17,11 @@ VALUES
     (UUID(), (SELECT board_id FROM boards LIMIT 1 OFFSET 1), 'user4', 'Comment on board 2', 0, UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
 
 -- Inserting initial data into likes table
-INSERT INTO likes (id, board_id, comment_id, lab_id,like_unit)
+INSERT INTO likes (id, board_id, comment_id,like_unit)
 VALUES
-    (UUID(), (SELECT board_id FROM boards LIMIT 1 OFFSET 0), NULL, NULL,5),
-    (UUID(), NULL, (SELECT comment_id FROM comments LIMIT 1 OFFSET 0), NULL,5),
-    (UUID(), NULL, NULL, (SELECT lab_id FROM labs LIMIT 1 OFFSET 0),3);
+    (UUID(), (SELECT board_id FROM boards LIMIT 1 OFFSET 0), NULL,5),
+    (UUID(), NULL, (SELECT comment_id FROM comments LIMIT 1 OFFSET 0),5),
+    (UUID(), NULL, NULL,3);
 
 -- Inserting initial data into recomments table
 INSERT INTO recomments (recomment_id, comment_id, user_id, contents, deleted, created_at, deleted_at)

@@ -1,16 +1,20 @@
 package org.example.boardservice.board.domain;
 
+import lombok.Builder;
+import lombok.Getter;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.Data;
-
-
+@Getter
 public class Star {
-    private String id;
-    private String userId;
+    private final String id;
+    private final String userId;
+    private final String labId;
+
+    @Builder
+    public Star(String id, String userId, String labId) {
+        this.id = id;
+        this.userId = userId;
+        this.labId = labId;
+    }
 
 
 }
