@@ -31,7 +31,7 @@ public class LabController {
     //TODO : 특정 학교 전체 연구실 조회
 
     @GetMapping("/labs/{school}/{major}")
-    public ResponseEntity<RestResponse<List<Lab>>> getLab(@PathVariable String school, @PathVariable String major) {
+    public ResponseEntity<RestResponse<List<Lab>>> getAllLab(@PathVariable String school, @PathVariable String major) {
         List<Lab> labs = labService.findAllBySchoolAndMajor(school,major);
         RestResponse<List<Lab>> response = RestResponse.success(labs);
         return ResponseEntity.status(HttpStatus.OK).body(response);
