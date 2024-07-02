@@ -1,6 +1,8 @@
 package com.example.alarmservice.alarm.infrastrucutre;
 
 import com.example.alarmservice.alarm.infrastrucutre.entity.TokenEntity;
+import com.example.alarmservice.util.exception.ErrorCode;
+import com.example.alarmservice.util.exception.GlobalException;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -22,23 +24,39 @@ public class TokenRepositoryRedis implements TokenRepository {
     @Override
     public String saveToken(String id, String token) {
         TokenEntity tokenEntity = new TokenEntity(id, token);
-        valueOperations.set(id, tokenEntity.getToken());
+        try {
+            valueOperations.set(id, tokenEntity.getToken());
+        } catch (Exception e) {
+            throw new GlobalException(ErrorCode.INTERNAL_SERVER_ERROR);
+        }
         return tokenEntity.getToken();
     }
 
     @Override
     public String findTokenById(String id) {
-        return valueOperations.get(id);
+        try {
+            return valueOperations.get(id);
+        } catch (Exception e) {
+            throw new GlobalException(ErrorCode.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Override
     public String deleteToken(String id) {
-        return valueOperations.getAndDelete(id);
+        try {
+            return valueOperations.getAndDelete(id);
+        } catch (Exception e) {
+            throw new GlobalException(ErrorCode.INTERNAL_SERVER_ERROR);
+        }
     }
 
     public String updateToken(String id, String token) {
-        // TODO ; update하는 logic 필요
-        return token;
+        try {
+            valueOperations.set(id, token);
+            return token;
+        } catch (Exception e) {
+            throw new GlobalException(ErrorCode.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

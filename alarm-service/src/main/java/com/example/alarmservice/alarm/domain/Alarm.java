@@ -1,14 +1,13 @@
 package com.example.alarmservice.alarm.domain;
 
+import com.example.alarmservice.alarm.domain.enumeration.AlarmType;
 import com.example.alarmservice.alarm.domain.value.AlarmInfo;
 import com.example.alarmservice.alarm.domain.value.ReceiverInfo;
 import com.example.alarmservice.alarm.dto.firebase.FcmDto;
-import com.example.alarmservice.alarm.dto.firebase.FcmSendDto;
 import com.example.alarmservice.alarm.dto.request.AlarmRequest;
 import com.example.alarmservice.util.ClockHolder;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 public class Alarm {
@@ -34,13 +33,13 @@ public class Alarm {
 
 
     // id , Token 넣어야 합니다.
-    public static Alarm convertAlarmRequestToAlarm(AlarmRequest request, ReceiverInfo receiverInfo,  ClockHolder clockHolder) {
+    public static Alarm of(AlarmRequest request, ReceiverInfo receiverInfo, ClockHolder clockHolder) {
 
         AlarmInfo alarmInfo = AlarmInfo.builder()
                 .receiverInfo(receiverInfo)
                 .content(request.getContent())
                 .title(request.getTitle())
-                .alarmType(request.getAlarmType())
+                .alarmType(AlarmType.valueOf(request.getAlarmType()))
                 .build();
 
         return Alarm.builder()

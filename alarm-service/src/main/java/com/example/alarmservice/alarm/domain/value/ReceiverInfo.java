@@ -23,7 +23,7 @@ public class ReceiverInfo {
         this.school = school;
     }
 
-    public static ReceiverInfo receiverInfoBuilderAfterRequest(AlarmRequest alarmRequest, String token) {
+    public static ReceiverInfo of(AlarmRequest alarmRequest, String token) {
         return ReceiverInfo.builder()
                 .id(alarmRequest.getReceiverInfoRequest().getId())
                 .email(alarmRequest.getReceiverInfoRequest().getEmail())

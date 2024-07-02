@@ -5,10 +5,9 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class AlarmRequest {
-
+public class AlarmSendRequest {
     private ReceiverInfoRequest receiverInfoRequest;
     private String title;
     private String content;
-    private String alarmType;
+    private Integer alarmType;
 }
