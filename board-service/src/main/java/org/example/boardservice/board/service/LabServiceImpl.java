@@ -6,6 +6,9 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.example.boardservice.board.domain.Lab;
 import org.example.boardservice.board.domain.Star;
+import org.example.boardservice.board.dto.request.LabAddStarRequest;
+import org.example.boardservice.board.dto.request.LabRemoveStarRequest;
+import org.example.boardservice.board.dto.request.LabUpdateStarRequest;
 import org.example.boardservice.board.infrastructure.entity.LabEntity;
 import org.example.boardservice.board.infrastructure.repository.lab.LabRepository;
 import org.springframework.stereotype.Service;
@@ -40,9 +43,9 @@ public class LabServiceImpl implements LabService{
 
     @Transactional
     @Override
-    public Lab addStar(String userId, int starCount,String labId){
-        Lab lab = labRepository.findById(labId);
-        lab.addStar(userId, labId, starCount);
+    public Lab addStar(LabAddStarRequest rq){
+        Lab lab = labRepository.findById(rq.getLabId());
+        lab.addStar(rq.getUserId(),rq.getLabId(), rq.getStarCount());
         lab = labRepository.save(lab);
 
         return lab;
@@ -50,18 +53,18 @@ public class LabServiceImpl implements LabService{
 
     @Transactional
     @Override
-    public Lab removeStar(String userId, int starCount,String labId){
-        Lab lab = labRepository.findById(labId);
-        lab.removeStar(userId);
+    public Lab removeStar(LabRemoveStarRequest rq){
+        Lab lab = labRepository.findById(rq.getLabId());
+        lab.removeStar(rq.getUserId());
         lab = labRepository.save(lab);
         return lab;
     }
 
     @Transactional
     @Override
-    public Lab updateStar(String userId, int starCount,String labId){
-        Lab lab = labRepository.findById(labId);
-        lab.updateStar(userId,starCount);
+    public Lab updateStar(LabUpdateStarRequest rq){
+        Lab lab = labRepository.findById(rq.getLabId());
+        lab.updateStar(rq.getUserId(), rq.getStarCount());
         lab = labRepository.save(lab);
         return lab;
     }

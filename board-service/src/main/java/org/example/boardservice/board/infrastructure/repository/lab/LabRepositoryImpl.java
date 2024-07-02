@@ -24,8 +24,7 @@ public class LabRepositoryImpl implements LabRepository {
 
     @Override
     public Lab save(Lab lab){
-        LabEntity labEntity = LabEntity.from(lab);
-        return labJpaRepository.save(labEntity).toModel();
+        return labJpaRepository.save(LabEntity.from(lab)).toModel();
     }
 
 

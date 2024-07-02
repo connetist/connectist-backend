@@ -16,6 +16,12 @@ public class BoardRepositoryImpl implements BoardRepository{
 
     private final BoardJpaRepository boardJpaRepository;
 
+
+    @Transactional
+    @Override
+    public Board save(Board board) {
+        return boardJpaRepository.save(BoardEntity.from(board)).toModel();
+    }
     @Transactional
     @Override
     public List<Board> findAllByLabId(String labId) {

@@ -1,4 +1,4 @@
-package org.example.boardservice.board.dto;
+package org.example.boardservice.board.dto.response;
 
 import lombok.Builder;
 import lombok.Data;

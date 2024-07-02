@@ -5,17 +5,14 @@ import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.example.boardservice.board.domain.Board;
 import org.example.boardservice.board.domain.Comment;
-import org.example.boardservice.board.dto.FindBoardResponse;
+import org.example.boardservice.board.dto.response.BoardResponse;
 import org.example.boardservice.board.infrastructure.repository.board.BoardRepository;
 import org.example.boardservice.board.infrastructure.repository.comment.CommentReposotiry;
 import org.example.boardservice.utils.ClockHolder;
 import org.example.boardservice.utils.UuidHolder;
 import org.springframework.stereotype.Service;
 
-import java.time.Clock;
 import java.util.List;
-
-import static org.example.boardservice.board.domain.Board.CreateBoard;
 
 @Service
 @Builder
@@ -40,11 +37,11 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public FindBoardResponse getBoardById(String boardId) {
+    public BoardResponse getBoardById(String boardId) {
         Board board = boardRepository.findByBoardId(boardId);
         List<Comment> commentList = commentReposotiry.findByBoardId(boardId);
-        FindBoardResponse findBoardResponse = new FindBoardResponse(board,commentList);
-        return findBoardResponse;
+        BoardResponse boardResponse = new BoardResponse(board,commentList);
+        return boardResponse;
     }
 
     @Override

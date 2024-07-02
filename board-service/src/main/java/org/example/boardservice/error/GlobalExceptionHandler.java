@@ -1,7 +1,7 @@
 package org.example.boardservice.error;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.boardservice.board.dto.RestResponse;
+import org.example.boardservice.board.dto.response.RestResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
