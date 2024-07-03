@@ -77,12 +77,10 @@ jobs:
           sed -i "s|${{ secrets.DOCKER_USERNAME }}/board-service:[^ ]*|${{ secrets.DOCKER_USERNAME }}/board-service:${{ env.TAG }}|" k8s/board-service/deployment.yaml
       - name: Commit and push changes
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global  user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config credential.helper store
-          git config advice.mergeConflict false
           git add k8s/board-service/deployment.yaml
           git commit -m "Update Docker image to ${{ env.TAG }}"
-          git pull --rebase origin main  # 충돌이 발생할 수 있는 경우
-          git push origin main
+          git push
           
