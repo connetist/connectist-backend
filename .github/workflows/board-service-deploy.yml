@@ -81,4 +81,5 @@ jobs:
           git config credential.helper store
           git add k8s/board-service/deployment.yaml
           git commit -m "Update Docker image to ${{ env.TAG }}"
-          git push
+#          git remote add origin https://github.com/connetist/connectist-backend.git
+          git push origin HEAD:main
