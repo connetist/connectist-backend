@@ -8,6 +8,11 @@ on:
       - main
     paths:
       - 'board-service/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'board-service/**'
 
 jobs:
   build:
@@ -68,7 +73,7 @@ jobs:
         with:
           token: ${{ secrets.GT_TOKEN }}
       - name: Update Kubernetes manifest
-        run: sed -i "s|${{ secrets.DOCKER_USERNAME }}/board-service:[^ ]*|${{ secrets.DOCKER_USERNAME }}/board-service:${{ env.TAG }}|" k8s/deployment.yaml
+        run: sed -i "s|${{ secrets.DOCKER_USERNAME }}/board-service:[^ ]*|${{ secrets.DOCKER_USERNAME }}/board-service:${{ env.TAG }}|" k8s/board-service/deployment.yaml
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
@@ -76,4 +81,5 @@ jobs:
           git config credential.helper store
           git add k8s/board-service/deployment.yaml
           git commit -m "Update Docker image to ${{ env.TAG }}"
-          git push
+#          git remote add origin https://github.com/connetist/connectist-backend.git
+          git push origin HEAD:main
