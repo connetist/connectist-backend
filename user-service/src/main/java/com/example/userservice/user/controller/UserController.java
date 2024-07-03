@@ -1,6 +1,7 @@
 package com.example.userservice.user.controller;
 
 import com.example.userservice.user.controller.port.UserService;
+import com.example.userservice.user.dto.request.RequestCheck;
 import com.example.userservice.user.dto.response.GlobalResponse;
 import com.example.userservice.util.exception.code.SuccessCode;
 import com.example.userservice.user.dto.request.UserDeleteRequest;
@@ -34,6 +35,8 @@ public class UserController {
     public ResponseEntity<GlobalResponse<User>> login(
             @RequestBody UserLoginRequest userLogin
     ) {
+        new RequestCheck(userLogin).check();
+
         UserWithToken userWithToken = userService.login(userLogin);
         ResponseCookie accessCookie = ResponseCookie
                 .from("access-token", userWithToken.getAccess())
@@ -59,6 +62,8 @@ public class UserController {
     public ResponseEntity<GlobalResponse<User>> findByIdController(
             @PathVariable("id") String id
     ) {
+        new RequestCheck(id).checkString();
+
         return of(SuccessCode.VALUE_OK, userService.findById(id));
     }
 
@@ -67,22 +72,23 @@ public class UserController {
     public ResponseEntity<GlobalResponse<User>> findByEmailController(
             @PathVariable ("email") String email
     ) {
-        return of(SuccessCode.VALUE_OK, userService.findByEmail(email));
+        new RequestCheck(email).checkString();
 
+        return of(SuccessCode.VALUE_OK, userService.findByEmail(email));
     }
 
     // user update
     @PatchMapping("/{email}")
-    public ResponseEntity<GlobalResponse<UserUpdate>> updateUserController(
+    public ResponseEntity<GlobalResponse<User>> updateUserController(
             @PathVariable("email") String email,
             @RequestBody UserUpdateRequest userUpdateRequest
-    ) throws Exception {
-        // request parameter 검사 로직 수정 요
-        if(!email.equals(userUpdateRequest.getEmail())){
-            throw new Exception("email과 request가 다릅니다.");
-        }
+    ) {
+        new RequestCheck(email).checkString();
+        new RequestCheck(userUpdateRequest).check();
+
         UserUpdate userUpdate = UserUpdate.fromWithRequest(userUpdateRequest);
-        return of(SuccessCode.UPDATE_OK, userUpdate);
+        User update = userService.update(userUpdate);
+        return of(SuccessCode.UPDATE_OK, update);
     }
 
     // user delete
@@ -90,11 +96,9 @@ public class UserController {
     public ResponseEntity<GlobalResponse<User>> deleteUserController(
             @PathVariable("email") String email,
             @RequestBody UserDeleteRequest userDeleteRequest
-    ) throws Exception {
-        // request parameter 검사 로직 수정 요
-        if(!email.equals(userDeleteRequest.getEmail())){
-            throw new Exception("email과 request가 다릅니다.");
-        }
+    ) {
+        new RequestCheck(email).checkString();
+        new RequestCheck(userDeleteRequest).check();
 
         User user = userService.delete(userDeleteRequest);
         return of(SuccessCode.DELETE_OK, user);

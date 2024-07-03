@@ -23,6 +23,16 @@ DB: MongoDB, MySQL, Redis
 
 메세지 큐 : Kafka
 
+## 배포
+
+### 배포 아키텍처 
+![Untitled (9)](https://github.com/connetist/connectist-backend/assets/89409079/dbc2c857-3efc-45d4-b409-9d8dcb3d8a4c)
+
+### 상세 배포과정
+
+![Untitled (10)](https://github.com/connetist/connectist-backend/assets/89409079/1ed58bb6-aab1-41cd-a9e4-0e784e49beda)
+
+
 ## DDD 설계 과정
 
 ### Bounded Context 
@@ -34,4 +44,6 @@ DB: MongoDB, MySQL, Redis
 
 ### Aggregate Map 
 
-<img src="https://github.com/connetist/connectist-backend/assets/89409079/5881b181-421a-4456-beac-8834eba620e9"  width="800" height="700"/>
+<img src="https://github.com/connetist/connectist-backend/assets/89409079/b721821b-94de-442d-9cab-492abb86d26e"  width="700" height="700"/>
+
+

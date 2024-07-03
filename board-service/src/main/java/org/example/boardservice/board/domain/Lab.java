@@ -1,5 +1,6 @@
 package org.example.boardservice.board.domain;
 
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.OneToMany;
 import lombok.Builder;
