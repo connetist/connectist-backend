@@ -4,12 +4,19 @@ permissions: write-all
 
 on:
   push:
+    branches:
+      - main
+    paths:
+      - 'chat-service/**'
 
 jobs:
-  CI-CD:
-    runs-on: ubuntu-latest
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-
+    if: "!contains(github.event.head_commit.message, 'Update Docker image')"
+    outputs:
+      TAG: ${{ steps.extract_tag.outputs.TAG }}
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -28,77 +35,45 @@ jobs:
           cd chat-service
           ./gradlew clean build
 
-      - name: Run tests
-        run: |
-          cd chat-service
-          ./gradlew test
-        shell: bash
-
-      - name: Generate JaCoCo report
-        run: |
-          cd chat-service
-          ./gradlew jacocoTestReport
-        shell: bash
-
-      - name: Verify JaCoCo report generation
-        run: |
-          echo "Listing report directory"
-          ls -la chat-service/build/reports/jacoco/test
-          echo "Listing HTML report directory"
-          ls -la chat-service/build/jacocoHtml
-        shell: bash
-
-      - name: Upload JaCoCo XML report to GitHub
-        uses: actions/upload-artifact@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
         with:
-          name: jacoco-report
-          path: chat-service/build/reports/jacoco/test/jacocoTestReport.xml
+          platforms: all
 
-      - name: Upload JaCoCo HTML report to GitHub
-        uses: actions/upload-artifact@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
         with:
-          name: jacoco-html-report
-          path: chat-service/build/jacocoHtml/
-
-      - name: Jacoco Report to PR
-        id: jacoco
-        uses: madrapps/jacoco-report@v1.6.1
-        with:
-          paths: chat-service/build/reports/jacoco/test/jacocoTestReport.xml
-          token: ${{ secrets.GITHUB_TOKEN }}
-          min-coverage-overall: 0
-          min-coverage-changed-files: 0
-          title: "⭐️Code Coverage"
-          update-comment: true
-          debug-mode: true
-      - name: Get the Coverage info
-        run: |
-          echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
-          echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
-
-#      - name: Upload coverage reports to Codecov
-#        uses: codecov/codecov-action@v4.0.1
-#        with:
-#          token: ${{ secrets.CODECOV_TOKEN }}
-#          file: ./chat-service/build/reports/jacoco/test/jacocoTestReport.xml
-
+          install: true
 
       - name: Docker build & push to prod
+        id: extract_tag
         run: |
           cd chat-service 
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/docker-test-prod .
-          docker push ${{ secrets.DOCKER_USERNAME }}/docker-test-prod
+          TAG=${{ github.sha }}
+          docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/chat-service:$TAG --push .
+          echo "Extracted tag is $TAG"
+          echo "TAG=$TAG" >> $GITHUB_ENV
+          echo "TAG=$TAG" >> $GITHUB_OUTPUT
 
-#      - name: Deploy to prod
-#        uses: appleboy/ssh-action@master
-#        with:
-#          host: ${{ secrets.HOST_PROD }}
-#          username: ec2-user
-#          key: ${{ secrets.PRIVATE_KEY }}
-#          port: 22
-#          script: |
-#            sudo docker ps
-#            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/docker-test-prod
-#            sudo docker run -d -p 9001:9001 ${{ secrets.DOCKER_USERNAME }}/docker-test-prod
-#            sudo docker image prune -f
+  update-manifest:
+    name : Update Kubernetes Manifest
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ needs.build.outputs.TAG}}
+    steps:
+      - name: Check-out code
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GT_TOKEN }}
+      - name: Update Kubernetes manifest
+        run: sed -i "s|${{ secrets.DOCKER_USERNAME }}/chat-service:[^ ]*|${{ secrets.DOCKER_USERNAME }}/chat-service:${{ env.TAG }}|" k8s/deployment.yaml
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config credential.helper store
+          git add k8s/chat-service/deployment.yaml
+          git commit -m "Update Docker image to ${{ env.TAG }}"
+          git push
