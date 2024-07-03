@@ -54,6 +54,8 @@ public class LabDomainTest {
                 .stars(stars)
                 .build();
 //        Star newStar = new Star("testStarId2", "testUserId2", 1);
+
+//
         lab.addStar("testStarId","testUserId", 1);
         assertThat(lab.getLabId()).isEqualTo("testId");
         assertThat(lab.getSchool()).isEqualTo("DGIST");
