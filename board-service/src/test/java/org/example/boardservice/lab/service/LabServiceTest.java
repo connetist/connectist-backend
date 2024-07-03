@@ -51,7 +51,7 @@ public class LabServiceTest {
                 .build();
         labRepository.save(lab);
     }
-//
+////
     @Test
     void 연구실_아이디로_특정_연구실_조회(){
         Lab lab = labService.findById("testId");
