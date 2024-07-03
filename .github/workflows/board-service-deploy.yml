@@ -6,13 +6,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'board-service/**'
-  pull_request:
-    branches:
-      - main
-    paths:
-      - 'board-service/**'
 
 jobs:
   build:
