@@ -1,0 +1,78 @@
+name: board-service-deploy
+
+permissions: write-all
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'board-service/**'
+
+jobs:
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    outputs:
+      TAG: ${{ steps.extract_tag.outputs.TAG }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x board-service/gradlew
+        shell: bash
+
+      - name: Build with Gradle
+        run: |
+          cd board-service
+          ./gradlew clean build
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: all
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        with:
+          install: true
+
+      - name: Docker build & push to prod
+        id: extract_tag
+        run: |
+          cd board-service 
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          TAG=${{ github.sha }}
+          docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/board-service:$TAG --push .
+          echo "Extracted tag is $TAG"
+          echo "TAG=$TAG" >> $GITHUB_ENV
+          echo "TAG=$TAG" >> $GITHUB_OUTPUT
+
+  update-manifest:
+    name : Update Kubernetes Manifest
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ needs.build.outputs.TAG}}
+    steps:
+      - name: Check-out code
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GT_TOKEN }}
+      - name: Update Kubernetes manifest
+        run: sed -i "s|${{ secrets.DOCKER_USERNAME }}/board-service:[^ ]*|${{ secrets.DOCKER_USERNAME }}/board-service:${{ env.TAG }}|" k8s/deployment.yaml
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config credential.helper store
+          git add k8s/board-service/deployment.yaml
+          git commit -m "Update Docker image to ${{ env.TAG }}"
+          git push

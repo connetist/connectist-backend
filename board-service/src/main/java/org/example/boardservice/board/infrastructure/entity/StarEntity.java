@@ -41,4 +41,5 @@ public class StarEntity {
                 .build();
 
     }
+
 }

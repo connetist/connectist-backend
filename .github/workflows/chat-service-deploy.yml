@@ -90,15 +90,15 @@ jobs:
           docker build -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/docker-test-prod .
           docker push ${{ secrets.DOCKER_USERNAME }}/docker-test-prod
 
-      - name: Deploy to prod
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST_PROD }}
-          username: ec2-user
-          key: ${{ secrets.PRIVATE_KEY }}
-          port: 22
-          script: |
-            sudo docker ps
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/docker-test-prod
-            sudo docker run -d -p 9001:9001 ${{ secrets.DOCKER_USERNAME }}/docker-test-prod
-            sudo docker image prune -f
+#      - name: Deploy to prod
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.HOST_PROD }}
+#          username: ec2-user
+#          key: ${{ secrets.PRIVATE_KEY }}
+#          port: 22
+#          script: |
+#            sudo docker ps
+#            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/docker-test-prod
+#            sudo docker run -d -p 9001:9001 ${{ secrets.DOCKER_USERNAME }}/docker-test-prod
+#            sudo docker image prune -f
