@@ -78,9 +78,11 @@ jobs:
       - name: Commit and push changes
         run: |
           git config --global user.name "github-actions[bot]"
-          git config --global  user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config credential.helper store
           git add k8s/board-service/deployment.yaml
           git commit -m "Update Docker image to ${{ env.TAG }}"
-          git push origin main --force 
+          git branch update-manifest-${{ github.sha }}
+          git checkout update-manifest-${{ github.sha }}
+          git push origin update-manifest-${{ github.sha }}
           
