@@ -74,7 +74,7 @@ jobs:
           token: ${{ secrets.GT_TOKEN }}
       - name: Update Kubernetes manifest
         run: |
-          sed -i s|${{ secrets.DOCKER_USERNAME }}/board-service:[^ ]*|${{ secrets.DOCKER_USERNAME }}/board-service:${{ env.TAG }}|" k8s/board-service/deployment.yaml
+          sed -i "s|${{ secrets.DOCKER_USERNAME }}/board-service:[^ ]*|${{ secrets.DOCKER_USERNAME }}/board-service:${{ env.TAG }}|" k8s/board-service/deployment.yaml
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
