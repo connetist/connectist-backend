@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: board-service
-          image: kevin0459/board-service:latest
+          image: kevin0459/board-service:830b410fa8160d4bc4e1578e54cf1cc3740e92a0
           ports:
             - containerPort: 8001
