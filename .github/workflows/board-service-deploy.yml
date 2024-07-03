@@ -87,5 +87,7 @@ jobs:
           git checkout -b cd-test
           git add k8s/board-service/deployment.yaml
           git commit -m "Update Docker image to ${{ env.TAG }}"
-          git push -u origin cd-test:main
+          git checkout -b main
+          git merge cd-test
+          git push origin main 
           
