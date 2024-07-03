@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.example.boardservice.board.domain.Board;
 import org.example.boardservice.board.domain.Comment;
 import org.example.boardservice.board.domain.Like;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.List;
 
@@ -27,6 +28,10 @@ public class BoardEntity {
     private long createdAt;
     private long deletedAt;
 
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @BatchSize(size = 100)
+    private List<LikeEntity> likeEntityList;
+
     public static BoardEntity from(Board board){
 
         BoardEntity boardEntity = new BoardEntity();
@@ -37,6 +42,7 @@ public class BoardEntity {
         boardEntity.deleted = board.isDeleted();
         boardEntity.createdAt = board.getDeletedAt();
         boardEntity.deletedAt = board.getDeletedAt();
+//        boardEntity.likeEntityList = board.
         return boardEntity;
     }
 

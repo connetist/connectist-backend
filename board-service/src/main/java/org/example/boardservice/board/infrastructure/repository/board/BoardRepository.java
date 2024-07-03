@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface BoardRepository {
 
-    List<Board> findAll(int offset, int limit);
-
+    Board save(Board board);
+    List<Board> findAllByLabId(String labId);
+    Board findByBoardId(String boardId);
+    Board deleteBoardById(String boardId);
 }

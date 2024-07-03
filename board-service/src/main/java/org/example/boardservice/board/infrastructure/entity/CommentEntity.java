@@ -2,12 +2,14 @@ package org.example.boardservice.board.infrastructure.entity;
 
 
 import jakarta.persistence.*;
+import jakarta.websocket.OnError;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.boardservice.board.domain.Comment;
 import org.example.boardservice.board.domain.Recomment;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.List;
 
@@ -27,6 +29,14 @@ public class CommentEntity {
     private long deletedAt;
 
 
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @BatchSize(size = 100)
+    private List<RecommentEntity> recommentEntityList;
+
+
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @BatchSize(size = 100)
+    private List<LikeEntity> likeEntityList;
 
     public CommentEntity() {
 

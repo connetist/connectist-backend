@@ -1,6 +1,5 @@
 
 
-
 -- 기존 테이블 삭제
 DROP TABLE IF EXISTS likes;
 DROP TABLE IF EXISTS recomments;
@@ -11,7 +10,6 @@ DROP TABLE IF EXISTS labs;
 
 
 -- 테이블 생성
-
 CREATE TABLE labs (
                       lab_id VARCHAR(255) PRIMARY KEY,
                       school VARCHAR(255),
