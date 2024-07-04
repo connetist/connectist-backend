@@ -14,10 +14,8 @@ test {
 	finalizedBy jacocoTestReport  // 테스트가 끝난 후 jacocoTestReport를 실행합니다.
 }
 
-tasks.create(name: "testCoverage", type: JacocoReport, dependsOn: "test") {
-	group = "Reporting"
-	description = "Generate Jacoco coverage reports for the test build."
-
+jacocoTestReport {
+	dependsOn test // 테스트 후에 리포트 생성
 	reports {
 		xml.required.set(true)
 		html.required.set(true)
@@ -25,24 +23,12 @@ tasks.create(name: "testCoverage", type: JacocoReport, dependsOn: "test") {
 		html.outputLocation.set(layout.buildDirectory.dir('jacocoHtml'))
 	}
 
-	def excludes = [
-			'**/*Test*.*',
-			'**/actions/*.*',
-			'**/core/*.*',
-			'**/markers/*.*',
-			'**/services/**/*.*',
-			'**/toolwindow/*.*',
-			'**/utils/*.*'
-	]
-
-	def javaClasses = fileTree(dir: "${buildDir}/classes/java/main", excludes: excludes)
-	classDirectories.from = files([javaClasses])
-
 	sourceDirectories.from = files([
-			"$project.projectDir/src/main/java"
+	        "$project.projectDir/src/main/java",
 	])
+//	executionData.from = files("${project.projectDir}/jacoco/test.exec")
 
-	executionData.from = files("${project.buildDir}/jacoco/test.exec")
+	executionData(fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec"))
 }
 
 group = 'org.example'
