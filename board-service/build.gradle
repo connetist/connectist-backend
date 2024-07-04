@@ -2,6 +2,33 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.1'
 	id 'io.spring.dependency-management' version '1.1.5'
+	id 'jacoco'
+}
+
+jacoco {
+	toolVersion = "0.8.8" // Jacoco 플러그인 버전 명시
+}
+
+test {
+	useJUnitPlatform()
+	finalizedBy jacocoTestReport  // 테스트가 끝난 후 jacocoTestReport를 실행합니다.
+}
+
+jacocoTestReport {
+	dependsOn test // 테스트 후에 리포트 생성
+	reports {
+		xml.required.set(true)
+		html.required.set(true)
+		csv.required.set(false)
+		html.outputLocation.set(layout.buildDirectory.dir('jacocoHtml'))
+	}
+
+	sourceDirectories.from = files([
+	        "$project.projectDir/src/main/java",
+	])
+//	executionData.from = files("${project.projectDir}/jacoco/test.exec")
+
+	executionData(fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec"))
 }
 
 group = 'org.example'
@@ -32,10 +59,7 @@ dependencies {
 	testAnnotationProcessor 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.mysql:mysql-connector-j'
-	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
 }
 
 tasks.named('test') {
