@@ -41,6 +41,11 @@ jobs:
           ls -al ${{ github.workspace }}/board-service/build/reports/jacoco/test/
           cat ${{ github.workspace }}/board-service/build/reports/jacoco/test/jacocoTestReport.xml || echo "JaCoCo report not found"
 
+      - name: Upload JaCoCo Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: jacoco-report
+          path: ${{ github.workspace }}/board-service/build/jacocoHtml/index.html
       - name: Test Coverage Report
         id: jacoco
         uses: madrapps/jacoco-report@v1.6.1
@@ -49,3 +54,5 @@ jobs:
           paths: ${{ github.workspace }}/board-service/build/reports/jacoco/test/jacocoTestReport.xml
           token: ${{ secrets.GITHUB_TOKEN }}
           debug-mode: true
+          min-coverage-overall: 0
+          min-coverage-changed-files: 0

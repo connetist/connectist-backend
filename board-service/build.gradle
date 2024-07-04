@@ -14,7 +14,6 @@ test {
 	finalizedBy jacocoTestReport  // 테스트가 끝난 후 jacocoTestReport를 실행합니다.
 }
 
-
 jacocoTestReport {
 	dependsOn test // 테스트 후에 리포트 생성
 	reports {
@@ -23,10 +22,8 @@ jacocoTestReport {
 		csv.required.set(false)
 		html.outputLocation.set(layout.buildDirectory.dir('jacocoHtml'))
 	}
-	// 실행 데이터 경로 설정 예시
 	executionData(fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec"))
 }
-
 
 group = 'org.example'
 version = '0.0.1-SNAPSHOT'
@@ -56,10 +53,7 @@ dependencies {
 	testAnnotationProcessor 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.mysql:mysql-connector-j'
-	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
 }
 
 tasks.named('test') {
