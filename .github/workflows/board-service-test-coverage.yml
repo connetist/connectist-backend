@@ -53,7 +53,7 @@ jobs:
           title: Test Coverage Report
           paths: |
             ${{ github.workspace }}/board-service/build/reports/jacoco/test/jacocoTestReport.xml
-            ${{ github.workspace }}/board-service/build/reports/jacoco/test/jacocoTestReport.xml
+            ${{ github.workspace }}/board-service/build/reports/jacoco/testCoverage/testCoverage.xml
           token: ${{ secrets.GITHUB_TOKEN }}
           debug-mode: true
           min-coverage-overall: 0
