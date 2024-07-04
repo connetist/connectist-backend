@@ -2,7 +2,31 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.1'
 	id 'io.spring.dependency-management' version '1.1.5'
+	id 'jacoco'
 }
+
+jacoco {
+	toolVersion = "0.8.8" // Jacoco 플러그인 버전 명시
+}
+
+test {
+	useJUnitPlatform()
+	finalizedBy jacocoTestReport  // 테스트가 끝난 후 jacocoTestReport를 실행합니다.
+}
+
+
+jacocoTestReport {
+	dependsOn test // 테스트 후에 리포트 생성
+	reports {
+		xml.required.set(true)
+		html.required.set(true)
+		csv.required.set(false)
+		html.outputLocation.set(layout.buildDirectory.dir('jacocoHtml'))
+	}
+	// 실행 데이터 경로 설정 예시
+	executionData(fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec"))
+}
+
 
 group = 'org.example'
 version = '0.0.1-SNAPSHOT'
