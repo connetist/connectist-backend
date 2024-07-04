@@ -36,6 +36,11 @@ jobs:
           cd board-service
           ./gradlew --info test
 
+      - name: Print JaCoCo report path
+        run: |
+          ls -al ${{ github.workspace }}/board-service/build/reports/jacoco/test/
+          cat ${{ github.workspace }}/board-service/build/reports/jacoco/test/jacocoTestReport.xml || echo "JaCoCo report not found"
+
       - name: Test Coverage Report
         id: jacoco
         uses: madrapps/jacoco-report@v1.6
