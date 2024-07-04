@@ -11,4 +11,8 @@ public interface BoardService {
     BoardResponse getBoardById(String boardId);
     Board createBoard(String userId, String labId, String contents);
     Board deleteBoard(String boardId);
+
+    Board addLikeBoard(String boardId, String userId);
+    Board removeLikeBoard(String boardId, String userId);
+
 }

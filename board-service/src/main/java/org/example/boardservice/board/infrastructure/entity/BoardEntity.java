@@ -1,23 +1,20 @@
 package org.example.boardservice.board.infrastructure.entity;
 
-
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.boardservice.board.domain.Board;
-import org.example.boardservice.board.domain.Comment;
-import org.example.boardservice.board.domain.Like;
 import org.hibernate.annotations.BatchSize;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "boards")
 @Getter
 @Setter
 public class BoardEntity {
+
     @Id
     @Column(name = "board_id")
     private String id;
@@ -28,7 +25,7 @@ public class BoardEntity {
     private long createdAt;
     private long deletedAt;
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @BatchSize(size = 100)
     private List<LikeEntity> likeEntityList;
 
@@ -40,9 +37,10 @@ public class BoardEntity {
         boardEntity.labId = board.getLabId();
         boardEntity.contents = board.getContents();
         boardEntity.deleted = board.isDeleted();
-        boardEntity.createdAt = board.getDeletedAt();
+        boardEntity.createdAt = board.getCreatedAt();
         boardEntity.deletedAt = board.getDeletedAt();
-//        boardEntity.likeEntityList = board.
+        boardEntity.likeEntityList = board.getLikeList().stream().map(
+                        like -> LikeEntity.of(like, boardEntity)).collect(Collectors.toList());
         return boardEntity;
     }
 
@@ -55,7 +53,10 @@ public class BoardEntity {
                 .deleted(deleted)
                 .createdAt(createdAt)
                 .deletedAt(deletedAt)
+                .likeList(likeEntityList.stream()
+                        .map(LikeEntity::toModel)
+                        .collect(Collectors.toList())
+                )
                 .build();
     }
-
 }

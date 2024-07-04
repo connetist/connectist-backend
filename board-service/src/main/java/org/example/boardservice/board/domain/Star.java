@@ -3,12 +3,6 @@ package org.example.boardservice.board.domain;
 import lombok.Builder;
 import lombok.Getter;
 
-
-import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-
 @Getter
 public class Star {
     private String id;

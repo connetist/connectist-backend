@@ -1,6 +1,9 @@
 package org.example.boardservice.board.infrastructure.repository.board;
 
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
 import lombok.RequiredArgsConstructor;
 import org.example.boardservice.board.domain.Board;
 import org.example.boardservice.board.infrastructure.entity.BoardEntity;
@@ -15,13 +18,14 @@ import java.util.stream.Collectors;
 public class BoardRepositoryImpl implements BoardRepository{
 
     private final BoardJpaRepository boardJpaRepository;
-
+    private final EntityManagerFactory entityManagerFactory;
 
     @Transactional
     @Override
     public Board save(Board board) {
         return boardJpaRepository.save(BoardEntity.from(board)).toModel();
     }
+
     @Transactional
     @Override
     public List<Board> findAllByLabId(String labId) {
@@ -42,6 +46,7 @@ public class BoardRepositoryImpl implements BoardRepository{
     public Board deleteBoardById(String boardId){
         return boardJpaRepository.deleteBoardById(boardId).toModel();
     }
+
 
 
 }

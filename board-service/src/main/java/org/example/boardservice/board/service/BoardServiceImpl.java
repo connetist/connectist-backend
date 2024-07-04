@@ -11,6 +11,7 @@ import org.example.boardservice.board.infrastructure.repository.comment.CommentR
 import org.example.boardservice.utils.ClockHolder;
 import org.example.boardservice.utils.UuidHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class BoardServiceImpl implements BoardService{
         this.clockHolder = clockHolder;
     }
 
+    @Transactional
     @Override
     public List<Board> getAllByLabId(String labId) {
         List<Board> boards = boardRepository.findAllByLabId(labId);
@@ -46,13 +48,27 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public Board createBoard(String userId, String labId, String contents){
-        Board board = Board.CreateBoard(userId,labId,contents,uuidHolder,clockHolder);
-        return board;
+        Board board = Board.createBoard(userId,labId,contents,uuidHolder,clockHolder);
+        return boardRepository.save(board);
     }
 
     @Override
     public Board deleteBoard(String boardId){
-        Board board=  boardRepository.findByBoardId(boardId);
-        return board;
+        return boardRepository.deleteBoardById(boardId);
     }
+
+    @Override
+    public Board addLikeBoard(String boardId, String userId) {
+        Board board = boardRepository.findByBoardId(boardId);
+        board.addLike(userId, boardId, uuidHolder, clockHolder);
+        return boardRepository.save(board);
+    }
+
+    @Override
+    public Board removeLikeBoard(String boardId, String userId) {
+        Board board = boardRepository.findByBoardId(boardId);
+        board.removeLike(userId);
+        return boardRepository.save(board);
+    }
+
 }
