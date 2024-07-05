@@ -10,4 +10,5 @@ public interface BoardRepository {
     List<Board> findAllByLabId(String labId);
     Board findByBoardId(String boardId);
     Board deleteBoardById(String boardId);
+
 }

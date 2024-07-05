@@ -28,7 +28,7 @@ public class LabController {
     public LabController(LabService labService) {
         this.labService = labService;
     }
-    //TODO : 특정 학교 전체 연구실 조회
+    // 특정 학교 전체 연구실 조회
 
     @GetMapping("/labs/{school}/{major}")
     public ResponseEntity<RestResponse<List<Lab>>> getAllLab(@PathVariable String school, @PathVariable String major) {
@@ -38,7 +38,7 @@ public class LabController {
     }
 
 
-    //TODO: 특정 연구실 조회
+    // 특정 연구실 조회
     @GetMapping("/lab/{labId}")
     public ResponseEntity<RestResponse<Lab>> getLab(@PathVariable String labId) {
         Lab lab = labService.findById(labId);
@@ -47,16 +47,14 @@ public class LabController {
     }
 
 
-    // TODO: 연구실 평점 매기기
-
+    // 연구실 평점 매기기
     @PostMapping("/lab/star")
     public ResponseEntity<RestResponse<Lab>> addStar(@RequestBody LabAddStarRequest rq) {
         Lab lab = labService.addStar(rq);
         RestResponse<Lab> response = RestResponse.success(lab);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
-    // TODO: 연구실 평점 지우기
-
+    // 연구실 평점 지우기
     @DeleteMapping("/lab/star")
     public ResponseEntity<RestResponse<Lab>> removeStar(@RequestBody LabRemoveStarRequest rq) {
         Lab lab = labService.removeStar(rq);
@@ -64,8 +62,7 @@ public class LabController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    // TODO: 연구실 평점 변경
-
+    // 연구실 평점 변경
     @PatchMapping("/lab/star")
     public ResponseEntity<RestResponse<Lab>> updateStar(@RequestBody LabUpdateStarRequest rq) {
         Lab lab = labService.updateStar(rq);

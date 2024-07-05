@@ -26,15 +26,15 @@ public class RecommentEntity {
     @JoinColumn(name = "comment_id")
     private CommentEntity comment;
 
-    public static RecommentEntity from(Recomment recomment) {
+    public static RecommentEntity from(Recomment recomment, CommentEntity commentEntity) {
         RecommentEntity recommentEntity = new RecommentEntity();
         recommentEntity.id = recomment.getId();
-//        recommentEntity.commentId = recomment.getCommentId();
         recommentEntity.userId = recomment.getUserId();
         recommentEntity.contents = recomment.getContents();
         recommentEntity.deleted = recomment.isDeleted();
         recommentEntity.createdAt = recomment.getCreatedAt();
         recommentEntity.deletedAt = recomment.getDeletedAt();
+        recommentEntity.comment = commentEntity;
         return recommentEntity;
     }
 
