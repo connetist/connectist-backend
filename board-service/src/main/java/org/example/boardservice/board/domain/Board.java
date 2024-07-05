@@ -21,9 +21,9 @@ public class Board {
     private final String labId;
     private final String userId;
     private final String contents;
-    private final boolean deleted;
+    private boolean deleted;
     private final long createdAt;
-    private final long deletedAt;
+    private long deletedAt;
     private List<Like> likeList;
 
 
@@ -58,7 +58,7 @@ public class Board {
     public void addLike(String userId, String postId, UuidHolder uuidHolder, ClockHolder clockHolder) {
         log.info(this.getLikeList().iterator().toString());
         for(Like like : likeList) {
-            if (like.getId().equals(userId)) {
+            if (like.getUserId().equals(userId)) {
                 throw new GlobalException(ResultCode.USER_STAR_ALREADY_EXISTS);
             }
         }
@@ -72,6 +72,10 @@ public class Board {
         }
     }
 
+    public void deletePost(ClockHolder clockHolder) {
+        this.deletedAt = clockHolder.mills();
+        this.deleted = true;
+    }
 
 
 }

@@ -54,7 +54,9 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public Board deleteBoard(String boardId){
-        return boardRepository.deleteBoardById(boardId);
+        Board board = boardRepository.findByBoardId(boardId);
+        board.deletePost(clockHolder);
+        return boardRepository.save(board);
     }
 
     @Override
