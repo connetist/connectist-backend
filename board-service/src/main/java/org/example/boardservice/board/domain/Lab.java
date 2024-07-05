@@ -1,12 +1,7 @@
 package org.example.boardservice.board.domain;
 
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
-import org.example.boardservice.board.infrastructure.entity.StarEntity;
 import org.example.boardservice.error.GlobalException;
 import org.example.boardservice.error.ResultCode;
 
@@ -52,7 +47,7 @@ public class Lab {
     public void removeStar(String userId){
         if (!stars.removeIf(star->star.getUserId().equals(userId))){
             throw new GlobalException(ResultCode.USER_STAR_NOT_FOUND);
-        };
+        }
     }
 
     public void updateStar(String userId, int starCount){

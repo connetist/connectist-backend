@@ -27,8 +27,6 @@ public class LabRepositoryImpl implements LabRepository {
         return labJpaRepository.save(LabEntity.from(lab)).toModel();
     }
 
-
-
     @Override
     public List<Lab> findAllBySchoolandMajor(String school, String major){
         List<Lab> labs = labJpaRepository.findAllBySchoolAndMajor(school,major).stream().map(LabEntity::toModel).toList();

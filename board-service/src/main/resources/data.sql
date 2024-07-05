@@ -28,8 +28,7 @@ CREATE TABLE boards (
                         contents TEXT,
                         deleted BOOLEAN,
                         created_at BIGINT,
-                        deleted_at BIGINT,
-                        FOREIGN KEY (lab_id) REFERENCES labs(lab_id)
+                        deleted_at BIGINT
 );
 
 CREATE TABLE comments (
@@ -39,8 +38,7 @@ CREATE TABLE comments (
                           contents TEXT,
                           deleted BOOLEAN,
                           created_at BIGINT,
-                          deleted_at BIGINT,
-                          FOREIGN KEY (board_id) REFERENCES boards(board_id)
+                          deleted_at BIGINT
 );
 
 CREATE TABLE recomments (
