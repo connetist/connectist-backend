@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 public class BoardRepositoryImpl implements BoardRepository{
 
     private final BoardJpaRepository boardJpaRepository;
-    private final EntityManagerFactory entityManagerFactory;
 
     @Transactional
     @Override

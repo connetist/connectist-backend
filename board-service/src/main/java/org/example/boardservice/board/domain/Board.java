@@ -62,7 +62,7 @@ public class Board {
                 throw new GlobalException(ResultCode.USER_STAR_ALREADY_EXISTS);
             }
         }
-        Like like = Like.of(postId, userId, uuidHolder, clockHolder);
+        Like like = Like.ofBoard(postId, userId, uuidHolder, clockHolder);
         likeList.add(like);
     }
 

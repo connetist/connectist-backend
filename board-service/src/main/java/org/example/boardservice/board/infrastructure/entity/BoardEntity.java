@@ -40,7 +40,7 @@ public class BoardEntity {
         boardEntity.createdAt = board.getCreatedAt();
         boardEntity.deletedAt = board.getDeletedAt();
         boardEntity.likeEntityList = board.getLikeList().stream().map(
-                        like -> LikeEntity.of(like, boardEntity)).collect(Collectors.toList());
+                        like -> LikeEntity.ofBoardEntity(like, boardEntity)).collect(Collectors.toList());
         return boardEntity;
     }
 

@@ -2,9 +2,9 @@ package org.example.boardservice.board.domain;
 
 import lombok.Builder;
 import lombok.Getter;
-
-
-import java.util.List;
+import org.example.boardservice.board.dto.request.comment.CommentRequest;
+import org.example.boardservice.utils.ClockHolder;
+import org.example.boardservice.utils.UuidHolder;
 
 @Getter
 public class Recomment {
@@ -27,4 +27,21 @@ public class Recomment {
         this.deletedAt = deletedAt;
     }
 
+
+    public static Recomment of(CommentRequest commentRequest, UuidHolder uuidHolder, ClockHolder clockHolder) {
+        return Recomment.builder()
+                .id(uuidHolder.random())
+                .commentId(commentRequest.getCommentId())
+                .userId(uuidHolder.random())
+                .contents(commentRequest.getContents())
+                .deleted(false)
+                .createdAt(clockHolder.mills())
+                .deletedAt(0)
+                .build();
+    }
+
+    public void deleteRecomment(ClockHolder clockHolder) {
+        this.deleted = true;
+        this.deletedAt = clockHolder.mills();
+    }
 }

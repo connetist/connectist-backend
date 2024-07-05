@@ -1,6 +1,7 @@
 package org.example.boardservice.board.domain;
 
 
+
 import lombok.Builder;
 import lombok.Getter;
 import org.example.boardservice.utils.ClockHolder;
@@ -23,12 +24,21 @@ public class Like {
         this.createdAt = createdAt;
     }
 
-    public static Like of(String boardId, String userId, UuidHolder uuidHolder, ClockHolder clockHolder) {
+    public static Like ofBoard(String boardId, String userId, UuidHolder uuidHolder, ClockHolder clockHolder) {
         return Like.builder()
                 .boardId(boardId)
                 .userId(userId)
                 .createdAt(clockHolder.mills())
                 .id(uuidHolder.random())
+                .build();
+    }
+
+    public static Like ofComment(String commentId, String userId, UuidHolder uuidHolder, ClockHolder clockHolder) {
+        return Like.builder()
+                .commentId(commentId)
+                .userId(userId)
+                .id(uuidHolder.random())
+                .createdAt(clockHolder.mills())
                 .build();
     }
 }
