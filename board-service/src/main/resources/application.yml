@@ -3,6 +3,11 @@ server:
 spring:
   application:
     name: board-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/connectist-db
+    username: root
+    driver-class-name: com.mysql.jdbc.Driver
+    password: "kevin0459"
   jpa:
     hibernate:
       ddl-auto: create-drop
