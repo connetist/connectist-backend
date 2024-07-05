@@ -34,7 +34,7 @@ public class BoardController {
     }
 
     // 연구실 특정 게시글 조회 (댓글, 대댓글, 게시글 동시에 보여주기)
-    @GetMapping("/posts/{postId}")
+    @GetMapping("/post/{postId}")
     public ResponseEntity<RestResponse<BoardResponse>> getCertainLabPost(
             @PathVariable String postId
     ) {
@@ -43,7 +43,7 @@ public class BoardController {
     }
 
     // 게시글 생성
-    @PostMapping("/posts")
+    @PostMapping("/post")
     public ResponseEntity<RestResponse<Board>> createPost(
             @RequestBody BoardRequest boardRequest
     ) {
@@ -63,7 +63,7 @@ public class BoardController {
     }
 
     // 게시글을 좋아요 누르기
-    @PostMapping("/posts/{postId}/add")
+    @PostMapping("/post/{postId}/like/add")
     public ResponseEntity<RestResponse<Board>> addLikePost(
             @PathVariable String postId,
             @RequestBody BoardLikeRequest boardLikeRequest
@@ -74,7 +74,7 @@ public class BoardController {
     }
 
     // 게시글 좋아요 지우기
-    @PostMapping("/posts/{postId}/delete")
+    @PostMapping("/post/{postId}/like/delete")
     public ResponseEntity<RestResponse<Board>> deleteLikePost(
             @PathVariable String postId,
             @RequestBody BoardLikeRequest boardLikeRequest

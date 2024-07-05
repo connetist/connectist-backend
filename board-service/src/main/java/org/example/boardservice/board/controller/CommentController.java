@@ -21,7 +21,7 @@ public class CommentController {
     private final CommentService commentService;
 
     // 댓글 생성
-    @PostMapping("/comments")
+    @PostMapping("/comment")
     public ResponseEntity<RestResponse<BoardResponse>> createComment(
             @RequestBody CommentRequest commentRequest
     ) {
@@ -30,7 +30,7 @@ public class CommentController {
     }
 
     // 댓글 삭제
-    @DeleteMapping("/comments")
+    @DeleteMapping("/comment")
     public ResponseEntity<RestResponse<BoardResponse>> deleteComment(
             @RequestBody CommentDeleteRequest commentDeleteRequest
     ) {
@@ -39,7 +39,7 @@ public class CommentController {
     }
 
     // 대댓글 생성
-    @PostMapping("/comments/re")
+    @PostMapping("/comment/re")
     public ResponseEntity<RestResponse<BoardResponse>> createRecomment(
             @RequestBody CommentRequest commentRequest
     ) {
@@ -48,7 +48,7 @@ public class CommentController {
     }
 
     // 대댓글 삭제
-    @DeleteMapping("/comments/re")
+    @DeleteMapping("/comment/re")
     public ResponseEntity<RestResponse<BoardResponse>> deleteRecomment(
             @RequestBody CommentDeleteRequest commentDeleteRequest
     ) {
@@ -58,7 +58,7 @@ public class CommentController {
 
 
     // 댓글 좋아요 누르기
-    @PostMapping("/comments/like/add")
+    @PostMapping("/comment/like/add")
     public ResponseEntity<RestResponse<BoardResponse>> addLikeComment(
             @RequestBody CommentLikeRequest commentLikeRequest
     ) {
@@ -67,7 +67,7 @@ public class CommentController {
     }
 
     //  댓글 좋아요 지우기
-    @PostMapping("/comments/like/remove")
+    @PostMapping("/comment/like/remove")
     public ResponseEntity<RestResponse<BoardResponse>> removeLikeComment(
             @RequestBody CommentLikeRequest commentLikeRequest
     ) {
