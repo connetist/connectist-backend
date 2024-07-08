@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 
 public enum ResultCode {
     SUCCESS(200, "Success"),
+    INVALID_REQUEST(400, "Invalid Request"),
     USER_STAR_ALREADY_EXISTS(400, "User already exists"),
     USER_STAR_NOT_FOUND(400, "User does not exist"),
     UNAUTHROIZED(401, "해당 작업을 수행할 권한이 없습니다"),

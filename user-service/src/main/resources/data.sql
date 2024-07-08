@@ -15,5 +15,3 @@ CREATE TABLE users (
                        created_at BIGINT NOT NULL
 );
 
-INSERT INTO users (id, pw, email, school, degree, sex, major, status, nickname, created_at)
-VALUES ('admin', 'admin', 'admin@admin.com', 'GIST', 'Bachelor', 'MALE', 'AI', 'ADMIN', 'admin', UNIX_TIMESTAMP());

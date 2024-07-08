@@ -17,4 +17,6 @@ spring:
   sql:
     init:
       mode: always
+  profiles:
+    active: local
 

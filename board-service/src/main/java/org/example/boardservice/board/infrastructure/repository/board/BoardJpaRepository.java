@@ -1,17 +1,18 @@
 package org.example.boardservice.board.infrastructure.repository.board;
 
 
-import org.example.boardservice.board.domain.Board;
 import org.example.boardservice.board.infrastructure.entity.BoardEntity;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.List;
 
 
-public interface BoardJpaRepository extends JpaRepository<BoardEntity,String> {
+public interface BoardJpaRepository extends JpaRepository<BoardEntity,String> , JpaSpecificationExecutor<BoardEntity> {
 
-    List<BoardEntity> findAllByLabId(String labId);
+    @Override
+    List<BoardEntity> findAll(Specification<BoardEntity> spec);
     BoardEntity deleteBoardById(String boardId);
     BoardEntity findBoardById(String boardId);
 }

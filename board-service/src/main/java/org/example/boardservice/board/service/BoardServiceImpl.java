@@ -42,8 +42,7 @@ public class BoardServiceImpl implements BoardService{
     public BoardResponse getBoardById(String boardId) {
         Board board = boardRepository.findByBoardId(boardId);
         List<Comment> commentList = commentReposotiry.findByBoardId(boardId);
-        BoardResponse boardResponse = new BoardResponse(board,commentList);
-        return boardResponse;
+        return new BoardResponse(board,commentList);
     }
 
     @Override
@@ -54,8 +53,10 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public Board deleteBoard(String boardId){
+        log.info("Deleting board with id {}", boardId);
         Board board = boardRepository.findByBoardId(boardId);
         board.deletePost(clockHolder);
+        log.info(board.toString());
         return boardRepository.save(board);
     }
 
