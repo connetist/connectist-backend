@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: board-service
-          image: kevin0459/chat-service:latest
+          image: kevin0459/chat-service:6050ac3bc6a3a606df7bf854cd2935e69d319565
           ports:
             - containerPort: 8002
