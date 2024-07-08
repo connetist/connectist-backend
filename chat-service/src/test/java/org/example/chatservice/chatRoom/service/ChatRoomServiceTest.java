@@ -9,22 +9,19 @@ import org.example.chatservice.chatRoom.dto.Request.UpdateChatRoomRequest;
 import org.example.chatservice.chatRoom.infrastructure.repository.ChatRoomRepository;
 import org.example.chatservice.mock.FakeChatRoomRepository;
 import org.example.chatservice.error.GlobalException;
+import org.example.chatservice.mock.TestUuidHolder;
 import org.example.chatservice.utils.ClockHolder;
 import org.example.chatservice.utils.ClockHolderImpl;
 import org.example.chatservice.utils.UuidHolder;
-import org.example.chatservice.utils.UuidHolderImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
-import static org.mockito.ArgumentMatchers.any;
+
 
 public class ChatRoomServiceTest {
 
@@ -36,7 +33,8 @@ public class ChatRoomServiceTest {
     @BeforeEach
     void init(){
         chatRoomRepository = new FakeChatRoomRepository();
-        UuidHolder uuidHolder = new UuidHolderImpl();
+//        UuidHolder uuidHolder = new UuidHolderImpl();
+        UuidHolder uuidHolder = new TestUuidHolder("testId");
         ClockHolder clockHolder = new ClockHolderImpl();
         chatRoomService = ChatRoomServiceImpl.builder()
                 .chatRoomRepository(chatRoomRepository)

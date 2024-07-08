@@ -14,4 +14,3 @@ CREATE TABLE users (
                        nickname VARCHAR(255),
                        created_at BIGINT NOT NULL
 );
-

@@ -83,6 +83,7 @@ public class LabServiceTest {
     void 연구실_별점_추가(){
         LabAddStarRequest rq = new LabAddStarRequest("testUserId2", "testId", 10);
         Lab lab = labService.addStar(rq);
+
         assertThat(lab.getLabId()).isEqualTo("testId");
         assertThat(lab.getSchool()).isEqualTo("DGIST");
         assertThat(lab.getMajor()).isEqualTo("EE");
