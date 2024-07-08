@@ -10,12 +10,6 @@ public interface CommentReposotiry {
 
     List<Comment> findByBoardId(String boardId);
 
-//    Comment deleteComment(Comment comment);
-
     List<Comment> saveComment(Comment comment);
-
-//    Comment saveReComment(Comment comment, Recomment recomment);
-
-//    Comment deleteReComment(Comment comment, Recomment recomment);
 
 }
