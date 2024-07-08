@@ -16,4 +16,4 @@ CREATE TABLE users (
 );
 
 INSERT INTO users (id, pw, email, school, degree, sex, major, status, nickname, created_at)
-VALUES ('admin', 'admin', 'admin@admin.com', 'GIST', 'Bachelor', 'MALE', 'AI', 'ADMIN', 'admin', UNIX_TIMESTAMP());
+VALUES ('admin', '$2a$10$UKhVKBN8g701KDnTNDW8kOgVrsvLE44jqfBEYRtHwutPMQIc66Vla', 'admin@admin.com', 'GIST', 'Bachelor', 'MALE', 'AI', 'ADMIN', 'admin', UNIX_TIMESTAMP());

@@ -25,7 +25,8 @@ public class ChatRoom {
     private final long createdAt;
 
     @Builder
-    public ChatRoom(String id, String title, List<ChatMember> chatMembers, ChatMember admin, String deparature, String destination, long timeTaken, long startTime, int fee, long createdAt) {
+    public ChatRoom(String id, String title, List<ChatMember> chatMembers, ChatMember admin,
+                    String deparature, String destination, long timeTaken, long startTime, int fee, long createdAt) {
         this.id = id;
         this.title = title;
         this.chatMembers = chatMembers;

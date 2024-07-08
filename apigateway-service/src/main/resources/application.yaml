@@ -1,5 +1,5 @@
 server:
-  port: 8008
+  port: 9014
 
 eureka:
   client:
@@ -20,14 +20,21 @@ spring:
             preLogger: true
             postLogger: true
       routes:
+        - id: user-login-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/api/users/login
+            - Method=GET,POST
+          filters:
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
             - Path=/user-service/**
-            - Method=GET
+            - Method=GET,POST
           filters:
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
-#            - AuthorizationHeaderFilter
+            - AuthorizationHeaderFilter
 
 token:
   secret: lfnaoiefqwenaksdnflkasfgioqwefiasdlkvandskjurnvqrnfalkdnfuinvienvs

@@ -12,6 +12,4 @@ public class TestClockHolder implements ClockHolder {
     public long mills() {
         return millis;
     }
-
-
 }

@@ -1,6 +1,8 @@
 package org.example.chatservice.chatRoom.domain;
 
 import org.example.chatservice.chatRoom.dto.Request.UpdateChatRoomRequest;
+import org.example.chatservice.mock.TestClockHolder;
+import org.example.chatservice.mock.TestUuidHolder;
 import org.example.chatservice.utils.ClockHolder;
 import org.example.chatservice.utils.ClockHolderImpl;
 import org.example.chatservice.utils.UuidHolder;
@@ -14,8 +16,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class ChatDomainTest {
 
-    private UuidHolder uuidHolder = new UuidHolderImpl();
-    private ClockHolder clockHolder = new ClockHolderImpl();
+    private UuidHolder uuidHolder = new TestUuidHolder("testId");
+    private ClockHolder clockHolder = new TestClockHolder(10000);
 
     @Test
     public void 채팅멤버_도메인_생성(){
