@@ -97,7 +97,6 @@ public class UserServiceImpl implements UserService {
         if (!passwordEncoder.matches(userDeleteRequest.getPassword(), user.getPassword())) {
             throw new GlobalException(ErrorCode.WRONG_USER_PASSWORD);
         }
-
         return userRepository.delete(user);
     }
 
