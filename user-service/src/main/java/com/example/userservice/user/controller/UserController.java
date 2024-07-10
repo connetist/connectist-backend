@@ -103,5 +103,6 @@ public class UserController {
         User user = userService.delete(userDeleteRequest);
         return of(SuccessCode.DELETE_OK, user);
     }
+
 }
 
