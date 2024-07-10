@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -25,11 +26,11 @@ public class CommentRepositoryImpl implements CommentReposotiry {
     public List<Comment> findByBoardId(String boardId) {
         Specification<CommentEntity> spec = Specification
                 .where(CommentSpecs.byBoardId(boardId))
-                .and(CommentSpecs.exceptRecommentDeleted())
                 .and(CommentSpecs.exceptDeleted());
 
-        List<CommentEntity> list = commentJpaRepository.findAll(spec);
-        return list.stream().map(CommentEntity::toModel).toList();
+        List<Comment> comments = commentJpaRepository.findAll(spec).stream().map(CommentEntity::toModel).toList();
+        comments.forEach(Comment::removeDeletedRecomment);
+        return comments;
     }
 
     @Override
@@ -37,19 +38,20 @@ public class CommentRepositoryImpl implements CommentReposotiry {
 
         Specification<CommentEntity> spec =
                 Specification.where(CommentSpecs.byCommentId(id))
-                        .and(CommentSpecs.exceptDeleted())
-                        .and(CommentSpecs.exceptRecommentDeleted());
+                        .and(CommentSpecs.exceptDeleted());
 
-        CommentEntity commentEntity = commentJpaRepository.findAll(spec).stream().findAny()
-                .orElseThrow(() -> new GlobalException(ResultCode.COMMENT_NOT_FOUND));
-        return commentEntity.toModel();
+        Comment comment = commentJpaRepository.findAll(spec).stream().findAny()
+                .orElseThrow(() -> new GlobalException(ResultCode.COMMENT_NOT_FOUND)).toModel();
+        comment.removeDeletedRecomment();
+        return comment;
     }
 
     @Override
     public List<Comment> saveComment(Comment comment) {
         commentJpaRepository.save(CommentEntity.from(comment));
-        List<CommentEntity> allByBoardId = commentJpaRepository.findAllByBoardId(comment.getBoardId());
-        return allByBoardId.stream().map(CommentEntity::toModel).toList();
+        List<Comment> comments = commentJpaRepository.findAllByBoardId(comment.getId()).stream().map(CommentEntity::toModel).toList();
+        comments.forEach(Comment::removeDeletedRecomment);
+        return comments;
     }
 
 

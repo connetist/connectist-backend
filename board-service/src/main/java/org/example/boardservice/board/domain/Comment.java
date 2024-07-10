@@ -64,7 +64,7 @@ public class Comment {
     }
 
     public void addLike(String userId, String commentId, UuidHolder uuidHolder, ClockHolder clockHolder) {
-        log.info(this.toString());
+
         for(Like like : likes) {
             if(like.getUserId().equals(userId)){
                 throw new GlobalException(ResultCode.USER_STAR_ALREADY_EXISTS);
@@ -93,6 +93,10 @@ public class Comment {
             }
         }
         throw new GlobalException(ResultCode.COMMENT_NOT_FOUND);
+    }
+
+    public void removeDeletedRecomment() {
+        this.recomments.removeIf(Recomment::isDeleted);
     }
 
 }
