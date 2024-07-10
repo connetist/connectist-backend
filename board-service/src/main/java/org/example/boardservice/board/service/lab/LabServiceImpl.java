@@ -8,7 +8,8 @@ import org.example.boardservice.board.dto.request.lab.LabAddStarRequest;
 import org.example.boardservice.board.dto.request.lab.LabRemoveStarRequest;
 import org.example.boardservice.board.dto.request.lab.LabUpdateStarRequest;
 import org.example.boardservice.board.infrastructure.repository.lab.LabRepository;
-import org.example.boardservice.utils.UuidHolder;
+
+import org.example.boardservice.utils.uuid.UuidHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

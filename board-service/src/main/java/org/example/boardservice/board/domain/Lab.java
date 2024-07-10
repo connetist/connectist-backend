@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import org.example.boardservice.error.GlobalException;
 import org.example.boardservice.error.ResultCode;
-import org.example.boardservice.utils.UuidHolder;
+import org.example.boardservice.utils.uuid.UuidHolder;
 
 import java.util.List;
 

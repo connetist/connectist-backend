@@ -87,7 +87,7 @@ public class BoardController {
     }
 
     // 게시글 좋아요 지우기
-    @PostMapping("/post/{postId}/like")
+    @DeleteMapping("/post/{postId}/like")
     public ResponseEntity<RestResponse<Board>> deleteLikePost(
             @PathVariable String postId,
             @RequestBody BoardLikeRequest boardLikeRequest

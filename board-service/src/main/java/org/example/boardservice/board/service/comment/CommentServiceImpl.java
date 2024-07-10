@@ -9,10 +9,11 @@ import org.example.boardservice.board.dto.request.comment.CommentRequest;
 import org.example.boardservice.board.dto.response.BoardResponse;
 import org.example.boardservice.board.infrastructure.repository.board.BoardRepository;
 import org.example.boardservice.board.infrastructure.repository.comment.CommentReposotiry;
+import org.example.boardservice.board.service.comment.CommentService;
 import org.example.boardservice.error.GlobalException;
 import org.example.boardservice.error.ResultCode;
-import org.example.boardservice.utils.ClockHolder;
-import org.example.boardservice.utils.UuidHolder;
+import org.example.boardservice.utils.clock.ClockHolder;
+import org.example.boardservice.utils.uuid.UuidHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class CommentServiceImpl implements CommentService{
+public class CommentServiceImpl implements CommentService {
 
     private final CommentReposotiry commentReposotiry;
     private final BoardRepository boardRepository;
