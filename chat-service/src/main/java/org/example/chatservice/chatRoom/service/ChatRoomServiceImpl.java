@@ -70,7 +70,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
         ChatRoom chatRoom = chatRoomRepository.findById(rq.getRoomId()).orElseThrow(()-> new GlobalException(ResultCode.CHAT_ROOM_NOT_FOUND));
 
-        if (!chatRoom.getAdmin().getId().equals(rq.getUserId())){
+        if (!chatRoom.getAdmin().getUserId().equals(rq.getUserId())){
             chatRoomRepository.deleteById(rq.getRoomId());
         }else{
             throw new GlobalException(ResultCode.UNAUTHROIZED);
