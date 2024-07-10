@@ -1,14 +1,12 @@
 package com.example.userservice.user.mock;
 
-import com.example.userservice.user.domain.User;
+import com.example.userservice.user.domain.user.User;
 import com.example.userservice.user.infrastructure.entity.UserEntity;
-import com.example.userservice.user.service.port.UserRepository;
+import com.example.userservice.user.infrastructure.user.UserRepository;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class FakeUserRepository implements UserRepository {
 
