@@ -28,11 +28,11 @@ public class Recomment {
     }
 
 
-    public static Recomment of(CommentRequest commentRequest, UuidHolder uuidHolder, ClockHolder clockHolder) {
+    public static Recomment createRecomment(CommentRequest commentRequest, UuidHolder uuidHolder, ClockHolder clockHolder) {
         return Recomment.builder()
                 .id(uuidHolder.random())
                 .commentId(commentRequest.getCommentId())
-                .userId(uuidHolder.random())
+                .userId(commentRequest.getUserId())
                 .contents(commentRequest.getContents())
                 .deleted(false)
                 .createdAt(clockHolder.mills())

@@ -49,7 +49,7 @@ public class CommentRepositoryImpl implements CommentReposotiry {
     @Override
     public List<Comment> saveComment(Comment comment) {
         commentJpaRepository.save(CommentEntity.from(comment));
-        List<Comment> comments = commentJpaRepository.findAllByBoardId(comment.getId()).stream().map(CommentEntity::toModel).toList();
+        List<Comment> comments = commentJpaRepository.findAllByBoardId(comment.getBoardId()).stream().map(CommentEntity::toModel).toList();
         comments.forEach(Comment::removeDeletedRecomment);
         return comments;
     }

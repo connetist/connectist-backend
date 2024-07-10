@@ -1,4 +1,4 @@
-package org.example.boardservice.board.service.comment;
+package org.example.boardservice.board.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,11 +9,14 @@ import org.example.boardservice.board.dto.request.comment.CommentRequest;
 import org.example.boardservice.board.dto.response.BoardResponse;
 import org.example.boardservice.board.infrastructure.repository.board.BoardRepository;
 import org.example.boardservice.board.infrastructure.repository.comment.CommentReposotiry;
-import org.example.boardservice.utils.clock.ClockHolder;
-import org.example.boardservice.utils.uuid.UuidHolder;
+import org.example.boardservice.error.GlobalException;
+import org.example.boardservice.error.ResultCode;
+import org.example.boardservice.utils.ClockHolder;
+import org.example.boardservice.utils.UuidHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -36,10 +39,14 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public BoardResponse deleteComment(String commentId) {
+    public BoardResponse deleteComment(String commentId, String userId) {
 
         Comment comment = commentReposotiry.findById(commentId);
-        comment.deleteComment(clockHolder);
+        if (userId.equals(comment.getUserId())){
+            comment.deleteComment(clockHolder);
+        }else{
+            throw new GlobalException(ResultCode.UNAUTHROIZED);
+        }
         List<Comment> comments = commentReposotiry.saveComment(comment);
         Board board = boardRepository.findByBoardId(comment.getBoardId());
         return new BoardResponse(board, comments);
@@ -47,7 +54,7 @@ public class CommentServiceImpl implements CommentService{
 
     @Override
     public BoardResponse createRecomment(CommentRequest commentRequest) {
-        Recomment recomment = Recomment.of(commentRequest, uuidHolder, clockHolder);
+        Recomment recomment = Recomment.createRecomment(commentRequest, uuidHolder, clockHolder);
         Comment comment = commentReposotiry.findById(commentRequest.getCommentId());
         comment.addRecomment(recomment);
 

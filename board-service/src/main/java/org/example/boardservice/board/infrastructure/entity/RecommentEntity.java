@@ -41,6 +41,7 @@ public class RecommentEntity {
     public Recomment toModel(){
         return Recomment.builder()
                 .id(id)
+                .commentId(comment.getId())
                 .userId(userId)
                 .contents(contents)
                 .deleted(deleted)

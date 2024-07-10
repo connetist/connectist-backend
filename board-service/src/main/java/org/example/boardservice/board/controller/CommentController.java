@@ -34,12 +34,12 @@ public class CommentController {
     public ResponseEntity<RestResponse<BoardResponse>> deleteComment(
             @RequestBody CommentDeleteRequest commentDeleteRequest
     ) {
-        BoardResponse boardResponse = commentService.deleteComment(commentDeleteRequest.getCommentId());
+        BoardResponse boardResponse = commentService.deleteComment(commentDeleteRequest.getCommentId(), commentDeleteRequest.getUserId());
         return ResponseEntity.status(HttpStatus.OK).body(RestResponse.success(boardResponse));
     }
 
     // 대댓글 생성
-    @PostMapping("/comment/re")
+    @PostMapping("/recomment")
     public ResponseEntity<RestResponse<BoardResponse>> createRecomment(
             @RequestBody CommentRequest commentRequest
     ) {
@@ -48,7 +48,7 @@ public class CommentController {
     }
 
     // 대댓글 삭제
-    @DeleteMapping("/comment/re")
+    @DeleteMapping("/recomment")
     public ResponseEntity<RestResponse<BoardResponse>> deleteRecomment(
             @RequestBody CommentDeleteRequest commentDeleteRequest
     ) {
@@ -58,7 +58,7 @@ public class CommentController {
 
 
     // 댓글 좋아요 누르기
-    @PostMapping("/comment/like/add")
+    @PostMapping("/comment/like")
     public ResponseEntity<RestResponse<BoardResponse>> addLikeComment(
             @RequestBody CommentLikeRequest commentLikeRequest
     ) {
@@ -67,7 +67,7 @@ public class CommentController {
     }
 
     //  댓글 좋아요 지우기
-    @PostMapping("/comment/like/remove")
+    @DeleteMapping("/comment/like")
     public ResponseEntity<RestResponse<BoardResponse>> removeLikeComment(
             @RequestBody CommentLikeRequest commentLikeRequest
     ) {

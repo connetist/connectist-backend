@@ -11,4 +11,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BoardLikeRequest {
     private String userId;
+    private String postId;
 }
