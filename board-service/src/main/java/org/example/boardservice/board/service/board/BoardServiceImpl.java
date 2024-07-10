@@ -8,10 +8,11 @@ import org.example.boardservice.board.domain.Comment;
 import org.example.boardservice.board.dto.response.BoardResponse;
 import org.example.boardservice.board.infrastructure.repository.board.BoardRepository;
 import org.example.boardservice.board.infrastructure.repository.comment.CommentReposotiry;
+import org.example.boardservice.board.service.board.BoardService;
 import org.example.boardservice.error.GlobalException;
 import org.example.boardservice.error.ResultCode;
-import org.example.boardservice.utils.ClockHolder;
-import org.example.boardservice.utils.UuidHolder;
+import org.example.boardservice.utils.clock.ClockHolder;
+import org.example.boardservice.utils.uuid.UuidHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +21,7 @@ import java.util.List;
 @Service
 @Builder
 @Slf4j
-public class BoardServiceImpl implements BoardService{
+public class BoardServiceImpl implements BoardService {
     private final BoardRepository boardRepository;
     private final CommentReposotiry commentReposotiry;
     private final UuidHolder uuidHolder;
