@@ -14,6 +14,7 @@ import org.example.boardservice.utils.UuidHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -30,6 +31,7 @@ public class CommentServiceImpl implements CommentService{
         Comment comment = Comment.create(cr,uuidHolder, clockHolder);
 
         List<Comment> comments = commentReposotiry.saveComment(comment);
+
         Board board = boardRepository.findByBoardId(cr.getBoardId());
         return new BoardResponse(board, comments);
     }
