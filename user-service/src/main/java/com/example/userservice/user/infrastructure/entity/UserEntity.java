@@ -1,7 +1,7 @@
 package com.example.userservice.user.infrastructure.entity;
 
-import com.example.userservice.user.domain.User;
-import com.example.userservice.user.domain.user.*;
+import com.example.userservice.user.domain.user.User;
+import com.example.userservice.user.domain.user.value.*;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

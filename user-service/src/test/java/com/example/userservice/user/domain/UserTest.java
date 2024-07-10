@@ -1,11 +1,13 @@
 package com.example.userservice.user.domain;
 
-import com.example.userservice.user.domain.create.UserCreate;
-import com.example.userservice.user.domain.join.JoinUser;
-import com.example.userservice.user.domain.user.School;
-import com.example.userservice.user.domain.user.UserDegree;
-import com.example.userservice.user.domain.user.UserMajor;
-import com.example.userservice.user.domain.user.UserSex;
+import com.example.userservice.user.domain.user.UserJoin;
+import com.example.userservice.user.domain.user.User;
+import com.example.userservice.user.domain.user.value.School;
+import com.example.userservice.user.domain.user.value.UserDegree;
+import com.example.userservice.user.domain.user.value.UserMajor;
+import com.example.userservice.user.domain.user.value.UserSex;
+import com.example.userservice.user.dto.request.user.UserCreateRequest;
+import com.example.userservice.user.dto.request.user.UserUpdateRequest;
 import com.example.userservice.util.clock.ClockHolder;
 import com.example.userservice.util.clock.SystemClockHolder;
 import com.example.userservice.util.id.IdGenerator;
@@ -31,28 +33,28 @@ class UserTest {
     @Test
     @DisplayName("유저 도메인을 생성한다.")
     void 유저_도메인을_생성한다() {
-        UserCreate userCreate = UserCreate.builder()
+        UserCreateRequest userCreate = UserCreateRequest.builder()
                 .pw("password")
                 .email("example@example.com")
-                .degree(UserDegree.Bachelor)
-                .sex(UserSex.MALE)
-                .major(UserMajor.AI)
+                .degree(1)
+                .sex(1)
+                .major(1)
                 .nickname("test")
                 .build();
 
-        JoinUser joinUser = JoinUser.builder()
+        UserJoin userJoin = UserJoin.builder()
                 .email("example@example.com")
                 .school(School.UNIST)
                 .certificationCode("333333")
                 .build();
 
-        User user = User.fromAfterCertification(userCreate, joinUser, clockHolder, idGenerator);
+        User user = User.create(userCreate, userJoin, clockHolder, idGenerator);
         Long nowUnixTime = clockHolder.getNowUnixTime();
 
-        assertThat(user.getEmail()).isEqualTo(joinUser.getEmail());
+        assertThat(user.getEmail()).isEqualTo(userJoin.getEmail());
         assertThat(user.getPassword()).isEqualTo(userCreate.getPw());
-        assertThat(user.getSchool()).isEqualTo(joinUser.getSchool());
-        assertThat(user.getDegree()).isEqualTo(userCreate.getDegree());
+        assertThat(user.getSchool()).isEqualTo(userJoin.getSchool());
+        assertThat(user.getDegree()).isEqualTo(userCreate.findDegree());
 
         // id가 UUID 로 생성되는지 확인
         Pattern UUID_REGEX =
@@ -66,34 +68,34 @@ class UserTest {
     @Test
     @DisplayName("유저 도메인을 업데이트한다.")
     void 유저_도메인을_업데이트한다() {
-        UserCreate userCreate = UserCreate.builder()
+        UserCreateRequest userCreate = UserCreateRequest.builder()
                 .pw("password")
                 .email("example@example.com")
-                .degree(UserDegree.Bachelor)
-                .sex(UserSex.MALE)
-                .major(UserMajor.AI)
+                .degree(1)
+                .sex(1)
+                .major(1)
                 .nickname("test")
                 .build();
 
-        JoinUser joinUser = JoinUser.builder()
+
+        UserJoin userJoin = UserJoin.builder()
                 .email("example@example.com")
                 .school(School.UNIST)
                 .certificationCode("333333")
                 .build();
 
-        User user = User.fromAfterCertification(userCreate, joinUser, clockHolder, idGenerator);
+        User user = User.create(userCreate, userJoin, clockHolder, idGenerator);
 
-        UserUpdate userUpdate = UserUpdate.builder()
+        UserUpdateRequest userUpdate = UserUpdateRequest.builder()
                 .email("example11@example.com")
                 .password("example11")
-                .school(School.GIST)
                 .degree(UserDegree.Master)
                 .sex(UserSex.FEMALE)
                 .major(UserMajor.Biology)
                 .nickname("example Nickname")
                 .build();
 
-        User updatedUser = User.fromWithUserUpdate(user, userUpdate);
+        User updatedUser = User.update(user, userUpdate);
 
         // 업데이트 후에도 같아야 하는 것
         assertThat(user.getId()).isEqualTo(updatedUser.getId());
@@ -110,22 +112,23 @@ class UserTest {
     @Test
     @DisplayName("유저 도메인의 비밀번호를 변경한다.")
     void 유저_도메인의_비밀번호를_변경한다() {
-        UserCreate userCreate = UserCreate.builder()
+        UserCreateRequest userCreate = UserCreateRequest.builder()
                 .pw("password")
                 .email("example@example.com")
-                .degree(UserDegree.Bachelor)
-                .sex(UserSex.MALE)
-                .major(UserMajor.AI)
+                .degree(1)
+                .sex(1)
+                .major(1)
                 .nickname("test")
                 .build();
 
-        JoinUser joinUser = JoinUser.builder()
+
+        UserJoin userJoin = UserJoin.builder()
                 .email("example@example.com")
                 .school(School.UNIST)
                 .certificationCode("333333")
                 .build();
 
-        User user = User.fromAfterCertification(userCreate, joinUser, clockHolder, idGenerator);
+        User user = User.create(userCreate, userJoin, clockHolder, idGenerator);
 
         String encodedPassword = mockPasswordEncode.encode(user.getPassword());
         User userEncoded = User.encodePw(user, encodedPassword);

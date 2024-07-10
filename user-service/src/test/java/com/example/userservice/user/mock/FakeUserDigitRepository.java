@@ -1,7 +1,7 @@
 package com.example.userservice.user.mock;
 
-import com.example.userservice.user.domain.join.JoinUser;
-import com.example.userservice.user.infrastructure.join.JoinUserRepository;
+import com.example.userservice.user.domain.user.UserJoin;
+import com.example.userservice.user.infrastructure.user.join.JoinUserRepository;
 
 import java.util.Map;
 import java.util.Optional;
@@ -9,16 +9,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class FakeUserDigitRepository implements JoinUserRepository {
 
-    private final Map<String, JoinUser> joinUserMap = new ConcurrentHashMap<>();
+    private final Map<String, UserJoin> joinUserMap = new ConcurrentHashMap<>();
 
     @Override
-    public Optional<JoinUser> findByEmail(String email) {
+    public Optional<UserJoin> findByEmail(String email) {
         return Optional.ofNullable(joinUserMap.get(email));
     }
 
     @Override
-    public JoinUser save(JoinUser joinUser) {
-        return joinUserMap.put(joinUser.getEmail(), joinUser);
+    public UserJoin save(UserJoin userJoin) {
+        return joinUserMap.put(userJoin.getEmail(), userJoin);
     }
 
     @Override
@@ -27,13 +27,13 @@ public class FakeUserDigitRepository implements JoinUserRepository {
     }
 
     @Override
-    public Optional<JoinUser> replace(String email, JoinUser newJoinUser) {
-        return Optional.ofNullable(joinUserMap.replace(email, newJoinUser));
+    public Optional<UserJoin> replace(String email, UserJoin newUserJoin) {
+        return Optional.ofNullable(joinUserMap.replace(email, newUserJoin));
     }
 
     @Override
-    public Optional<JoinUser> delete(String email) {
-        JoinUser remove = joinUserMap.remove(email);
+    public Optional<UserJoin> delete(String email) {
+        UserJoin remove = joinUserMap.remove(email);
         return Optional.ofNullable(remove);
     }
 }

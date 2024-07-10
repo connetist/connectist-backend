@@ -1,7 +1,7 @@
 package com.example.userservice.util.certification.email;
 
 import com.example.userservice.util.exception.ErrorCode;
-import com.example.userservice.user.domain.user.School;
+import com.example.userservice.user.domain.user.value.School;
 import com.example.userservice.util.exception.code.GlobalException;
 import org.springframework.stereotype.Component;
 

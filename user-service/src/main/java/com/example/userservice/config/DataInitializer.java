@@ -1,8 +1,8 @@
 package com.example.userservice.config;
 
-import com.example.userservice.user.domain.User;
-import com.example.userservice.user.domain.user.*;
-import com.example.userservice.user.service.port.UserRepository;
+import com.example.userservice.user.domain.user.User;
+import com.example.userservice.user.domain.user.value.*;
+import com.example.userservice.user.infrastructure.user.UserRepository;
 import com.example.userservice.util.clock.ClockHolder;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;

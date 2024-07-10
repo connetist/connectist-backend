@@ -1,13 +1,13 @@
 package com.example.userservice.user.infrastructure;
 
-import com.example.userservice.user.service.port.MailSender;
+import com.example.userservice.user.infrastructure.mail.MailSenderImpl;
+import com.example.userservice.user.infrastructure.mail.MailSender;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mail.javamail.JavaMailSender;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
