@@ -33,6 +33,7 @@ public class TestContainer {
         this.labRepository = new FakeLabRepository();
 
         this.labService = LabServiceImpl.builder()
+                .uuidHolder(uuidHolder)
                 .labRepository(labRepository)
                 .build();
 
