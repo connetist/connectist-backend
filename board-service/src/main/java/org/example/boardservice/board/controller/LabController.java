@@ -3,13 +3,12 @@ package org.example.boardservice.board.controller;
 
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
 import org.example.boardservice.board.domain.Lab;
-import org.example.boardservice.board.dto.request.LabAddStarRequest;
-import org.example.boardservice.board.dto.request.LabRemoveStarRequest;
-import org.example.boardservice.board.dto.request.LabUpdateStarRequest;
+import org.example.boardservice.board.dto.request.lab.LabAddStarRequest;
+import org.example.boardservice.board.dto.request.lab.LabRemoveStarRequest;
+import org.example.boardservice.board.dto.request.lab.LabUpdateStarRequest;
 import org.example.boardservice.board.dto.response.RestResponse;
-import org.example.boardservice.board.service.LabService;
+import org.example.boardservice.board.service.lab.LabService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

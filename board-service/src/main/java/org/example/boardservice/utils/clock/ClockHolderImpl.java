@@ -1,4 +1,4 @@
-package org.example.boardservice.utils;
+package org.example.boardservice.utils.clock;
 
 import org.springframework.stereotype.Component;
 

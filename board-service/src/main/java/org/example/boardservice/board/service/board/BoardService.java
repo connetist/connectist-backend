@@ -1,4 +1,4 @@
-package org.example.boardservice.board.service;
+package org.example.boardservice.board.service.board;
 
 import org.example.boardservice.board.domain.Board;
 import org.example.boardservice.board.dto.response.BoardResponse;

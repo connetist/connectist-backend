@@ -3,13 +3,14 @@ package org.example.boardservice.board.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Request;
 import org.example.boardservice.board.domain.Board;
 import org.example.boardservice.board.dto.request.board.BoardDeleteRequest;
 import org.example.boardservice.board.dto.request.board.BoardLikeRequest;
 import org.example.boardservice.board.dto.request.board.BoardRequest;
 import org.example.boardservice.board.dto.response.BoardResponse;
 import org.example.boardservice.board.dto.response.RestResponse;
-import org.example.boardservice.board.service.BoardService;
+import org.example.boardservice.board.service.board.BoardService;
 import org.example.boardservice.utils.requestverify.RequestCheck;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -79,7 +80,8 @@ public class BoardController {
             @PathVariable String postId,
             @RequestBody BoardLikeRequest boardLikeRequest
             ) {
-        log.info(boardLikeRequest.getUserId());
+        new RequestCheck(boardLikeRequest).check();
+
         Board board = boardService.addLikeBoard(postId, boardLikeRequest.getUserId());
         return ResponseEntity.status(HttpStatus.OK).body(RestResponse.success(board));
     }

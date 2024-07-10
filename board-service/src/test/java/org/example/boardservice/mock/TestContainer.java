@@ -1,17 +1,12 @@
 package org.example.boardservice.mock;
 
 import lombok.Builder;
-import org.example.boardservice.board.controller.BoardController;
 import org.example.boardservice.board.controller.LabController;
-import org.example.boardservice.board.infrastructure.repository.board.BoardRepository;
-import org.example.boardservice.board.infrastructure.repository.comment.CommentReposotiry;
 import org.example.boardservice.board.infrastructure.repository.lab.LabRepository;
-import org.example.boardservice.board.service.BoardService;
-import org.example.boardservice.board.service.CommentService;
-import org.example.boardservice.board.service.LabService;
-import org.example.boardservice.board.service.LabServiceImpl;
-import org.example.boardservice.utils.ClockHolder;
-import org.example.boardservice.utils.UuidHolder;
+import org.example.boardservice.board.service.lab.LabService;
+import org.example.boardservice.board.service.lab.LabServiceImpl;
+import org.example.boardservice.utils.clock.ClockHolder;
+import org.example.boardservice.utils.uuid.UuidHolder;
 
 public class TestContainer {
 

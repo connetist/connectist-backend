@@ -1,4 +1,4 @@
-package org.example.boardservice.board.service;
+package org.example.boardservice.board.service.comment;
 
 import org.example.boardservice.board.dto.request.comment.CommentRequest;
 import org.example.boardservice.board.dto.response.BoardResponse;

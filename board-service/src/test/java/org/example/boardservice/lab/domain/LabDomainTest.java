@@ -4,8 +4,8 @@ import org.example.boardservice.board.domain.Lab;
 import org.example.boardservice.board.domain.Star;
 import org.example.boardservice.mock.TestClockHolder;
 import org.example.boardservice.mock.TestUuidHolder;
-import org.example.boardservice.utils.ClockHolder;
-import org.example.boardservice.utils.UuidHolder;
+import org.example.boardservice.utils.clock.ClockHolder;
+import org.example.boardservice.utils.uuid.UuidHolder;
 import org.junit.jupiter.api.Test;
 
 

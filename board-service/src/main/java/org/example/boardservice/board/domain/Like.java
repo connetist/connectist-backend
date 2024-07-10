@@ -4,8 +4,8 @@ package org.example.boardservice.board.domain;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.example.boardservice.utils.ClockHolder;
-import org.example.boardservice.utils.UuidHolder;
+import org.example.boardservice.utils.clock.ClockHolder;
+import org.example.boardservice.utils.uuid.UuidHolder;
 
 @Getter
 public class Like {

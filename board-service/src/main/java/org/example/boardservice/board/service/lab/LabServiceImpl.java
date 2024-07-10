@@ -1,15 +1,12 @@
-package org.example.boardservice.board.service;
+package org.example.boardservice.board.service.lab;
 
 
 import lombok.Builder;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.example.boardservice.board.domain.Lab;
-import org.example.boardservice.board.domain.Star;
-import org.example.boardservice.board.dto.request.LabAddStarRequest;
-import org.example.boardservice.board.dto.request.LabRemoveStarRequest;
-import org.example.boardservice.board.dto.request.LabUpdateStarRequest;
-import org.example.boardservice.board.infrastructure.entity.LabEntity;
+import org.example.boardservice.board.dto.request.lab.LabAddStarRequest;
+import org.example.boardservice.board.dto.request.lab.LabRemoveStarRequest;
+import org.example.boardservice.board.dto.request.lab.LabUpdateStarRequest;
 import org.example.boardservice.board.infrastructure.repository.lab.LabRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

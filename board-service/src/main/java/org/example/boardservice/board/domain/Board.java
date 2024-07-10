@@ -6,8 +6,8 @@ import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.example.boardservice.error.GlobalException;
 import org.example.boardservice.error.ResultCode;
-import org.example.boardservice.utils.ClockHolder;
-import org.example.boardservice.utils.UuidHolder;
+import org.example.boardservice.utils.clock.ClockHolder;
+import org.example.boardservice.utils.uuid.UuidHolder;
 
 import java.util.ArrayList;
 import java.util.List;
