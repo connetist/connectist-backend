@@ -70,12 +70,12 @@ public class BoardController {
     ) {
         new RequestCheck(boardDeleteRequest).check();
 
-        Board board = boardService.deleteBoard(boardDeleteRequest.getBoardId());
+        Board board = boardService.deleteBoard(boardDeleteRequest.getBoardId(), boardDeleteRequest.getUserId());
         return ResponseEntity.status(HttpStatus.OK).body(RestResponse.success(board));
     }
 
     // 게시글을 좋아요 누르기
-    @PostMapping("/post/{postId}/like/add")
+    @PostMapping("/post/{postId}/like")
     public ResponseEntity<RestResponse<Board>> addLikePost(
             @PathVariable String postId,
             @RequestBody BoardLikeRequest boardLikeRequest
@@ -87,7 +87,7 @@ public class BoardController {
     }
 
     // 게시글 좋아요 지우기
-    @PostMapping("/post/{postId}/like/delete")
+    @PostMapping("/post/{postId}/like")
     public ResponseEntity<RestResponse<Board>> deleteLikePost(
             @PathVariable String postId,
             @RequestBody BoardLikeRequest boardLikeRequest

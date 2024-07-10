@@ -8,6 +8,7 @@ import org.example.boardservice.board.dto.request.lab.LabAddStarRequest;
 import org.example.boardservice.board.dto.request.lab.LabRemoveStarRequest;
 import org.example.boardservice.board.dto.request.lab.LabUpdateStarRequest;
 import org.example.boardservice.board.infrastructure.repository.lab.LabRepository;
+import org.example.boardservice.utils.UuidHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,9 +20,12 @@ import java.util.List;
 public class LabServiceImpl implements LabService{
 
     private LabRepository labRepository;
+    private UuidHolder uuidHolder;
 
-    public LabServiceImpl(LabRepository labRepository) {
+    public LabServiceImpl(LabRepository labRepository, UuidHolder uuidHolder) {
+
         this.labRepository = labRepository;
+        this.uuidHolder = uuidHolder;
     }
 
 
@@ -42,7 +46,7 @@ public class LabServiceImpl implements LabService{
     @Override
     public Lab addStar(LabAddStarRequest rq){
         Lab lab = labRepository.findById(rq.getLabId());
-        lab.addStar(rq.getUserId(),rq.getLabId(), rq.getStarCount());
+        lab.addStar(rq.getUserId(),rq.getLabId(), rq.getStarCount(),uuidHolder);
         lab = labRepository.save(lab);
 
         return lab;
