@@ -1,4 +1,4 @@
-package org.example.boardservice.board.dto.request;
+package org.example.boardservice.board.dto.request.lab;
 
 import lombok.Getter;
 

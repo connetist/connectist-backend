@@ -1,4 +1,4 @@
-package org.example.boardservice.utils;
+package org.example.boardservice.utils.uuid;
 
 import org.springframework.stereotype.Component;
 

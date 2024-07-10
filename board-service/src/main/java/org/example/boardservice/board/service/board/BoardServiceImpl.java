@@ -1,4 +1,4 @@
-package org.example.boardservice.board.service;
+package org.example.boardservice.board.service.board;
 
 
 import lombok.Builder;
@@ -8,8 +8,8 @@ import org.example.boardservice.board.domain.Comment;
 import org.example.boardservice.board.dto.response.BoardResponse;
 import org.example.boardservice.board.infrastructure.repository.board.BoardRepository;
 import org.example.boardservice.board.infrastructure.repository.comment.CommentReposotiry;
-import org.example.boardservice.utils.ClockHolder;
-import org.example.boardservice.utils.UuidHolder;
+import org.example.boardservice.utils.clock.ClockHolder;
+import org.example.boardservice.utils.uuid.UuidHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

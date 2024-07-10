@@ -1,4 +1,4 @@
-package org.example.boardservice.utils;
+package org.example.boardservice.utils.clock;
 
     public interface ClockHolder {
         long mills();

@@ -7,7 +7,7 @@ import org.example.boardservice.board.dto.request.comment.CommentLikeRequest;
 import org.example.boardservice.board.dto.request.comment.CommentRequest;
 import org.example.boardservice.board.dto.response.BoardResponse;
 import org.example.boardservice.board.dto.response.RestResponse;
-import org.example.boardservice.board.service.CommentService;
+import org.example.boardservice.board.service.comment.CommentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

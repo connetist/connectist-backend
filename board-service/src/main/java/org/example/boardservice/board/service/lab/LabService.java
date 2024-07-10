@@ -1,9 +1,9 @@
-package org.example.boardservice.board.service;
+package org.example.boardservice.board.service.lab;
 
 import org.example.boardservice.board.domain.Lab;
-import org.example.boardservice.board.dto.request.LabAddStarRequest;
-import org.example.boardservice.board.dto.request.LabRemoveStarRequest;
-import org.example.boardservice.board.dto.request.LabUpdateStarRequest;
+import org.example.boardservice.board.dto.request.lab.LabAddStarRequest;
+import org.example.boardservice.board.dto.request.lab.LabRemoveStarRequest;
+import org.example.boardservice.board.dto.request.lab.LabUpdateStarRequest;
 
 import java.util.List;
 

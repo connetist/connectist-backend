@@ -1,22 +1,18 @@
 package org.example.boardservice.lab.service;
 
-import lombok.Builder;
 import org.example.boardservice.board.domain.Lab;
 import org.example.boardservice.board.domain.Star;
-import org.example.boardservice.board.dto.request.LabAddStarRequest;
-import org.example.boardservice.board.dto.request.LabRemoveStarRequest;
-import org.example.boardservice.board.dto.request.LabUpdateStarRequest;
+import org.example.boardservice.board.dto.request.lab.LabAddStarRequest;
+import org.example.boardservice.board.dto.request.lab.LabRemoveStarRequest;
+import org.example.boardservice.board.dto.request.lab.LabUpdateStarRequest;
 import org.example.boardservice.board.infrastructure.repository.lab.LabRepository;
-import org.example.boardservice.board.service.LabService;
-import org.example.boardservice.board.service.LabServiceImpl;
-import org.example.boardservice.lab.domain.LabDomainTest;
+import org.example.boardservice.board.service.lab.LabServiceImpl;
 import org.example.boardservice.mock.FakeLabRepository;
 import org.example.boardservice.mock.TestClockHolder;
 import org.example.boardservice.mock.TestUuidHolder;
-import org.example.boardservice.utils.ClockHolder;
-import org.example.boardservice.utils.UuidHolder;
+import org.example.boardservice.utils.clock.ClockHolder;
+import org.example.boardservice.utils.uuid.UuidHolder;
 
-import org.hibernate.mapping.Collection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
