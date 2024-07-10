@@ -34,6 +34,7 @@ public class TestContainer {
 
         this.labService = LabServiceImpl.builder()
                 .labRepository(labRepository)
+                .uuidHolder(uuidHolder)
                 .build();
 
         this.labController = LabController.builder()
