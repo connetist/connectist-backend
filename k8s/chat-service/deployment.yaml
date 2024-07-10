@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chat-service
+  template:
+    metadata:
+      labels:
+        app: chat-service
+    spec:
+      containers:
+        - name: board-service
+          image: kevin0459/chat-service:501bed057d3b27c93df72d0d046e2ff218ab9757
+          ports:
+            - containerPort: 8002

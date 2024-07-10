@@ -1,0 +1,18 @@
+package org.example.boardservice.board.service.board;
+
+import org.example.boardservice.board.domain.Board;
+import org.example.boardservice.board.dto.response.BoardResponse;
+
+import java.util.List;
+
+public interface BoardService {
+
+    List<Board> getAllByLabId(String labId);
+    BoardResponse getBoardById(String boardId);
+    Board createBoard(String userId, String labId, String contents);
+    Board deleteBoard(String boardId,String userId);
+
+    Board addLikeBoard(String boardId, String userId);
+    Board removeLikeBoard(String boardId, String userId);
+
+}

@@ -1,0 +1,18 @@
+server:
+  port: 9001
+spring:
+  application:
+    name: chat-service
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/chat_db
+  kafka:
+    consumer:
+      auto-offset-reset: latest
+      max-poll-records: 600000
+
+    bootstrap-servers: 127.0.0.1:9092
+
+logging:
+  level:
+    org.apache.kafka: ERROR

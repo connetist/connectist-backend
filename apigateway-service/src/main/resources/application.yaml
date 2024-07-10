@@ -1,0 +1,40 @@
+server:
+  port: 9014
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+spring:
+  application:
+    name: apigateway-service
+  cloud:
+    gateway:
+      default-filters:
+        - name: GlobalFilter
+          args:
+            baseMessage: Spring Cloud Gateway Global Filter
+            preLogger: true
+            postLogger: true
+      routes:
+        - id: user-login-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/api/users/login
+            - Method=GET,POST
+          filters:
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/**
+            - Method=GET,POST
+          filters:
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+
+token:
+  secret: lfnaoiefqwenaksdnflkasfgioqwefiasdlkvandskjurnvqrnfalkdnfuinvienvs

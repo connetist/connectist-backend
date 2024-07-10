@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: board-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: board-service
+  template:
+    metadata:
+      labels:
+        app: board-service
+    spec:
+      containers:
+        - name: board-service
+          image: kevin0459/board-service:f0cb162d28e2577910de1bc74fc7f4472f3f3f38
+          ports:
+            - containerPort: 8001
