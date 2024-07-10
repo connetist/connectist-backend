@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 @Getter
 public class BoardDeleteRequest {
     private String boardId;
+    private String userId;
 }

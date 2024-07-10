@@ -7,7 +7,7 @@ public interface CommentService {
 
     BoardResponse createComment(CommentRequest commentRequest);
 
-    BoardResponse deleteComment(String commentId);
+    BoardResponse deleteComment(String commentId, String userId);
 
     BoardResponse createRecomment(CommentRequest commentRequest);
 

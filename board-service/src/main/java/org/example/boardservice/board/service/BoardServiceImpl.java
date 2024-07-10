@@ -8,6 +8,8 @@ import org.example.boardservice.board.domain.Comment;
 import org.example.boardservice.board.dto.response.BoardResponse;
 import org.example.boardservice.board.infrastructure.repository.board.BoardRepository;
 import org.example.boardservice.board.infrastructure.repository.comment.CommentReposotiry;
+import org.example.boardservice.error.GlobalException;
+import org.example.boardservice.error.ResultCode;
 import org.example.boardservice.utils.ClockHolder;
 import org.example.boardservice.utils.UuidHolder;
 import org.springframework.stereotype.Service;
@@ -47,15 +49,19 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public Board createBoard(String userId, String labId, String contents){
-        Board board = Board.createBoard(userId,labId,contents,uuidHolder,clockHolder);
+        Board board = Board.createBoard(labId,userId,contents,uuidHolder,clockHolder);
         return boardRepository.save(board);
     }
 
     @Override
-    public Board deleteBoard(String boardId){
+    public Board deleteBoard(String boardId, String userId){
         log.info("Deleting board with id {}", boardId);
         Board board = boardRepository.findByBoardId(boardId);
-        board.deletePost(clockHolder);
+        if (board.getUserId().equals(userId)){
+            board.deletePost(clockHolder);
+        }else{
+            throw new GlobalException(ResultCode.UNAUTHROIZED);
+        }
         log.info(board.toString());
         return boardRepository.save(board);
     }
