@@ -1,19 +1,24 @@
 package org.example.boardservice.board.service.comment;
 
-import org.example.boardservice.board.dto.request.comment.CommentRequest;
-import org.example.boardservice.board.dto.response.BoardResponse;
+import org.example.boardservice.board.domain.Comment;
+import org.example.boardservice.board.domain.Recomment;
+import org.example.boardservice.board.dto.request.comment.create.CommentRequest;
+import org.example.boardservice.board.dto.request.comment.create.RecommentRequest;
+import org.example.boardservice.board.dto.request.comment.delete.CommentDeleteRequest;
+import org.example.boardservice.board.dto.request.comment.delete.RecommentDeleteRequest;
+import org.example.boardservice.board.dto.request.comment.like.CommentLikeRequest;
 
 public interface CommentService {
 
-    BoardResponse createComment(CommentRequest commentRequest);
+    Comment createComment(CommentRequest commentRequest);
 
-    BoardResponse deleteComment(String commentId);
+    Comment deleteComment(CommentDeleteRequest commentDeleteRequest);
 
-    BoardResponse createRecomment(CommentRequest commentRequest);
+    Recomment createRecomment(RecommentRequest recommentRequest);
 
-    BoardResponse deleteRecomment(String commentId, String recommentId);
+    Recomment deleteRecomment(RecommentDeleteRequest recommentDeleteRequest);
 
-    BoardResponse addLikeComment(String userId, String commentId);
+    Comment addLikeComment(CommentLikeRequest commentLikeRequest);
 
-    BoardResponse deleteLikeComment(String userId, String commentId);
+    Comment deleteLikeComment(CommentLikeRequest commentLikeRequest);
 }

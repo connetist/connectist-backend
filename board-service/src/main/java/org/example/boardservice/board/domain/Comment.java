@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
-import org.example.boardservice.board.dto.request.comment.CommentRequest;
+import org.example.boardservice.board.dto.request.comment.create.CommentRequest;
 import org.example.boardservice.error.GlobalException;
 import org.example.boardservice.error.ResultCode;
 import org.example.boardservice.utils.clock.ClockHolder;
@@ -58,7 +58,10 @@ public class Comment {
                 .build();
     }
 
-    public void deleteComment(ClockHolder clockHolder) {
+    public void deleteComment(ClockHolder clockHolder, String inputUserId) {
+        if (!inputUserId.equals(this.getUserId())) {
+            throw new GlobalException(ResultCode.UNAUTHROIZED);
+        }
         this.deleted = true;
         this.deletedAt = clockHolder.mills();
     }
@@ -88,6 +91,9 @@ public class Comment {
     public void deleteRecomment(String recommentId, ClockHolder clockHolder) {
         for(Recomment recomment : recomments) {
             if (recomment.getId().equals(recommentId)) {
+                if(!recomment.getUserId().equals(userId)) {
+                    throw new GlobalException(ResultCode.UNAUTHROIZED);
+                }
                 recomment.deleteRecomment(clockHolder);
                 return;
             }

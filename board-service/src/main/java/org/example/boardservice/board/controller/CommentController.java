@@ -2,10 +2,13 @@ package org.example.boardservice.board.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.boardservice.board.dto.request.comment.CommentDeleteRequest;
-import org.example.boardservice.board.dto.request.comment.CommentLikeRequest;
-import org.example.boardservice.board.dto.request.comment.CommentRequest;
-import org.example.boardservice.board.dto.response.BoardResponse;
+import org.example.boardservice.board.domain.Comment;
+import org.example.boardservice.board.domain.Recomment;
+import org.example.boardservice.board.dto.request.comment.create.RecommentRequest;
+import org.example.boardservice.board.dto.request.comment.delete.CommentDeleteRequest;
+import org.example.boardservice.board.dto.request.comment.delete.RecommentDeleteRequest;
+import org.example.boardservice.board.dto.request.comment.like.CommentLikeRequest;
+import org.example.boardservice.board.dto.request.comment.create.CommentRequest;
 import org.example.boardservice.board.dto.response.RestResponse;
 import org.example.boardservice.board.service.comment.CommentService;
 import org.springframework.http.HttpStatus;
@@ -22,56 +25,56 @@ public class CommentController {
 
     // 댓글 생성
     @PostMapping("/comment")
-    public ResponseEntity<RestResponse<BoardResponse>> createComment(
+    public ResponseEntity<RestResponse<Comment>> createComment(
             @RequestBody CommentRequest commentRequest
     ) {
-        BoardResponse boardResponse = commentService.createComment(commentRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(RestResponse.success(boardResponse));
+        Comment comment = commentService.createComment(commentRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(RestResponse.success(comment));
     }
 
     // 댓글 삭제
     @DeleteMapping("/comment")
-    public ResponseEntity<RestResponse<BoardResponse>> deleteComment(
+    public ResponseEntity<RestResponse<Comment>> deleteComment(
             @RequestBody CommentDeleteRequest commentDeleteRequest
     ) {
-        BoardResponse boardResponse = commentService.deleteComment(commentDeleteRequest.getCommentId());
-        return ResponseEntity.status(HttpStatus.OK).body(RestResponse.success(boardResponse));
+        Comment comment = commentService.deleteComment(commentDeleteRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(RestResponse.success(comment));
     }
 
     // 대댓글 생성
-    @PostMapping("/comment/re")
-    public ResponseEntity<RestResponse<BoardResponse>> createRecomment(
-            @RequestBody CommentRequest commentRequest
+    @PostMapping("/recomment")
+    public ResponseEntity<RestResponse<Recomment>> createRecomment(
+            @RequestBody RecommentRequest recommentRequest
     ) {
-        BoardResponse boardResponse = commentService.createRecomment(commentRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(RestResponse.success(boardResponse));
+        Recomment recomment = commentService.createRecomment(recommentRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(RestResponse.success(recomment));
     }
 
     // 대댓글 삭제
-    @DeleteMapping("/comment/re")
-    public ResponseEntity<RestResponse<BoardResponse>> deleteRecomment(
-            @RequestBody CommentDeleteRequest commentDeleteRequest
+    @DeleteMapping("/recomment")
+    public ResponseEntity<RestResponse<Recomment>> deleteRecomment(
+            @RequestBody RecommentDeleteRequest recommentDeleteRequest
     ) {
-        BoardResponse boardResponse = commentService.deleteRecomment(commentDeleteRequest.getCommentId(), commentDeleteRequest.getRecommentId());
-        return ResponseEntity.status(HttpStatus.OK).body(RestResponse.success(boardResponse));
+        Recomment recomment = commentService.deleteRecomment(recommentDeleteRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(RestResponse.success(recomment));
     }
 
 
     // 댓글 좋아요 누르기
-    @PostMapping("/comment/like/add")
-    public ResponseEntity<RestResponse<BoardResponse>> addLikeComment(
+    @PostMapping("/comment/like")
+    public ResponseEntity<RestResponse<Comment>> addLikeComment(
             @RequestBody CommentLikeRequest commentLikeRequest
     ) {
-        BoardResponse boardResponse = commentService.addLikeComment(commentLikeRequest.getUserId(), commentLikeRequest.getCommentId());
-        return ResponseEntity.status(HttpStatus.OK).body(RestResponse.success(boardResponse));
+        Comment comment = commentService.addLikeComment(commentLikeRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(RestResponse.success(comment));
     }
 
     //  댓글 좋아요 지우기
-    @PostMapping("/comment/like/remove")
-    public ResponseEntity<RestResponse<BoardResponse>> removeLikeComment(
+    @DeleteMapping("/comment/like")
+    public ResponseEntity<RestResponse<Comment>> removeLikeComment(
             @RequestBody CommentLikeRequest commentLikeRequest
     ) {
-        BoardResponse boardResponse = commentService.deleteLikeComment(commentLikeRequest.getUserId(), commentLikeRequest.getCommentId());
-        return ResponseEntity.status(HttpStatus.OK).body(RestResponse.success(boardResponse));
+        Comment comment = commentService.deleteLikeComment(commentLikeRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(RestResponse.success(comment));
     }
 }

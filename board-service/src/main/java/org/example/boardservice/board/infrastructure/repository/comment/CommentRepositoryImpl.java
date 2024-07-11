@@ -3,6 +3,7 @@ package org.example.boardservice.board.infrastructure.repository.comment;
 
 import lombok.RequiredArgsConstructor;
 import org.example.boardservice.board.domain.Comment;
+import org.example.boardservice.board.domain.Recomment;
 import org.example.boardservice.board.infrastructure.entity.CommentEntity;
 import org.example.boardservice.board.infrastructure.entity.RecommentEntity;
 import org.example.boardservice.error.GlobalException;
@@ -47,12 +48,20 @@ public class CommentRepositoryImpl implements CommentReposotiry {
     }
 
     @Override
-    public List<Comment> saveComment(Comment comment) {
-        commentJpaRepository.save(CommentEntity.from(comment));
-        List<Comment> comments = commentJpaRepository.findAllByBoardId(comment.getId()).stream().map(CommentEntity::toModel).toList();
-        comments.forEach(Comment::removeDeletedRecomment);
-        return comments;
+    public Comment saveComment(Comment comment) {
+        Comment savedComment = commentJpaRepository.save(CommentEntity.from(comment)).toModel();
+        savedComment.removeDeletedRecomment();
+        return savedComment;
     }
 
-
+    @Override
+    public Recomment findRecommentById(String commentId, String recommentId) {
+        List<RecommentEntity> recommentEntityList = commentJpaRepository.findCommentEntityById(commentId).getRecommentEntityList();
+        for (RecommentEntity recommentEntity : recommentEntityList) {
+            if(recommentEntity.getId().equals(recommentId)){
+                return recommentEntity.toModel();
+            }
+        }
+        throw new GlobalException(ResultCode.COMMENT_NOT_FOUND);
+    }
 }
