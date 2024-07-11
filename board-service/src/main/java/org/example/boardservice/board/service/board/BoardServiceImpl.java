@@ -1,4 +1,4 @@
-package org.example.boardservice.board.service.board;
+package org.example.boardservice.board.service;
 
 
 import lombok.Builder;
@@ -11,6 +11,9 @@ import org.example.boardservice.board.dto.request.board.BoardRequest;
 import org.example.boardservice.board.dto.response.BoardResponse;
 import org.example.boardservice.board.infrastructure.repository.board.BoardRepository;
 import org.example.boardservice.board.infrastructure.repository.comment.CommentReposotiry;
+import org.example.boardservice.board.service.board.BoardService;
+import org.example.boardservice.error.GlobalException;
+import org.example.boardservice.error.ResultCode;
 import org.example.boardservice.utils.clock.ClockHolder;
 import org.example.boardservice.utils.uuid.UuidHolder;
 import org.springframework.stereotype.Service;

@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import org.example.boardservice.error.GlobalException;
 import org.example.boardservice.error.ResultCode;
+import org.example.boardservice.utils.uuid.UuidHolder;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class Lab {
         this.stars = stars;
     }
 
-    public void addStar(String userId, String labId, int starCount){
+    public void addStar(String userId, String labId, int starCount, UuidHolder uuidHolder){
 
         //유저가 이미 했으면 별점 주기 불가능
         for (Star star : stars){
@@ -40,7 +41,7 @@ public class Lab {
             }
         }
 
-        Star star = new Star(userId,labId,starCount);
+        Star star = new Star(uuidHolder.random(),userId,starCount);
         stars.add(star);
     }
 

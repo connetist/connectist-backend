@@ -2,7 +2,7 @@ package com.example.userservice.user.mock;
 
 import com.example.userservice.user.domain.token.Token;
 import com.example.userservice.user.infrastructure.entity.TokenEntity;
-import com.example.userservice.user.service.port.TokenRepository;
+import com.example.userservice.user.infrastructure.token.TokenRepository;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

@@ -56,7 +56,9 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     @Override
     public ChatRoom updateChatRoom(UpdateChatRoomRequest rq) {
         ChatRoom chatRoom = chatRoomRepository.findById(rq.getId()).orElseThrow(()-> new ResourceNotFoundException("해당 채팅방을 조회할 수 없습니다"));
-        if (rq.getUserId() != chatRoom.getAdmin().getUserId()){
+        System.out.println(rq.getUserId() + " " + chatRoom.getAdmin().getUserId());
+        if (!rq.getUserId().equals(chatRoom.getAdmin().getUserId())){
+            System.out.println("UNAUTHORIZED");
             throw new GlobalException(ResultCode.UNAUTHROIZED);
         }
         chatRoom = chatRoom.updateRoom(rq);
@@ -68,7 +70,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
         ChatRoom chatRoom = chatRoomRepository.findById(rq.getRoomId()).orElseThrow(()-> new GlobalException(ResultCode.CHAT_ROOM_NOT_FOUND));
 
-        if (chatRoom.getAdmin().getId() == rq.getUserId()){
+        if (!chatRoom.getAdmin().getUserId().equals(rq.getUserId())){
             chatRoomRepository.deleteById(rq.getRoomId());
         }else{
             throw new GlobalException(ResultCode.UNAUTHROIZED);

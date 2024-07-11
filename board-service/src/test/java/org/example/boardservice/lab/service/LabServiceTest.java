@@ -32,6 +32,7 @@ public class LabServiceTest {
 
         labService = LabServiceImpl.builder()
                 .labRepository(labRepository)
+                .uuidHolder(uuidHolder)
                 .build();
 
         List<Star> stars = new ArrayList<>();

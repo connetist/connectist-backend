@@ -1,5 +1,6 @@
 package com.example.userservice.user.dto.request;
 
+import com.example.userservice.user.dto.request.user.UserCreateRequest;
 import com.example.userservice.util.exception.code.GlobalException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
