@@ -2,7 +2,8 @@ package org.example.boardservice.board.domain;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.example.boardservice.board.dto.request.comment.CommentRequest;
+import org.example.boardservice.board.dto.request.comment.create.CommentRequest;
+import org.example.boardservice.board.dto.request.comment.create.RecommentRequest;
 import org.example.boardservice.utils.clock.ClockHolder;
 import org.example.boardservice.utils.uuid.UuidHolder;
 
@@ -28,12 +29,12 @@ public class Recomment {
     }
 
 
-    public static Recomment createRecomment(CommentRequest commentRequest, UuidHolder uuidHolder, ClockHolder clockHolder) {
+    public static Recomment createRecomment(RecommentRequest recommentRequest, UuidHolder uuidHolder, ClockHolder clockHolder) {
         return Recomment.builder()
                 .id(uuidHolder.random())
-                .commentId(commentRequest.getCommentId())
-                .userId(commentRequest.getUserId())
-                .contents(commentRequest.getContents())
+                .commentId(recommentRequest.getCommentId())
+                .userId(recommentRequest.getUserId())
+                .contents(recommentRequest.getContents())
                 .deleted(false)
                 .createdAt(clockHolder.mills())
                 .deletedAt(0)

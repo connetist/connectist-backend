@@ -72,7 +72,10 @@ public class Board {
         }
     }
 
-    public void deletePost(ClockHolder clockHolder) {
+    public void deletePost(ClockHolder clockHolder, String inputUserId) {
+        if(!inputUserId.equals(this.getUserId())){
+            throw new GlobalException(ResultCode.UNAUTHROIZED);
+        }
         this.deletedAt = clockHolder.mills();
         this.deleted = true;
     }

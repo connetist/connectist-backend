@@ -1,6 +1,5 @@
-package org.example.boardservice.board.dto.request.comment;
+package org.example.boardservice.board.dto.request.comment.create;
 
-import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,7 +9,4 @@ public class CommentRequest {
     private String boardId;
     private String userId;
     private String contents;
-
-    @Nullable
-    private String commentId;
 }

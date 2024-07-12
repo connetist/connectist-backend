@@ -1,6 +1,7 @@
 package org.example.boardservice.board.infrastructure.repository.comment;
 
 import org.example.boardservice.board.domain.Comment;
+import org.example.boardservice.board.domain.Recomment;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ public interface CommentReposotiry {
 
     List<Comment> findByBoardId(String boardId);
 
-    List<Comment> saveComment(Comment comment);
+    Comment saveComment(Comment comment);
 
+    Recomment findRecommentById(String commentId, String recommentId);
 }

@@ -10,6 +10,5 @@ public class CommentDeleteRequest {
     private String commentId;
     private String userId;
 
-    @Nullable
-    private String recommentId;
 }
+

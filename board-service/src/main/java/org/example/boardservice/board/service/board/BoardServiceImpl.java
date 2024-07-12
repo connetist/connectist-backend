@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.example.boardservice.board.domain.Board;
 import org.example.boardservice.board.domain.Comment;
+import org.example.boardservice.board.dto.request.board.BoardDeleteRequest;
+import org.example.boardservice.board.dto.request.board.BoardLikeRequest;
+import org.example.boardservice.board.dto.request.board.BoardRequest;
 import org.example.boardservice.board.dto.response.BoardResponse;
 import org.example.boardservice.board.infrastructure.repository.board.BoardRepository;
 import org.example.boardservice.board.infrastructure.repository.comment.CommentReposotiry;
@@ -49,35 +52,34 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public Board createBoard(String userId, String labId, String contents){
-        Board board = Board.createBoard(labId,userId,contents,uuidHolder,clockHolder);
+    public Board createBoard(BoardRequest boardRequest){
+        Board board = Board.createBoard(boardRequest.getLabId(), boardRequest.getUserId(), boardRequest.getContent(), uuidHolder,clockHolder);
         return boardRepository.save(board);
     }
 
     @Override
-    public Board deleteBoard(String boardId, String userId){
-        log.info("Deleting board with id {}", boardId);
-        Board board = boardRepository.findByBoardId(boardId);
-        if (board.getUserId().equals(userId)){
-            board.deletePost(clockHolder);
-        }else{
-            throw new GlobalException(ResultCode.UNAUTHROIZED);
-        }
-        log.info(board.toString());
+    public Board deleteBoard(BoardDeleteRequest boardDeleteRequest){
+        Board board = boardRepository.findByBoardId(boardDeleteRequest.getBoardId());
+//        if (board.getUserId().equals(userId)){
+//            board.deletePost(clockHolder);
+//        }else{
+//            throw new GlobalException(ResultCode.UNAUTHROIZED);
+//        }
+        board.deletePost(clockHolder, board.getUserId());
         return boardRepository.save(board);
     }
 
     @Override
-    public Board addLikeBoard(String boardId, String userId) {
+    public Board addLikeBoard(String boardId, BoardLikeRequest boardLikeRequest) {
         Board board = boardRepository.findByBoardId(boardId);
-        board.addLike(userId, boardId, uuidHolder, clockHolder);
+        board.addLike(boardLikeRequest.getUserId(), boardId, uuidHolder, clockHolder);
         return boardRepository.save(board);
     }
 
     @Override
-    public Board removeLikeBoard(String boardId, String userId) {
+    public Board removeLikeBoard(String boardId, BoardLikeRequest boardLikeRequest) {
         Board board = boardRepository.findByBoardId(boardId);
-        board.removeLike(userId);
+        board.removeLike(boardLikeRequest.getUserId());
         return boardRepository.save(board);
     }
 

@@ -57,7 +57,7 @@ public class BoardController {
     ) {
         new RequestCheck(boardRequest).check();
 
-        Board board = boardService.createBoard(boardRequest.getUserId(), boardRequest.getLabId(), boardRequest.getContent());
+        Board board = boardService.createBoard(boardRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 RestResponse.success(board)
         );
@@ -70,7 +70,7 @@ public class BoardController {
     ) {
         new RequestCheck(boardDeleteRequest).check();
 
-        Board board = boardService.deleteBoard(boardDeleteRequest.getBoardId(), boardDeleteRequest.getUserId());
+        Board board = boardService.deleteBoard(boardDeleteRequest);
         return ResponseEntity.status(HttpStatus.OK).body(RestResponse.success(board));
     }
 
@@ -82,7 +82,7 @@ public class BoardController {
             ) {
         new RequestCheck(boardLikeRequest).check();
 
-        Board board = boardService.addLikeBoard(postId, boardLikeRequest.getUserId());
+        Board board = boardService.addLikeBoard(postId, boardLikeRequest);
         return ResponseEntity.status(HttpStatus.OK).body(RestResponse.success(board));
     }
 
@@ -92,7 +92,7 @@ public class BoardController {
             @PathVariable String postId,
             @RequestBody BoardLikeRequest boardLikeRequest
     ) {
-        Board board = boardService.removeLikeBoard(postId, boardLikeRequest.getUserId());
+        Board board = boardService.removeLikeBoard(postId, boardLikeRequest);
         return ResponseEntity.status(HttpStatus.OK).body(RestResponse.success(board));
     }
 
