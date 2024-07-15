@@ -1,5 +1,6 @@
 package com.example.userservice.user.service.token;
 
+import com.example.userservice.user.dto.response.token.TokenResponse;
 import com.example.userservice.user.dto.response.token.UserWithToken;
 import com.example.userservice.user.infrastructure.user.UserRepository;
 import com.example.userservice.util.token.JwtUtil;
@@ -51,7 +52,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     }
 
     @Override
-    public UserWithToken verifyToken(String accessToken, String refreshToken) {
+    public TokenResponse verifyToken(String accessToken, String refreshToken) {
         String userId = null;
         String userRole = null;
         try {
@@ -74,9 +75,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
             tokenRepository.delete(userId);
             tokenRepository.save(TokenEntity.from(token));
 
-            return UserWithToken.builder()
-                    .access(newAccessToken)
-                    .refresh(newRefreshToken).build();
+            return new TokenResponse(newAccessToken, newRefreshToken);
 
         }else{
             throw new GlobalException(ErrorCode.LOGIN_ERROR);

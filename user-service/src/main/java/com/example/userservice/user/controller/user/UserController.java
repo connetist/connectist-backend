@@ -12,6 +12,7 @@ import com.example.userservice.user.dto.response.token.UserWithToken;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,16 @@ import static com.example.userservice.user.dto.response.GlobalResponse.*;
 @RequestMapping("/api/users")
 public class UserController {
 
+    @Value("${server.port}")
+    private String serverPort;
+
     private final UserService userService;
+
+    @GetMapping("/health")
+    public ResponseEntity<GlobalResponse<String>> status() {
+        String str = "User-service는" + serverPort + "에서 실행 중입니다";
+        return of(SuccessCode.OK, str);
+    }
 
     // login
     @PostMapping("/login")
