@@ -1,4 +1,4 @@
-package org.example.boardservice.board.service;
+package org.example.boardservice.board.service.board;
 
 
 import lombok.Builder;
@@ -45,10 +45,9 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public BoardResponse getBoardById(String boardId) {
+    public Board getBoardById(String boardId) {
         Board board = boardRepository.findByBoardId(boardId);
-        List<Comment> commentList = commentReposotiry.findByBoardId(boardId);
-        return new BoardResponse(board,commentList);
+        return board;
     }
 
     @Override
@@ -60,11 +59,6 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public Board deleteBoard(BoardDeleteRequest boardDeleteRequest){
         Board board = boardRepository.findByBoardId(boardDeleteRequest.getBoardId());
-//        if (board.getUserId().equals(userId)){
-//            board.deletePost(clockHolder);
-//        }else{
-//            throw new GlobalException(ResultCode.UNAUTHROIZED);
-//        }
         board.deletePost(clockHolder, board.getUserId());
         return boardRepository.save(board);
     }

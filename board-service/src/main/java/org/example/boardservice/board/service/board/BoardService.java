@@ -11,7 +11,7 @@ import java.util.List;
 public interface BoardService {
 
     List<Board> getAllByLabId(String labId);
-    BoardResponse getBoardById(String boardId);
+    Board getBoardById(String boardId);
     Board createBoard(BoardRequest boardRequest);
     Board deleteBoard(BoardDeleteRequest boardDeleteRequest);
 

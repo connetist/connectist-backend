@@ -86,4 +86,9 @@ public class CommentServiceImpl implements CommentService {
 
         return commentReposotiry.saveComment(comment);
     }
+
+    public List<Comment> getCommentsByPostId(String postId){
+        List<Comment> commentList = commentReposotiry.findByBoardId(postId);
+        return commentList;
+    }
 }

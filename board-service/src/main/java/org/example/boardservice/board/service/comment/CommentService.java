@@ -8,6 +8,8 @@ import org.example.boardservice.board.dto.request.comment.delete.CommentDeleteRe
 import org.example.boardservice.board.dto.request.comment.delete.RecommentDeleteRequest;
 import org.example.boardservice.board.dto.request.comment.like.CommentLikeRequest;
 
+import java.util.List;
+
 public interface CommentService {
 
     Comment createComment(CommentRequest commentRequest);
@@ -21,4 +23,6 @@ public interface CommentService {
     Comment addLikeComment(CommentLikeRequest commentLikeRequest);
 
     Comment deleteLikeComment(CommentLikeRequest commentLikeRequest);
+
+    List<Comment> getCommentsByPostId(String postId);
 }

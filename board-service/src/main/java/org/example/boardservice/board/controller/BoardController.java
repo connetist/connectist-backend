@@ -5,12 +5,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Request;
 import org.example.boardservice.board.domain.Board;
+import org.example.boardservice.board.domain.Comment;
 import org.example.boardservice.board.dto.request.board.BoardDeleteRequest;
 import org.example.boardservice.board.dto.request.board.BoardLikeRequest;
 import org.example.boardservice.board.dto.request.board.BoardRequest;
 import org.example.boardservice.board.dto.response.BoardResponse;
 import org.example.boardservice.board.dto.response.RestResponse;
 import org.example.boardservice.board.service.board.BoardService;
+import org.example.boardservice.board.service.comment.CommentService;
 import org.example.boardservice.utils.requestverify.RequestCheck;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,7 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
+    private final CommentService commentService;
 
 
     // 특정 연구실 게시글 전체 조회
@@ -46,8 +49,10 @@ public class BoardController {
     ) {
         new RequestCheck(postId).checkString();
 
-        BoardResponse boardById = boardService.getBoardById(postId);
-        return ResponseEntity.status(HttpStatus.OK).body(RestResponse.success(boardById));
+        Board board  = boardService.getBoardById(postId);
+        List<Comment> commentList = commentService.getCommentsByPostId(postId);
+        BoardResponse boardResponse = new BoardResponse(board,commentList);
+        return ResponseEntity.status(HttpStatus.OK).body(RestResponse.success(boardResponse));
     }
 
     // 게시글 생성
