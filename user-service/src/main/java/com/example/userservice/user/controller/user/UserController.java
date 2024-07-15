@@ -35,7 +35,7 @@ public class UserController {
 
     @GetMapping("/health")
     public ResponseEntity<GlobalResponse<String>> status() {
-        String str = "Chat-service는" + serverPort + "에서 실행 중입니다";
+        String str = "User-service는" + serverPort + "에서 실행 중입니다";
         return of(SuccessCode.OK, str);
     }
 

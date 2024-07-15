@@ -20,7 +20,7 @@ public class TokenController {
 
     private final JwtTokenService tokenService;
 
-    @GetMapping
+    @PostMapping
     public ResponseEntity<GlobalResponse<TokenResponse>> verifyToken(
             @RequestBody ExpiredAccessTokenRequest expiredAccessTokenRequest
     ) {
