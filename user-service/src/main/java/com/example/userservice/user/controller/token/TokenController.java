@@ -1,5 +1,6 @@
 package com.example.userservice.user.controller.token;
 
+import com.example.userservice.user.dto.response.token.TokenResponse;
 import com.example.userservice.user.dto.response.token.UserWithToken;
 import com.example.userservice.user.dto.request.token.ExpiredAccessTokenRequest;
 import com.example.userservice.user.dto.request.RequestCheck;
@@ -20,14 +21,14 @@ public class TokenController {
     private final JwtTokenService tokenService;
 
     @GetMapping
-    public ResponseEntity<GlobalResponse<UserWithToken>> verifyToken(
+    public ResponseEntity<GlobalResponse<TokenResponse>> verifyToken(
             @RequestBody ExpiredAccessTokenRequest expiredAccessTokenRequest
     ) {
         new RequestCheck(expiredAccessTokenRequest).check();
 
-        UserWithToken userWithToken = tokenService.verifyToken(expiredAccessTokenRequest.getAccessToken(), expiredAccessTokenRequest.getRefreshToken());
+        TokenResponse tokenResponse = tokenService.verifyToken(expiredAccessTokenRequest.getAccessToken(), expiredAccessTokenRequest.getRefreshToken());
 
-        return of(SuccessCode.OK, userWithToken);
+        return of(SuccessCode.OK, tokenResponse);
     }
 
 }
