@@ -87,12 +87,10 @@ public class UserController {
     }
 
     // user update
-    @PatchMapping("/{email}")
+    @PatchMapping
     public ResponseEntity<GlobalResponse<User>> updateUserController(
-            @PathVariable("email") String email,
             @RequestBody UserUpdateRequest userUpdateRequest
     ) {
-        new RequestCheck(email).checkString();
         new RequestCheck(userUpdateRequest).check();
 
         User update = userService.update(userUpdateRequest);
@@ -100,12 +98,10 @@ public class UserController {
     }
 
     // user delete
-    @DeleteMapping("/{email}")
+    @DeleteMapping
     public ResponseEntity<GlobalResponse<User>> deleteUserController(
-            @PathVariable("email") String email,
             @RequestBody UserDeleteRequest userDeleteRequest
     ) {
-        new RequestCheck(email).checkString();
         new RequestCheck(userDeleteRequest).check();
 
         User user = userService.delete(userDeleteRequest);

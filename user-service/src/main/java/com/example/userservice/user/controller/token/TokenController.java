@@ -15,7 +15,7 @@ import static com.example.userservice.user.dto.response.GlobalResponse.of;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/token")
+@RequestMapping("/api/users/token")
 public class TokenController {
 
     private final JwtTokenService tokenService;
