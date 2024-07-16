@@ -2,9 +2,12 @@ package org.example.apigatewayservice.filter;
 
 import jdk.jfr.Category;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.el.parser.Token;
+import org.example.apigatewayservice.feign.TokenClient;
 import org.example.apigatewayservice.response.TokenResponse;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpHeaders;
@@ -23,10 +26,12 @@ import io.jsonwebtoken.Jwts;
 public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<AuthorizationHeaderFilter.Config> {
 
     Environment env;
+    TokenClient tokenClient;
 
-    public AuthorizationHeaderFilter(Environment env) {
+    public AuthorizationHeaderFilter(Environment env, @Lazy TokenClient tokenClient) {
         super(Config.class);
         this.env = env;
+        this.tokenClient = tokenClient;
     }
 
     @Override
@@ -35,12 +40,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
 
-//            if (!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
-//                return onError(exchange, "No authorization header", HttpStatus.UNAUTHORIZED);
-//            }
-//
-//            String authorizationHeader = request.getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
-//            String jwt = authorizationHeader.replace("Bearer", "");
+
 
             HttpCookie accessToken = request.getCookies().getFirst("access-token");
 
@@ -63,17 +63,17 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
                 }
 
                 try{
-//                    TokenResponse response = generateNewAccessToken(refreshToken);
-//                    exchange.getResponse().addCookie(ResponseCookie.from("access-token",response.getAccessToken())
-//                            .path("/")
-//                            .httpOnly(true)
-//                            .secure(true)
-//                            .build());
-//                    exchange.getResponse().addCookie(ResponseCookie.from("refresh-token",response.getRefreshToken())
-//                            .path("/")
-//                            .httpOnly(true)
-//                            .secure(true)
-//                            .build());
+                    TokenResponse response = tokenClient.getTokens(refreshTokenValue);
+                    exchange.getResponse().addCookie(ResponseCookie.from("access-token",response.getAccessToken())
+                            .path("/")
+                            .httpOnly(true)
+                            .secure(true)
+                            .build());
+                    exchange.getResponse().addCookie(ResponseCookie.from("refresh-token",response.getRefreshToken())
+                            .path("/")
+                            .httpOnly(true)
+                            .secure(true)
+                            .build());
                 }catch (Exception e){
                     return onError(exchange,"Failed to get new Tokens",HttpStatus.UNAUTHORIZED);
                 }
