@@ -27,6 +27,13 @@ spring:
             - Method=GET,POST
           filters:
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        - id : user-get-token
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/api/token
+            - Method=GET,POST
+          filters:
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
