@@ -1,7 +1,6 @@
 package com.example.userservice.user.controller.token;
 
 import com.example.userservice.user.dto.response.token.TokenResponse;
-import com.example.userservice.user.dto.response.token.UserWithToken;
 import com.example.userservice.user.dto.request.token.ExpiredAccessTokenRequest;
 import com.example.userservice.user.dto.request.RequestCheck;
 import com.example.userservice.user.dto.response.GlobalResponse;

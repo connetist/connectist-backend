@@ -43,7 +43,7 @@ public class JwtUtil {
     public String createAccessTokenJWT(String userId, String role) {
 
         Date now = new Date();
-        Date exp = new Date(System.currentTimeMillis() + 1 * (1000 * 60 * 60));
+        Date exp = new Date(System.currentTimeMillis() + 1 * (1000 * 10));
 
         return Jwts.builder()
                 .claim("userId", userId)
