@@ -2,11 +2,17 @@ package org.example.apigatewayservice.filter;
 
 import jdk.jfr.Category;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.el.parser.Token;
+import org.example.apigatewayservice.feign.TokenClient;
+import org.example.apigatewayservice.response.TokenResponse;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
@@ -20,10 +26,12 @@ import io.jsonwebtoken.Jwts;
 public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<AuthorizationHeaderFilter.Config> {
 
     Environment env;
+    TokenClient tokenClient;
 
-    public AuthorizationHeaderFilter(Environment env) {
+    public AuthorizationHeaderFilter(Environment env, @Lazy TokenClient tokenClient) {
         super(Config.class);
         this.env = env;
+        this.tokenClient = tokenClient;
     }
 
     @Override
@@ -32,17 +40,49 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
 
-            if (!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
-//                System.out.println("NOT AUTHORIZED");
-                return onError(exchange, "No authorization header", HttpStatus.UNAUTHORIZED);
+
+
+            HttpCookie accessToken = request.getCookies().getFirst("access-token");
+
+            if (accessToken == null){
+                return onError(exchange, "No AccessToken", HttpStatus.UNAUTHORIZED);
             }
 
-            String authorizationHeader = request.getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
-            String jwt = authorizationHeader.replace("Bearer", "");
+            String accessTokenValue = accessToken.getValue();
 
-            if (!isJwtValid(jwt)) {
+            if (!isJwtValid(accessTokenValue)){
+                HttpCookie refreshToken = request.getCookies().getFirst("refresh-token");
+                if (refreshToken == null){
+                    return onError(exchange,"No refreshToken", HttpStatus.UNAUTHORIZED);
+                }
+
+                String refreshTokenValue = refreshToken.getValue();
+
+                if (!isJwtValid(refreshTokenValue)){
+                    return onError(exchange,"RefreshToken is not valid", HttpStatus.UNAUTHORIZED);
+                }
+
+                try{
+                    TokenResponse response = tokenClient.getTokens(refreshTokenValue);
+                    exchange.getResponse().addCookie(ResponseCookie.from("access-token",response.getAccessToken())
+                            .path("/")
+                            .httpOnly(true)
+                            .secure(true)
+                            .build());
+                    exchange.getResponse().addCookie(ResponseCookie.from("refresh-token",response.getRefreshToken())
+                            .path("/")
+                            .httpOnly(true)
+                            .secure(true)
+                            .build());
+                }catch (Exception e){
+                    return onError(exchange,"Failed to get new Tokens",HttpStatus.UNAUTHORIZED);
+                }
                 return onError(exchange, "JWT token is not valid", HttpStatus.UNAUTHORIZED);
             }
+
+
+
+
 
             return chain.filter(exchange);
 
