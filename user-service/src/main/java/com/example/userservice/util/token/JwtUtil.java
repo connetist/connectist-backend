@@ -45,6 +45,7 @@ public class JwtUtil {
         Date now = new Date();
         Date exp = new Date(System.currentTimeMillis() + 10 * 1000);
 
+
         return Jwts.builder()
                 .claim("userId", userId)
                 .claim("role", role)

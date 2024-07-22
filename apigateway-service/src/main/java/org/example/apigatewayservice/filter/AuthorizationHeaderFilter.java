@@ -1,7 +1,9 @@
 package org.example.apigatewayservice.filter;
 
-import jdk.jfr.Category;
+import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
+import org.example.apigatewayservice.util.Token;
+import org.springframework.beans.factory.annotation.Value;
 import org.apache.el.parser.Token;
 import org.example.apigatewayservice.feign.TokenClient;
 import org.example.apigatewayservice.response.TokenResponse;
@@ -16,15 +18,37 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.result.method.annotation.ResponseBodyResultHandler;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
-import io.jsonwebtoken.Jwts;
+
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
 
 
 @Component
 @Slf4j
 public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<AuthorizationHeaderFilter.Config> {
 
+
+//     private final Environment env;
+//     private final SecretKey secretKey;
+//     private final WebClient.Builder webClientBuilder;
+//     private final ResponseBodyResultHandler responseBodyResultHandler;
+
+//     public AuthorizationHeaderFilter(Environment env, @Value("${token.secret}") String secret, WebClient.Builder webClientBuilder, ResponseBodyResultHandler responseBodyResultHandler) {
+//         super(Config.class);
+//         this.env = env;
+//         this.secretKey =
+//                 new SecretKeySpec(
+//                         secret.getBytes(StandardCharsets.UTF_8),
+//                         SignatureAlgorithm.HS256.getJcaName()
+//                 );
+//         this.webClientBuilder = webClientBuilder;
+//         this.responseBodyResultHandler = responseBodyResultHandler;
     Environment env;
     TokenClient tokenClient;
 
@@ -38,6 +62,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
     public GatewayFilter apply(Config config) {
 
         return (exchange, chain) -> {
+            log.info("Authorization header filter started");
             ServerHttpRequest request = exchange.getRequest();
 
 
@@ -108,17 +133,31 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
         String subject = null;
 
         try{
-            subject = Jwts.parser().setSigningKey(env.getProperty("token.secret"))
-                    .parseClaimsJws(jwt).getBody()
-                    .getSubject();
+            JwtParser jwtParser = Jwts.parserBuilder().setSigningKey(secretKey).build();
+            subject = jwtParser.parseClaimsJws(jwt).getBody().get("userId", String.class);
+            log.info("subject: {}", subject);
         } catch (Exception ex){
+            log.error(ex.getMessage());
             returnValue = false;
         }
 
         if(subject== null || subject.isEmpty()){
             returnValue = false;
         }
-//        return false;
         return returnValue;
+    }
+
+    private Mono<String> validRefreshToken(String accessToken, String refreshToken) {
+        Token token = new Token();
+        token.setAccessToken(accessToken);
+        token.setRefreshToken(refreshToken);
+
+        WebClient webClient = webClientBuilder
+                .baseUrl("http://localhost:9014")
+                .build();
+        return webClient.post()
+                .uri("/user-service/api/users/token")
+                .bodyValue(token)
+                .retrieve().bodyToMono(String.class);
     }
 }
