@@ -34,6 +34,9 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
     TokenClient tokenClient;
     private final ObjectMapper objectMapper;
 
+    private static final String ACCESS_TOKEN = "access-token";
+    private static final String REFRESH_TOKEN = "refresh-token";
+
     public AuthorizationHeaderFilter(@Lazy TokenClient tokenClient, @Value("${token.secret}") String secret) {
         super(Config.class);
         this.tokenClient = tokenClient;
@@ -52,7 +55,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
             log.info("Authorization header filter started");
             ServerHttpRequest request = exchange.getRequest();
 
-            HttpCookie accessToken = request.getCookies().getFirst("access-token");
+            HttpCookie accessToken = request.getCookies().getFirst(ACCESS_TOKEN);
 
             if (accessToken == null){
                 return onError(exchange, "No AccessToken", HttpStatus.UNAUTHORIZED);
@@ -61,7 +64,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
             String accessTokenValue = accessToken.getValue();
 
             if (!isJwtValid(accessTokenValue)){
-                HttpCookie refreshToken = request.getCookies().getFirst("refresh-token");
+                HttpCookie refreshToken = request.getCookies().getFirst(REFRESH_TOKEN);
                 if (refreshToken == null){
                     return onError(exchange,"No refreshToken", HttpStatus.UNAUTHORIZED);
                 }
@@ -79,16 +82,16 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
 
                     TokenResponse tokenResponse = objectMapper.readValue(response, TokenResponse.class);
                     // 기존 cookie 삭제
-                    exchange.getResponse().addCookie(ResponseCookie.from("access-token", null).maxAge(0).build());
-                    exchange.getResponse().addCookie(ResponseCookie.from("refresh-token", null).maxAge(0).build());
+                    exchange.getResponse().addCookie(ResponseCookie.from(ACCESS_TOKEN, null).maxAge(0).build());
+                    exchange.getResponse().addCookie(ResponseCookie.from(REFRESH_TOKEN, null).maxAge(0).build());
 
                     // 새로운 cookie 추가
-                    exchange.getResponse().addCookie(ResponseCookie.from("access-token", tokenResponse.getData().getAccessToken())
+                    exchange.getResponse().addCookie(ResponseCookie.from(ACCESS_TOKEN, tokenResponse.getData().getAccessToken())
                             .path("/")
                             .httpOnly(true)
                             .secure(true)
                             .build());
-                    exchange.getResponse().addCookie(ResponseCookie.from("refresh-token", tokenResponse.getData().getRefreshToken())
+                    exchange.getResponse().addCookie(ResponseCookie.from(REFRESH_TOKEN, tokenResponse.getData().getRefreshToken())
                             .path("/")
                             .httpOnly(true)
                             .secure(true)
@@ -119,7 +122,6 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
     private boolean isJwtValid(String jwt){
 
         boolean returnValue = true;
-
         String subject = null;
 
         try{
