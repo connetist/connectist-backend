@@ -5,12 +5,14 @@ import com.example.userservice.user.domain.token.Token;
 import com.example.userservice.util.exception.code.GlobalException;
 import com.example.userservice.user.infrastructure.entity.TokenEntity;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
 
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Repository
 @RequiredArgsConstructor
 public class TokenRepositoryImpl implements TokenRepository {
@@ -23,11 +25,12 @@ public class TokenRepositoryImpl implements TokenRepository {
         try {
             ValueOperations<String, TokenEntity> valueOperations = redisTemplate.opsForValue();
             TokenEntity tokenEntity = valueOperations.get(id);
-
             assert tokenEntity != null;
             return tokenEntity.toModel();
 
+
         } catch (Exception e) {
+            log.error(e.getMessage());
             throw new GlobalException(ErrorCode.INTERNAL_SERVER_ERROR);
         }
 

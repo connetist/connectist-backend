@@ -11,8 +11,10 @@ import com.example.userservice.util.exception.code.GlobalException;
 import com.example.userservice.user.infrastructure.entity.TokenEntity;
 import com.example.userservice.user.infrastructure.token.TokenRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class JwtTokenServiceImpl implements JwtTokenService {
@@ -40,7 +42,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         try {
             Token token = Token.builder()
                     .id(user.getId())
-                    .refreshToken(jwtUtil.createRefreshTokenJWT(user.getId(), EXPIRED_DAY))
+                    .refreshToken(jwtUtil.createRefreshTokenJWT(user.getId(), user.getStatus().toString(), EXPIRED_DAY))
                     .expiration(EXPIRED_DAY)
                     .build();
 
@@ -56,15 +58,16 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         String userId = null;
         String userRole = null;
         try {
-            userId = jwtUtil.getUserId(accessToken);
-            userRole = jwtUtil.getUserRole(accessToken);
+            userId = jwtUtil.getUserId(refreshToken);
+            userRole = jwtUtil.getUserRole(refreshToken);
         } catch (Exception e) {
+            log.error(e.getMessage());
             throw new GlobalException(ErrorCode.LOGIN_ERROR);
         }
         Token findToken = tokenRepository.findById(userId);
         if (findToken.getRefreshToken().equals(refreshToken)) {
             String newAccessToken = jwtUtil.createAccessTokenJWT(userId, userRole);
-            String newRefreshToken = jwtUtil.createRefreshTokenJWT(userId, EXPIRED_DAY);
+            String newRefreshToken = jwtUtil.createRefreshTokenJWT(userId, userRole,EXPIRED_DAY);
 
             Token token = Token.builder()
                     .id(userId)

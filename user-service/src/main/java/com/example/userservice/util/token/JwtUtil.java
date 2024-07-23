@@ -55,12 +55,13 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String createRefreshTokenJWT(String userId, int expireDay) {
+    public String createRefreshTokenJWT(String userId, String role, int expireDay) {
         Date now = new Date();
         Date exp = new Date(System.currentTimeMillis() + 1 * (1000 * 60 * 60 * 24 * expireDay));
 
         return Jwts.builder()
                 .claim("userId", userId)
+                .claim("role", role)
                 .issuedAt(now)
                 .expiration(exp)
                 .signWith(secretKey)
