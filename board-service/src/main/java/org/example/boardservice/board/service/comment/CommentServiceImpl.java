@@ -63,7 +63,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Recomment deleteRecomment(RecommentDeleteRequest recommentDeleteRequest) {
-        Comment comment = commentReposotiry.findById(recommentDeleteRequest.getRecommentId());
+        Comment comment = commentReposotiry.findById(recommentDeleteRequest.getCommentId());
         comment.deleteRecomment(recommentDeleteRequest.getRecommentId(), clockHolder);
 
         commentReposotiry.saveComment(comment);

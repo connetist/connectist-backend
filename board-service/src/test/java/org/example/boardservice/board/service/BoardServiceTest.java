@@ -131,7 +131,6 @@ public class BoardServiceTest {
     public void 게시판_좋아요_추가(){
         BoardLikeRequest rq = BoardLikeRequest.builder()
                 .userId("user2")
-                .postId("board1")
                 .build();
 
         Board board = boardService.addLikeBoard("board1",rq);
@@ -143,7 +142,6 @@ public class BoardServiceTest {
     public void 게시판_좋아요_삭제(){
         BoardLikeRequest rq = BoardLikeRequest.builder()
                 .userId("user1")
-                .postId("board1")
                 .build();
 
         Board board = boardService.removeLikeBoard("board1",rq);
