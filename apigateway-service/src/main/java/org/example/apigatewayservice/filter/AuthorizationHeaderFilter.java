@@ -2,6 +2,7 @@ package org.example.apigatewayservice.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.*;
+import io.netty.handler.codec.http.cookie.Cookie;
 import lombok.extern.slf4j.Slf4j;
 import org.example.apigatewayservice.dto.request.TokenRequest;
 import org.example.apigatewayservice.dto.response.TokenResponse;
@@ -36,7 +37,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
 
     private static final String ACCESS_TOKEN = "access-token";
     private static final String REFRESH_TOKEN = "refresh-token";
-
+    private static final String TOKEN_PATH = "/user-service/api/users";
     public AuthorizationHeaderFilter(@Lazy TokenClient tokenClient, @Value("${token.secret}") String secret) {
         super(Config.class);
         this.tokenClient = tokenClient;
@@ -82,20 +83,21 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
 
                     TokenResponse tokenResponse = objectMapper.readValue(response, TokenResponse.class);
                     // 기존 cookie 삭제
-                    exchange.getResponse().addCookie(ResponseCookie.from(ACCESS_TOKEN, null).maxAge(0).build());
-                    exchange.getResponse().addCookie(ResponseCookie.from(REFRESH_TOKEN, null).maxAge(0).build());
+                    exchange.getResponse().addCookie(ResponseCookie.from(ACCESS_TOKEN, null).maxAge(0).path(TOKEN_PATH).build());
+                    exchange.getResponse().addCookie(ResponseCookie.from(REFRESH_TOKEN, null).maxAge(0).path(TOKEN_PATH).build());
 
                     // 새로운 cookie 추가
                     exchange.getResponse().addCookie(ResponseCookie.from(ACCESS_TOKEN, tokenResponse.getData().getAccessToken())
-                            .path("/")
+                            .path(TOKEN_PATH)
                             .httpOnly(true)
                             .secure(true)
                             .build());
                     exchange.getResponse().addCookie(ResponseCookie.from(REFRESH_TOKEN, tokenResponse.getData().getRefreshToken())
-                            .path("/")
+                            .path(TOKEN_PATH)
                             .httpOnly(true)
                             .secure(true)
                             .build());
+
                 }catch (Exception e){
                     log.error(e.getMessage());
                     return onError(exchange,"Failed to get new Tokens",HttpStatus.UNAUTHORIZED);

@@ -154,7 +154,7 @@ class UserServiceImplTest {
                 .password(newDummyPassword)
                 .degree(UserDegree.Doctor)
                 .sex(UserSex.MALE)
-                .major(UserMajor.ChemiStry)
+                .major(UserMajor.Chemistry)
                 .nickname("New dummy")
                 .build();
 

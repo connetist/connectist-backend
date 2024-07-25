@@ -47,6 +47,7 @@ public class User {
                 .id(user.getId())
                 .pw(userUpdateRequest.getPassword())
                 .degree(userUpdateRequest.getDegree())
+                .school(user.getSchool())
                 .sex(userUpdateRequest.getSex())
                 .major(userUpdateRequest.getMajor())
                 .status(user.getStatus())

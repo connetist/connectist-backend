@@ -27,6 +27,6 @@ public class UserCertificationService {
     }
 
     private String generateCertificationUrl(String email, String certificationCode) {
-        return "http://localhost:8080/api/users/join/" + email + "/verify?certificationCode=" + certificationCode;
+        return "http://localhost:9014/user-service/api/users/join/" + email + "/verify?certificationCode=" + certificationCode;
     }
 }
