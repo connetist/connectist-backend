@@ -21,7 +21,6 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 
     private final JwtUtil jwtUtil;
     private final TokenRepository tokenRepository;
-    private final UserRepository userRepository;
     private static final int EXPIRED_DAY = 14;
 
     @Override
@@ -81,6 +80,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
             return new TokenResponse(newAccessToken, newRefreshToken);
 
         }else{
+            log.error("기존 refresh : {} , given refresh : {}", findToken.getRefreshToken(), refreshToken);
             throw new GlobalException(ErrorCode.LOGIN_ERROR);
         }
 

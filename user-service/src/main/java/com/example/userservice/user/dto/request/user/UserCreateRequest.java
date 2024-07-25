@@ -72,7 +72,7 @@ public class UserCreateRequest {
             return UserMajor.Biology;
         }
         if (major == 3) {
-            return UserMajor.ChemiStry;
+            return UserMajor.Chemistry;
         }
         if (major == 4) {
             return UserMajor.Physics;

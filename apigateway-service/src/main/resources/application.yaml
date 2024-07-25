@@ -34,6 +34,7 @@ spring:
             - Method=GET,POST
           filters:
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+
         - id : user-get-token
           uri: lb://USER-SERVICE
           predicates:
@@ -41,11 +42,12 @@ spring:
             - Method=GET,POST
           filters:
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
             - Path=/user-service/**
-            - Method=GET,POST
+            - Method=GET,POST, PATCH, DELETE
           filters:
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
