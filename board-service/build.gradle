@@ -8,7 +8,9 @@ plugins {
 jacoco {
 	toolVersion = "0.8.8" // Jacoco 플러그인 버전 명시
 }
-
+ext {
+	set('springCloudVersion', "2023.0.1")
+}
 test {
 	useJUnitPlatform()
 	finalizedBy jacocoTestReport  // 테스트가 끝난 후 jacocoTestReport를 실행합니다.
@@ -60,8 +62,14 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
 }

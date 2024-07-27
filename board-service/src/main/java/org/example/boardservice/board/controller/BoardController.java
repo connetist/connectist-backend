@@ -13,7 +13,9 @@ import org.example.boardservice.board.dto.response.BoardResponse;
 import org.example.boardservice.board.dto.response.RestResponse;
 import org.example.boardservice.board.service.board.BoardService;
 import org.example.boardservice.board.service.comment.CommentService;
+import org.example.boardservice.utils.PortListener;
 import org.example.boardservice.utils.requestverify.RequestCheck;
+import org.hibernate.cfg.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +30,15 @@ public class BoardController {
 
     private final BoardService boardService;
     private final CommentService commentService;
+    private final PortListener portListener;
 
+
+    // health check
+    @GetMapping("/health")
+    public ResponseEntity<RestResponse<String>> healthCheck() {
+        String port = "Board service : " + portListener.getPort() + "에서 실행중입니다.";
+        return ResponseEntity.status(HttpStatus.OK).body(RestResponse.success(port));
+    }
 
     // 특정 연구실 게시글 전체 조회
     @GetMapping("/posts/lab/{labId}")

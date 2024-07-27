@@ -19,9 +19,17 @@ spring:
         default_batch_fetch_size: 100
         jdbc:
           batch_size: 100
+
   sql:
     init:
       mode: always
   profiles:
     active: local
 
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone : http://localhost:8761/eureka

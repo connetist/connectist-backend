@@ -1,4 +1,4 @@
-package org.example.boardservice.board.service;
+package org.example.boardservice.board.service.comment;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,15 +11,11 @@ import org.example.boardservice.board.dto.request.comment.delete.RecommentDelete
 import org.example.boardservice.board.dto.request.comment.like.CommentLikeRequest;
 import org.example.boardservice.board.infrastructure.repository.board.BoardRepository;
 import org.example.boardservice.board.infrastructure.repository.comment.CommentReposotiry;
-import org.example.boardservice.board.service.comment.CommentService;
-import org.example.boardservice.error.GlobalException;
-import org.example.boardservice.error.ResultCode;
 import org.example.boardservice.utils.clock.ClockHolder;
 import org.example.boardservice.utils.uuid.UuidHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
