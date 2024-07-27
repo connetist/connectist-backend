@@ -52,6 +52,25 @@ spring:
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
 
+        - id : board-service
+          uri: lb://BOARD-SERVICE
+          predicates:
+            - Path=/board-service/**
+            - Method=GET, POST, PATCH, DELETE
+          filters:
+            - RewritePath=/board-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+
+        - id: chat-service
+          uri: lb://CHAT-SERVICE
+          predicates:
+            - Path=/chat-service/**
+            - Method=GET, POST, PATCH, DELETE
+          filters:
+            - RewritePath=/chat-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+
+
 token:
   secret: lfnaoiefqwenaksdnflkasfgioqwefiasdlkvandskjurnvqrnfalkdnfuinvienvs
 

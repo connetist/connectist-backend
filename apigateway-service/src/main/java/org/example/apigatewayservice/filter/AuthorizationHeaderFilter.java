@@ -37,7 +37,8 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
 
     private static final String ACCESS_TOKEN = "access-token";
     private static final String REFRESH_TOKEN = "refresh-token";
-    private static final String TOKEN_PATH = "/user-service/api/users";
+    private static final String TOKEN_PATH = "/";
+
     public AuthorizationHeaderFilter(@Lazy TokenClient tokenClient, @Value("${token.secret}") String secret) {
         super(Config.class);
         this.tokenClient = tokenClient;

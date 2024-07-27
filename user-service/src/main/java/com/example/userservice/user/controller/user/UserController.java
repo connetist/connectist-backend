@@ -50,11 +50,13 @@ public class UserController {
         ResponseCookie accessCookie = ResponseCookie
                 .from("access-token", userWithToken.getAccess())
                 .httpOnly(true)
+                .path("/")
                 .secure(true)
                 .build();
         ResponseCookie refreshCookie = ResponseCookie
                 .from("refresh-token", userWithToken.getRefresh())
                 .httpOnly(true)
+                .path("/")
                 .secure(true)
                 .build();
 
