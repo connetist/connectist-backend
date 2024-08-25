@@ -54,17 +54,19 @@ public class JoinUserServiceImpl implements JoinUserService {
     }
 
     @Override
-    public UserJoin certification(UserJoinCertificationRequest joinUserCertification) {
+    public UserJoin certification(UserJoinCertificationRequest joinUserCertification){
         UserJoin userJoin = joinUserRepository.findByEmail(joinUserCertification.getEmail()).orElseThrow(
                 () -> new GlobalException(ErrorCode.USER_NOT_FOUND_EMAIL)
         );
         // 보안코드가 맞는지 확인
         boolean compareResult = compare(userJoin.getCertificationCode(), joinUserCertification.getCertificationCode());
+
         if (compareResult) {
             userJoin = userJoin.updateStatus(userJoin, UserStatus.ABLE);
             joinUserRepository.replace(userJoin.getEmail(), userJoin);
             return userJoin;
         }
+
         throw new GlobalException(ErrorCode.USER_CERTIFICATION_NOT_MATCHED);
     }
 
