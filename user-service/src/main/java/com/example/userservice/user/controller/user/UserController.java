@@ -12,12 +12,15 @@ import com.example.userservice.user.dto.response.token.UserWithToken;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ServerWebExchange;
 
 import static com.example.userservice.user.dto.response.GlobalResponse.*;
 
@@ -31,6 +34,9 @@ public class UserController {
     @Value("${server.port}")
     private String serverPort;
 
+    @Autowired
+    private ServletWebServerApplicationContext webServerAppCtxt;
+
     private final UserService userService;
 
     @GetMapping("/health")
@@ -42,11 +48,15 @@ public class UserController {
     // login
     @PostMapping("/login")
     public ResponseEntity<GlobalResponse<User>> login(
-            @RequestBody UserLoginRequest userLogin
+            @RequestBody UserLoginRequest userLogin,
+            ServerWebExchange exchange
     ) {
         new RequestCheck(userLogin).check();
-
+        String serverPort = String.valueOf(webServerAppCtxt.getWebServer().getPort());
+        log.info((serverPort));
         UserWithToken userWithToken = userService.login(userLogin);
+
+        boolean serverPortCookieExists = exchange.getRequest().getCookies().containsKey("server-port");
         ResponseCookie accessCookie = ResponseCookie
                 .from("access-token", userWithToken.getAccess())
                 .httpOnly(true)
@@ -60,9 +70,21 @@ public class UserController {
                 .secure(true)
                 .build();
 
+
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.SET_COOKIE, accessCookie.toString());
         headers.add(HttpHeaders.SET_COOKIE, refreshCookie.toString());
+
+        if (!serverPortCookieExists){
+            ResponseCookie serverCookie = ResponseCookie
+                    .from("server-port",serverPort)
+                    .httpOnly(true)
+                    .path("/")
+                    .secure(true)
+                    .build();
+
+            headers.add(HttpHeaders.SET_COOKIE, serverCookie.toString());
+        }
         return of(SuccessCode.LOGIN_OK, userWithToken.getUser(), headers);
 
     }

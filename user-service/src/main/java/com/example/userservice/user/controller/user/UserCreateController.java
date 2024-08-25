@@ -14,8 +14,13 @@ import com.example.userservice.user.domain.user.UserJoin;
 import com.example.userservice.util.certification.email.EmailCertification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ServerWebExchange;
 
 import java.util.Map;
 
@@ -31,6 +36,9 @@ public class UserCreateController {
     private final EmailCertification emailCertification;
     private final UserService userService;
 
+    @Autowired
+    private ServletWebServerApplicationContext webServerAppCtxt;
+
     @GetMapping("/check")
     public ResponseEntity<GlobalResponse<String>> check(
             @RequestBody Map<String, String> emailMap
@@ -44,11 +52,30 @@ public class UserCreateController {
 
     // user Create
     @PostMapping("/email")
-    public ResponseEntity<GlobalResponse<UserJoin>> create(@RequestBody UserJoinRequest userCreate) {
+    public ResponseEntity<GlobalResponse<UserJoin>> create(@RequestBody UserJoinRequest userCreate, ServerWebExchange exchange) {
         new RequestCheck(userCreate).check();
 
         emailCertification.verify(userCreate.getSchool(), userCreate.getEmail());
         UserJoin userJoin = joinUserService.join(userCreate);
+
+        //sticky session을 통해서, 유저가 해당 Instance에 계속 접근할 수 있도록 server port 값 넣어주기
+
+        boolean serverPortCookieExists = exchange.getRequest().getCookies().containsKey("server-port");
+        String serverPort = String.valueOf(webServerAppCtxt.getWebServer().getPort());
+
+
+        HttpHeaders headers = new HttpHeaders();
+
+        if (!serverPortCookieExists){
+            ResponseCookie serverCookie = ResponseCookie
+                    .from("server-port",serverPort)
+                    .httpOnly(true)
+                    .path("/")
+                    .secure(true)
+                    .build();
+
+            headers.add(HttpHeaders.SET_COOKIE, serverCookie.toString());
+        }
         return of(SuccessCode.EMAIL_CREATED, userJoin);
     }
 
@@ -69,13 +96,29 @@ public class UserCreateController {
     @GetMapping("/{email}/verify")
     public ResponseEntity<GlobalResponse<UserJoinResponse>> certificationByLink(
             @PathVariable String email,
-            @RequestParam String certificationCode
+            @RequestParam String certificationCode,
+            ServerWebExchange exchange
     ){
         new RequestCheck(email).checkString();
         new RequestCheck(certificationCode).checkString();
 
         UserJoinCertificationRequest joinUserCertification = UserJoinCertificationRequest.from(email, certificationCode);
         UserJoin certification = joinUserService.certification(joinUserCertification);
+
+        //인증이 완료되면 sticky session 삭제하기
+
+        boolean serverPortCookieExists = exchange.getRequest().getCookies().containsKey("server-port");
+        HttpHeaders headers = new HttpHeaders();
+
+        if (serverPortCookieExists){
+            ResponseCookie deleteServerCookie = ResponseCookie
+                    .from("server-port", "")
+                    .path("/")
+                    .maxAge(0)  // 만료 시간을 0으로 설정하여 쿠키 삭제
+                    .build();
+            headers.add(HttpHeaders.SET_COOKIE, deleteServerCookie.toString());
+        }
+
         return of(SuccessCode.EMAIL_VERIFIED, UserJoinResponse.from(certification));
     }
 
