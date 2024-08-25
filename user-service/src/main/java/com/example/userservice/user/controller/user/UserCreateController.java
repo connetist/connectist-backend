@@ -79,17 +79,17 @@ public class UserCreateController {
         return of(SuccessCode.EMAIL_CREATED, userJoin);
     }
 
-//    // verify certification code after user create
-//    // 방식 1 번호 입력
-//    @PostMapping("/certification")
-//    public ResponseEntity<GlobalResponse<UserJoinResponse>> certificationByCode(
-//            @RequestBody UserJoinCertificationRequest joinUserCertification
-//    ){
-//        new RequestCheck(joinUserCertification).check();
-//
-//        UserJoin userJoin = joinUserService.certification(joinUserCertification);
-//        return of(SuccessCode.EMAIL_VERIFIED, UserJoinResponse.from(userJoin));
-//    }
+    // verify certification code after user create
+    // 방식 1 번호 입력
+    @PostMapping("/certification")
+    public ResponseEntity<GlobalResponse<UserJoinResponse>> certificationByCode(
+            @RequestBody UserJoinCertificationRequest joinUserCertification
+    ){
+        new RequestCheck(joinUserCertification).check();
+
+        UserJoin userJoin = joinUserService.certification(joinUserCertification);
+        return of(SuccessCode.EMAIL_VERIFIED, UserJoinResponse.from(userJoin));
+    }
 
     // 방식 2 링크
     // String으로 인증 정보 반환 : 수정 가능
