@@ -27,6 +27,7 @@ spring:
             - Method=GET,POST
           filters:
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+            - StickySessionFilter
         - id: user-join-service
           uri: lb://USER-SERVICE
           predicates:
