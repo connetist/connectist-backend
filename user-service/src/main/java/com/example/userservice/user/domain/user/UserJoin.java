@@ -39,12 +39,12 @@ public class UserJoin {
                 .build();
     }
 
-    public UserJoin updateStatus(UserJoin userJoin, UserStatus status) {
+    public UserJoin updateStatus(UserStatus status) {
         return UserJoin.builder()
-                .email(userJoin.getEmail())
-                .school(userJoin.getSchool())
+                .email(email)
+                .school(school)
                 .status(status)
-                .certificationCode(userJoin.getCertificationCode())
+                .certificationCode(certificationCode)
                 .build();
     }
 
