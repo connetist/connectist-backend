@@ -62,7 +62,7 @@ public class JoinUserServiceImpl implements JoinUserService {
         boolean compareResult = compare(userJoin.getCertificationCode(), joinUserCertification.getCertificationCode());
 
         if (compareResult) {
-            userJoin = userJoin.updateStatus(userJoin, UserStatus.ABLE);
+            userJoin = userJoin.updateStatus(UserStatus.ABLE);
             joinUserRepository.replace(userJoin.getEmail(), userJoin);
             return userJoin;
         }
