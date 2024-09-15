@@ -19,7 +19,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.Spy;
 
 import java.util.Optional;
 
@@ -50,8 +49,7 @@ class JoinUserServiceImplTest {
     }
 
     private UserCertificationService mockCertificationServiceInit() {
-        UserCertificationService mockCertificationService = Mockito.mock(UserCertificationService.class);
-        return mockCertificationService;
+        return Mockito.mock(UserCertificationService.class);
     }
 
     private static CertificationHolder mockCertificationHolderInit() {
