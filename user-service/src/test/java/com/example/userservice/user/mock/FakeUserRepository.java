@@ -24,7 +24,7 @@ public class FakeUserRepository implements UserRepository {
                 return Optional.of(user.toModel());
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override

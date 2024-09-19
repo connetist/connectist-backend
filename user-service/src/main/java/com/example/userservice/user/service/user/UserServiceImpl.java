@@ -62,13 +62,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserWithToken login(UserLoginRequest userLogin) {
 
-        System.out.println("HI3");
         User user = userRepository.findByEmail(userLogin.getEmail()).orElseThrow(
                 () -> new GlobalException(ErrorCode.LOGIN_ERROR)
         );
-        System.out.println("HI");
+
         if (!passwordEncoder.matches(userLogin.getPassword(), user.getPassword())) {
-            System.out.println("HI2");
             throw new GlobalException(ErrorCode.WRONG_USER_PASSWORD);
         } else {
             String accessToken = jwtTokenService.accessToken(user);
