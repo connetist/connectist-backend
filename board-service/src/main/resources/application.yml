@@ -4,9 +4,9 @@ spring:
   application:
     name: board-service
   datasource:
-    url: jdbc:mysql://localhost:3307/connectist-db
+    url: jdbc:mysql://localhost:3306/connectist-db
     username: user
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     password: "1234"
   jpa:
     hibernate:
@@ -19,6 +19,7 @@ spring:
         default_batch_fetch_size: 100
         jdbc:
           batch_size: 100
+        dialect: org.hibernate.dialect.MySQLDialect
 
   sql:
     init:

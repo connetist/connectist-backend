@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_container
+    environment:
+      MYSQL_ROOT_PASSWORD: "root_password"  # 루트 비밀번호 설정
+      MYSQL_DATABASE: "connectist-db"        # 초기 데이터베이스 생성
+      MYSQL_USER: "user"                      # 사용자 생성
+      MYSQL_PASSWORD: "1234"                  # 사용자 비밀번호
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - board-service-network
+
+  board_service:
+    image: board_service_image  # 자신의 이미지 이름으로 변경
+    container_name: board_service_container
+    build:
+      context: ./  # Dockerfile이 위치한 경로
+    ports:
+      - "9004:9004"
+    depends_on:
+      - mysql
+    networks:
+      - board-service-network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/connectist-db
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: "1234"
+
+networks:
+  board-service-network:
+
+volumes:
+  mysql_data:
