@@ -6,31 +6,46 @@ services:
     container_name: mysql_container
     environment:
       MYSQL_ROOT_PASSWORD: "root_password"  # 루트 비밀번호 설정
-      MYSQL_DATABASE: "connectist-db"        # 초기 데이터베이스 생성
-      MYSQL_USER: "user"                      # 사용자 생성
-      MYSQL_PASSWORD: "1234"                  # 사용자 비밀번호
+      MYSQL_DATABASE: "connectist-db"       # 초기 데이터베이스 생성
+      MYSQL_USER: "user"                    # 사용자 생성
+      MYSQL_PASSWORD: "1234"                # 사용자 비밀번호
     ports:
-      - "3306:3306"
+      - "3308:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
       - board-service-network
 
   board_service:
-    image: board_service_image  # 자신의 이미지 이름으로 변경
+    # 자신의 이미지 이름으로 변경
+    # image: board_service_image
     container_name: board_service_container
     build:
       context: ./  # Dockerfile이 위치한 경로
     ports:
-      - "9004:9004"
+      - "8111:8080"
     depends_on:
       - mysql
     networks:
       - board-service-network
     environment:
+      SPRING_PROFILES_ACTIVE: prod
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/connectist-db
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: "1234"
+      SERVER_PORT: 8080
+
+  nginx:
+    image: nginx:latest  # 공식 Nginx 이미지 사용
+    container_name: nginx_container
+    ports:
+      - "8083:8083"
+    depends_on:
+      - board_service
+    networks:
+      - board-service-network
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro  # 현재 디렉토리의 nginx.conf를 마운트
 
 networks:
   board-service-network:

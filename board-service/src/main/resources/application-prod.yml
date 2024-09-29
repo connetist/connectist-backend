@@ -1,0 +1,36 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: board-service
+  datasource:
+    url: jdbc:mysql://localhost:3307/connectist-db
+    username: user
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: "1234"
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    generate-ddl: true
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
+        jdbc:
+          batch_size: 100
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  sql:
+    init:
+      mode: always
+#  profiles:
+#    active: prod
+
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone : http://localhost:8761/eureka
