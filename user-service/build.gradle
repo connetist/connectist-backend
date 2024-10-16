@@ -6,9 +6,11 @@ plugins {
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
+
 ext {
     set('springCloudVersion', "2023.0.1")
 }
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
@@ -43,8 +45,6 @@ dependencies {
     testImplementation 'io.projectreactor:reactor-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-
 }
 
 dependencyManagement {

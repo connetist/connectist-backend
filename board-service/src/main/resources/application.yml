@@ -1,3 +1,25 @@
+server:
+  port: 9111
 spring:
-  profiles:
-    active: dev  # 기본 활성화 프로파일
+  application:
+    name: board-service
+  datasource:
+    url: jdbc:mysql://host.docker.internal:3307/connectist-db
+    username: user
+    password: "1234"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    generate-ddl: true
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
+        jdbc:
+          batch_size: 100
+        dialect: org.hibernate.dialect.MySQLDialect
+  sql:
+    init:
+      mode: always
