@@ -77,8 +77,10 @@ jobs:
       - name: Commit and push changes
         run: |
           git config --global user.name "github-actions[bot]"
-          git config --global  user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config credential.helper store
+          git remote set-url origin https://x-access-token:${{ secrets.GT_TOKEN }}@github.com/connetist/connectist-backend.git
+          git pull origin main --rebase  # 원격 저장소의 변경 사항을 가져오고 리베이스 처리
           git add k8s/board-service/deployment.yaml
           git commit -m "Update Docker image to ${{ env.TAG }}"
           git push
