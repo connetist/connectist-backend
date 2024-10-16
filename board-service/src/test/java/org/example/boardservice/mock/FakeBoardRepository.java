@@ -16,7 +16,7 @@ public class FakeBoardRepository implements BoardRepository {
         boards.add(board);
         return board;
     }
-
+    //
     @Override
     public List<Board> findAllByLabId(String labId) {
         return boards.stream()
