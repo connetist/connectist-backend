@@ -8,13 +8,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @SpringBootTest
 public class PasswordTest {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Test
-    void passwordEncode() {
-        String original = "admin";
-        String encoded = passwordEncoder.encode(original);
-        System.out.println(encoded);
-    }
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
+//
+//    @Test
+//    void passwordEncode() {
+//        String original = "admin";
+//        String encoded = passwordEncoder.encode(original);
+//        System.out.println(encoded);
+//    }
 }

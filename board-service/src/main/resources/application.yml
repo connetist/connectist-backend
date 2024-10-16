@@ -1,13 +1,13 @@
 server:
-  port: 9004
+  port: 9111
 spring:
   application:
     name: board-service
   datasource:
-    url: jdbc:mysql://localhost:3306/connectist-db
-    username: root
-    driver-class-name: com.mysql.jdbc.Driver
-    password: "kevin0459"
+    url: jdbc:mysql://host.docker.internal:3307/connectist-db
+    username: user
+    password: "1234"
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -19,17 +19,7 @@ spring:
         default_batch_fetch_size: 100
         jdbc:
           batch_size: 100
-
+        dialect: org.hibernate.dialect.MySQLDialect
   sql:
     init:
       mode: always
-  profiles:
-    active: local
-
-
-eureka:
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      defaultZone : http://localhost:8761/eureka

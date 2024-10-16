@@ -6,6 +6,9 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/chat_db
+#      password: 1234
+#      username: user
+
   kafka:
     consumer:
       auto-offset-reset: latest
@@ -17,10 +20,3 @@ logging:
   level:
     org.apache.kafka: ERROR
 
-
-eureka:
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      defaultZone : http://localhost:8761/eureka
