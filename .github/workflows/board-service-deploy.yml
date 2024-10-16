@@ -1,6 +1,7 @@
 name: board-service-deploy
 
-permissions: write-all
+permissions:
+  contents: write
 
 on:
   push:
