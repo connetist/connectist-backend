@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - IntegrationTestApplicationTests</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>IntegrationTestApplicationTests</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/org.example.integrationtest.html">org.example.integrationtest</a> &gt; IntegrationTestApplicationTests</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">1</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">1</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.352s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox failures" id="successRate">
+<div class="percent">0%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Failed tests</a>
+</li>
+<li>
+<a href="#tab1">Tests</a>
+</li>
+<li>
+<a href="#tab2">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Failed tests</h2>
+<div class="test">
+<a name="healthCheck()"></a>
+<h3 class="failures">healthCheck()</h3>
+<span class="code">
+<pre>org.springframework.web.client.ResourceAccessException: I/O error on GET request for &quot;http://localhost:64966/actuator/health&quot;: Connection refused
+	at app//org.springframework.web.client.RestTemplate.createResourceAccessException(RestTemplate.java:915)
+	at app//org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:895)
+	at app//org.springframework.web.client.RestTemplate.execute(RestTemplate.java:790)
+	at app//org.springframework.web.client.RestTemplate.getForEntity(RestTemplate.java:431)
+	at app//org.example.integrationtest.IntegrationTestApplicationTests.healthCheck(IntegrationTestApplicationTests.java:62)
+	at java.base@17.0.12/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base@17.0.12/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base@17.0.12/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:579)
+	at java.base/sun.nio.ch.Net.connect(Net.java:568)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:593)
+	at java.base/java.net.Socket.connect(Socket.java:633)
+	at java.base/java.net.Socket.connect(Socket.java:583)
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:183)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:533)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:638)
+	at java.base/sun.net.www.http.HttpClient.&lt;init&gt;(HttpClient.java:281)
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:386)
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:408)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1308)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1241)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1127)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:1056)
+	at org.springframework.http.client.SimpleClientHttpRequest.executeInternal(SimpleClientHttpRequest.java:79)
+	at org.springframework.http.client.AbstractStreamingClientHttpRequest.executeInternal(AbstractStreamingClientHttpRequest.java:70)
+	at org.springframework.http.client.AbstractClientHttpRequest.execute(AbstractClientHttpRequest.java:66)
+	at org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:889)
+	... 6 more
+</pre>
+</span>
+</div>
+</div>
+<div id="tab1" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="failures">healthCheck()</td>
+<td class="failures">0.352s</td>
+<td class="failures">failed</td>
+</tr>
+</table>
+</div>
+<div id="tab2" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>03:14:27.008 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [org.example.integrationtest.IntegrationTestApplicationTests]: IntegrationTestApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+03:14:27.045 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration org.example.integrationtest.IntegrationTestApplication for test class org.example.integrationtest.IntegrationTestApplicationTests
+03:14:27.095 [Test worker] INFO org.testcontainers.images.PullPolicy -- Image pull policy will be performed by: DefaultPullPolicy()
+03:14:27.096 [Test worker] INFO org.testcontainers.utility.ImageNameSubstitutor -- Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+03:14:27.172 [Test worker] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Loaded org.testcontainers.dockerclient.UnixSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+03:14:27.276 [Test worker] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Found Docker environment with local Unix socket (unix:///var/run/docker.sock)
+03:14:27.277 [Test worker] INFO org.testcontainers.DockerClientFactory -- Docker host IP address is localhost
+03:14:27.285 [Test worker] INFO org.testcontainers.DockerClientFactory -- Connected to docker: 
+  Server Version: 26.1.4
+  API Version: 1.45
+  Operating System: Docker Desktop
+  Total Memory: 7841 MB
+03:14:27.301 [Test worker] INFO tc.testcontainers/ryuk:0.7.0 -- Creating container for image: testcontainers/ryuk:0.7.0
+03:14:27.595 [Test worker] INFO tc.testcontainers/ryuk:0.7.0 -- Container testcontainers/ryuk:0.7.0 is starting: 3c5e4056bf085a0ffd177e109bed52be9647db9bea23d5e8f4cab9cd2c60d80a
+03:14:27.862 [Test worker] INFO tc.testcontainers/ryuk:0.7.0 -- Container testcontainers/ryuk:0.7.0 started in PT0.561672S
+03:14:27.864 [Test worker] INFO org.testcontainers.utility.RyukResourceReaper -- Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+03:14:27.864 [Test worker] INFO org.testcontainers.DockerClientFactory -- Checking the system...
+03:14:27.865 [Test worker] INFO org.testcontainers.DockerClientFactory -- ✔︎ Docker server version should be at least 1.6.0
+03:14:27.866 [Test worker] INFO tc.mysql:8.0 -- Creating container for image: mysql:8.0
+03:14:27.906 [Test worker] INFO tc.mysql:8.0 -- Container mysql:8.0 is starting: 5c629971bda9fce28b78c8f0ec541f09b19e5aa3c4dadd89dd4094a144eda487
+03:14:28.087 [Test worker] INFO tc.mysql:8.0 -- Waiting for database connection to become available at jdbc:mysql://localhost:64897/connectist-db using query 'SELECT 1'
+03:14:35.463 [Test worker] INFO tc.mysql:8.0 -- Container mysql:8.0 started in PT7.596459S
+03:14:35.463 [Test worker] INFO tc.mysql:8.0 -- Container is started (JDBC URL: jdbc:mysql://localhost:64897/connectist-db)
+03:14:35.468 [Test worker] INFO tc.board_service_image:latest -- Creating container for image: board_service_image:latest
+03:14:35.496 [Test worker] INFO tc.board_service_image:latest -- Container board_service_image:latest is starting: 8cc42648dda805cafbc38759f8b3b68d5355893a0baa307734d0f476094423fc
+03:14:38.434 [testcontainers-wait-0] WARN org.testcontainers.containers.wait.internal.InternalCommandPortListeningCheck -- An exception while executing the internal check: Container.ExecResult(exitCode=137, stdout=, stderr=/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+/bin/sh: nc: command not found
+/bin/bash: connect: Connection refused
+/bin/bash: /dev/tcp/localhost/9004: Connection refused
+)
+03:14:38.436 [Test worker] INFO tc.board_service_image:latest -- Container board_service_image:latest started in PT2.967578S
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.4)
+
+2024-09-28T03:14:38.568+09:00  INFO 37479 --- [integration-test] [    Test worker] o.e.i.IntegrationTestApplicationTests    : Starting IntegrationTestApplicationTests using Java 17.0.12 with PID 37479 (started by jangjunhyeong in /Users/jangjunhyeong/DevHome/teamProjects/connectist-backend/integration-test)
+2024-09-28T03:14:38.569+09:00  INFO 37479 --- [integration-test] [    Test worker] o.e.i.IntegrationTestApplicationTests    : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2024-09-28T03:14:38.777+09:00  INFO 37479 --- [integration-test] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-09-28T03:14:38.783+09:00  INFO 37479 --- [integration-test] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 4 ms. Found 0 JPA repository interfaces.
+2024-09-28T03:14:38.984+09:00  INFO 37479 --- [integration-test] [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 0 (http)
+2024-09-28T03:14:38.989+09:00  INFO 37479 --- [integration-test] [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-09-28T03:14:38.990+09:00  INFO 37479 --- [integration-test] [    Test worker] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-09-28T03:14:39.015+09:00  INFO 37479 --- [integration-test] [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-09-28T03:14:39.015+09:00  INFO 37479 --- [integration-test] [    Test worker] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 440 ms
+2024-09-28T03:14:39.069+09:00  INFO 37479 --- [integration-test] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-09-28T03:14:39.140+09:00  INFO 37479 --- [integration-test] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6fc28e5b
+2024-09-28T03:14:39.140+09:00  INFO 37479 --- [integration-test] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-09-28T03:14:39.156+09:00  INFO 37479 --- [integration-test] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-09-28T03:14:39.180+09:00  INFO 37479 --- [integration-test] [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2024-09-28T03:14:39.195+09:00  INFO 37479 --- [integration-test] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-09-28T03:14:39.305+09:00  INFO 37479 --- [integration-test] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-09-28T03:14:39.537+09:00  INFO 37479 --- [integration-test] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-09-28T03:14:39.541+09:00  INFO 37479 --- [integration-test] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-09-28T03:14:39.564+09:00  WARN 37479 --- [integration-test] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-28T03:14:39.740+09:00  INFO 37479 --- [integration-test] [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 64978 (http) with context path '/'
+2024-09-28T03:14:39.744+09:00  INFO 37479 --- [integration-test] [    Test worker] o.e.i.IntegrationTestApplicationTests    : Started IntegrationTestApplicationTests in 1.285 seconds (process running for 13.09)
+MySQL Logs: 2024-09-27 18:14:28+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.39-1.el9 started.
+2024-09-27 18:14:28+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
+2024-09-27 18:14:28+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.39-1.el9 started.
+2024-09-27 18:14:28+00:00 [Note] [Entrypoint]: Initializing database files
+2024-09-27T18:14:28.275658Z 0 [Warning] [MY-011068] [Server] The syntax '--skip-host-cache' is deprecated and will be removed in a future release. Please use SET GLOBAL host_cache_size=0 instead.
+2024-09-27T18:14:28.275978Z 0 [System] [MY-013169] [Server] /usr/sbin/mysqld (mysqld 8.0.39) initializing of server in progress as process 80
+2024-09-27T18:14:28.279518Z 0 [Warning] [MY-013907] [InnoDB] Deprecated configuration parameters innodb_log_file_size and/or innodb_log_files_in_group have been used to compute innodb_redo_log_capacity=10485760. Please use innodb_redo_log_capacity instead.
+2024-09-27T18:14:28.284900Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2024-09-27T18:14:28.775302Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2024-09-27T18:14:30.119338Z 6 [Warning] [MY-010453] [Server] root@localhost is created with an empty password ! Please consider switching off the --initialize-insecure option.
+2024-09-27 18:14:31+00:00 [Note] [Entrypoint]: Database files initialized
+2024-09-27 18:14:31+00:00 [Note] [Entrypoint]: Starting temporary server
+2024-09-27T18:14:31.811151Z 0 [Warning] [MY-011068] [Server] The syntax '--skip-host-cache' is deprecated and will be removed in a future release. Please use SET GLOBAL host_cache_size=0 instead.
+2024-09-27T18:14:31.811622Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.0.39) starting as process 124
+2024-09-27T18:14:31.836451Z 0 [Warning] [MY-013907] [InnoDB] Deprecated configuration parameters innodb_log_file_size and/or innodb_log_files_in_group have been used to compute innodb_redo_log_capacity=10485760. Please use innodb_redo_log_capacity instead.
+2024-09-27T18:14:31.842030Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2024-09-27T18:14:31.963674Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2024-09-27T18:14:32.142799Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2024-09-27T18:14:32.142826Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2024-09-27T18:14:32.144630Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/var/run/mysqld' in the path is accessible to all OS users. Consider choosing a different directory.
+2024-09-27T18:14:32.155823Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Socket: /var/run/mysqld/mysqlx.sock
+2024-09-27T18:14:32.155856Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.0.39'  socket: '/var/run/mysqld/mysqld.sock'  port: 0  MySQL Community Server - GPL.
+2024-09-27 18:14:32+00:00 [Note] [Entrypoint]: Temporary server started.
+'/var/lib/mysql/mysql.sock' -&gt; '/var/run/mysqld/mysqld.sock'
+Warning: Unable to load '/usr/share/zoneinfo/iso3166.tab' as time zone. Skipping it.
+Warning: Unable to load '/usr/share/zoneinfo/leap-seconds.list' as time zone. Skipping it.
+Warning: Unable to load '/usr/share/zoneinfo/leapseconds' as time zone. Skipping it.
+Warning: Unable to load '/usr/share/zoneinfo/tzdata.zi' as time zone. Skipping it.
+Warning: Unable to load '/usr/share/zoneinfo/zone.tab' as time zone. Skipping it.
+Warning: Unable to load '/usr/share/zoneinfo/zone1970.tab' as time zone. Skipping it.
+2024-09-27 18:14:33+00:00 [Note] [Entrypoint]: Creating database connectist-db
+2024-09-27 18:14:33+00:00 [Note] [Entrypoint]: Creating user user
+2024-09-27 18:14:33+00:00 [Note] [Entrypoint]: Giving user user access to schema connectist-db
+
+2024-09-27 18:14:33+00:00 [Note] [Entrypoint]: Stopping temporary server
+2024-09-27T18:14:33.081651Z 13 [System] [MY-013172] [Server] Received SHUTDOWN from user root. Shutting down mysqld (Version: 8.0.39).
+2024-09-27T18:14:34.584913Z 0 [System] [MY-010910] [Server] /usr/sbin/mysqld: Shutdown complete (mysqld 8.0.39)  MySQL Community Server - GPL.
+2024-09-27 18:14:35+00:00 [Note] [Entrypoint]: Temporary server stopped
+
+2024-09-27 18:14:35+00:00 [Note] [Entrypoint]: MySQL init process done. Ready for start up.
+
+2024-09-27T18:14:35.250980Z 0 [Warning] [MY-011068] [Server] The syntax '--skip-host-cache' is deprecated and will be removed in a future release. Please use SET GLOBAL host_cache_size=0 instead.
+2024-09-27T18:14:35.251429Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.0.39) starting as process 1
+2024-09-27T18:14:35.253108Z 0 [Warning] [MY-013907] [InnoDB] Deprecated configuration parameters innodb_log_file_size and/or innodb_log_files_in_group have been used to compute innodb_redo_log_capacity=10485760. Please use innodb_redo_log_capacity instead.
+2024-09-27T18:14:35.253862Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2024-09-27T18:14:35.311011Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2024-09-27T18:14:35.391724Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2024-09-27T18:14:35.391741Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2024-09-27T18:14:35.393616Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/var/run/mysqld' in the path is accessible to all OS users. Consider choosing a different directory.
+2024-09-27T18:14:35.405362Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060, socket: /var/run/mysqld/mysqlx.sock
+2024-09-27T18:14:35.405457Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.0.39'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server - GPL.
+
+Board Service Logs: 
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.1)
+
+2024-09-27T18:14:36.337Z  INFO 1 --- [board-service] [           main] o.e.b.BoardServiceApplication            : Starting BoardServiceApplication v0.0.1-SNAPSHOT using Java 17.0.2 with PID 1 (/app.jar started by root in /)
+2024-09-27T18:14:36.339Z  INFO 1 --- [board-service] [           main] o.e.b.BoardServiceApplication            : The following 1 profile is active: &quot;local&quot;
+2024-09-27T18:14:36.721Z  INFO 1 --- [board-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-09-27T18:14:36.750Z  INFO 1 --- [board-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 25 ms. Found 3 JPA repository interfaces.
+2024-09-27T18:14:36.986Z  INFO 1 --- [board-service] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 9004 (http)
+2024-09-27T18:14:36.994Z  INFO 1 --- [board-service] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-09-27T18:14:36.994Z  INFO 1 --- [board-service] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.25]
+2024-09-27T18:14:37.012Z  INFO 1 --- [board-service] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-09-27T18:14:37.012Z  INFO 1 --- [board-service] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 627 ms
+Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
+2024-09-27T18:14:37.086Z  INFO 1 --- [board-service] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-09-27T18:14:37.118Z  INFO 1 --- [board-service] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2024-09-27T18:14:37.134Z  INFO 1 --- [board-service] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-09-27T18:14:37.311Z  INFO 1 --- [board-service] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-09-27T18:14:37.326Z  INFO 1 --- [board-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-09-27T18:14:37.327Z  WARN 1 --- [board-service] [           main] c.zaxxer.hikari.util.DriverDataSource    : Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+2024-09-27T18:14:38.370Z  WARN 1 --- [board-service] [           main] o.h.e.j.e.i.JdbcEnvironmentInitiator     : HHH000342: Could not obtain connection to query metadata
+
+java.lang.NullPointerException: Cannot invoke &quot;org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(java.sql.SQLException, String)&quot; because the return value of &quot;org.hibernate.resource.transaction.backend.jdbc.internal.JdbcIsolationDelegate.sqlExceptionHelper()&quot; is null
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcIsolationDelegate.delegateWork(JdbcIsolationDelegate.java:116) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.getJdbcEnvironmentUsingJdbcMetadata(JdbcEnvironmentInitiator.java:290) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:123) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:77) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:130) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:238) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:215) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.boot.model.relational.Database.&lt;init&gt;(Database.java:45) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.getDatabase(InFlightMetadataCollectorImpl.java:221) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.&lt;init&gt;(InFlightMetadataCollectorImpl.java:189) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:171) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1431) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1502) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:75) ~[spring-orm-6.1.10.jar!/:6.1.10]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390) ~[spring-orm-6.1.10.jar!/:6.1.10]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409) ~[spring-orm-6.1.10.jar!/:6.1.10]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396) ~[spring-orm-6.1.10.jar!/:6.1.10]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366) ~[spring-orm-6.1.10.jar!/:6.1.10]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1835) ~[spring-beans-6.1.10.jar!/:6.1.10]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1784) ~[spring-beans-6.1.10.jar!/:6.1.10]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600) ~[spring-beans-6.1.10.jar!/:6.1.10]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522) ~[spring-beans-6.1.10.jar!/:6.1.10]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337) ~[spring-beans-6.1.10.jar!/:6.1.10]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.10.jar!/:6.1.10]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335) ~[spring-beans-6.1.10.jar!/:6.1.10]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205) ~[spring-beans-6.1.10.jar!/:6.1.10]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:952) ~[spring-context-6.1.10.jar!/:6.1.10]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:624) ~[spring-context-6.1.10.jar!/:6.1.10]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.3.1.jar!/:3.3.1]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754) ~[spring-boot-3.3.1.jar!/:3.3.1]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456) ~[spring-boot-3.3.1.jar!/:3.3.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335) ~[spring-boot-3.3.1.jar!/:3.3.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363) ~[spring-boot-3.3.1.jar!/:3.3.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352) ~[spring-boot-3.3.1.jar!/:3.3.1]
+	at org.example.boardservice.BoardServiceApplication.main(BoardServiceApplication.java:10) ~[!/:0.0.1-SNAPSHOT]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
+	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:91) ~[app.jar:0.0.1-SNAPSHOT]
+	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:53) ~[app.jar:0.0.1-SNAPSHOT]
+	at org.springframework.boot.loader.launch.JarLauncher.main(JarLauncher.java:58) ~[app.jar:0.0.1-SNAPSHOT]
+
+2024-09-27T18:14:38.375Z ERROR 1 --- [board-service] [           main] j.LocalContainerEntityManagerFactoryBean : Failed to initialize JPA EntityManagerFactory: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment] due to: Unable to determine Dialect without JDBC metadata (please set 'jakarta.persistence.jdbc.url' for common cases or 'hibernate.dialect' when a custom Dialect implementation must be provided)
+2024-09-27T18:14:38.376Z  WARN 1 --- [board-service] [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment] due to: Unable to determine Dialect without JDBC metadata (please set 'jakarta.persistence.jdbc.url' for common cases or 'hibernate.dialect' when a custom Dialect implementation must be provided)
+2024-09-27T18:14:38.379Z  INFO 1 --- [board-service] [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-09-27T18:14:38.390Z  INFO 1 --- [board-service] [           main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-09-27T18:14:38.400Z ERROR 1 --- [board-service] [           main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment] due to: Unable to determine Dialect without JDBC metadata (please set 'jakarta.persistence.jdbc.url' for common cases or 'hibernate.dialect' when a custom Dialect implementation must be provided)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1788) ~[spring-beans-6.1.10.jar!/:6.1.10]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600) ~[spring-beans-6.1.10.jar!/:6.1.10]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522) ~[spring-beans-6.1.10.jar!/:6.1.10]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337) ~[spring-beans-6.1.10.jar!/:6.1.10]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.10.jar!/:6.1.10]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335) ~[spring-beans-6.1.10.jar!/:6.1.10]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205) ~[spring-beans-6.1.10.jar!/:6.1.10]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:952) ~[spring-context-6.1.10.jar!/:6.1.10]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:624) ~[spring-context-6.1.10.jar!/:6.1.10]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.3.1.jar!/:3.3.1]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754) ~[spring-boot-3.3.1.jar!/:3.3.1]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456) ~[spring-boot-3.3.1.jar!/:3.3.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335) ~[spring-boot-3.3.1.jar!/:3.3.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363) ~[spring-boot-3.3.1.jar!/:3.3.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352) ~[spring-boot-3.3.1.jar!/:3.3.1]
+	at org.example.boardservice.BoardServiceApplication.main(BoardServiceApplication.java:10) ~[!/:0.0.1-SNAPSHOT]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
+	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:91) ~[app.jar:0.0.1-SNAPSHOT]
+	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:53) ~[app.jar:0.0.1-SNAPSHOT]
+	at org.springframework.boot.loader.launch.JarLauncher.main(JarLauncher.java:58) ~[app.jar:0.0.1-SNAPSHOT]
+Caused by: org.hibernate.service.spi.ServiceException: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment] due to: Unable to determine Dialect without JDBC metadata (please set 'jakarta.persistence.jdbc.url' for common cases or 'hibernate.dialect' when a custom Dialect implementation must be provided)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:276) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:238) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:215) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.boot.model.relational.Database.&lt;init&gt;(Database.java:45) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.getDatabase(InFlightMetadataCollectorImpl.java:221) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.&lt;init&gt;(InFlightMetadataCollectorImpl.java:189) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:171) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1431) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1502) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:75) ~[spring-orm-6.1.10.jar!/:6.1.10]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390) ~[spring-orm-6.1.10.jar!/:6.1.10]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409) ~[spring-orm-6.1.10.jar!/:6.1.10]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396) ~[spring-orm-6.1.10.jar!/:6.1.10]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366) ~[spring-orm-6.1.10.jar!/:6.1.10]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1835) ~[spring-beans-6.1.10.jar!/:6.1.10]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1784) ~[spring-beans-6.1.10.jar!/:6.1.10]
+	... 22 common frames omitted
+Caused by: org.hibernate.HibernateException: Unable to determine Dialect without JDBC metadata (please set 'jakarta.persistence.jdbc.url' for common cases or 'hibernate.dialect' when a custom Dialect implementation must be provided)
+	at org.hibernate.engine.jdbc.dialect.internal.DialectFactoryImpl.determineDialect(DialectFactoryImpl.java:191) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.engine.jdbc.dialect.internal.DialectFactoryImpl.buildDialect(DialectFactoryImpl.java:87) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.getJdbcEnvironmentWithDefaults(JdbcEnvironmentInitiator.java:152) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.getJdbcEnvironmentUsingJdbcMetadata(JdbcEnvironmentInitiator.java:362) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:123) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:77) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:130) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263) ~[hibernate-core-6.5.2.Final.jar!/:6.5.2.Final]
+	... 37 common frames omitted
+
+
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 8.10.2</a> at 2024. 9. 28. 오전 3:14:40</p>
+</div>
+</div>
+</body>
+</html>
