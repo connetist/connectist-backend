@@ -11,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 
 import java.io.IOException;
 import java.io.InterruptedIOException;
@@ -19,7 +20,10 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 @SpringBootTest
+@TestPropertySource(locations = "classpath:application-test.yml")
 public class CommentServiceTest {
 
 
@@ -66,11 +70,7 @@ public class CommentServiceTest {
         }
         countDownLatch.await();
         comment = commentRepositoryImpl.findById("commentId");
-        System.out.println("GET COMMENT LIKES");
-        for (Like like : comment.getLikes()) {
-            System.out.println(like.getId());
-        }
-        System.out.println(comment.getLikes().size());
+        assertThat(comment.getLikes().size()).isEqualTo(count);
     }
 
     @Test
@@ -99,6 +99,6 @@ public class CommentServiceTest {
             commentServiceImpl.addLikeComment(commentLikeRequest);
         }
         comment = commentRepositoryImpl.findById("commentId");
-        System.out.println(comment.getLikes().size());
+        assertThat(comment.getLikes().size()).isEqualTo(count);
     }
 }
