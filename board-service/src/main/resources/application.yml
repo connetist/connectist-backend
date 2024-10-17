@@ -4,14 +4,14 @@ spring:
   application:
     name: board-service
   datasource:
-    url: jdbc:mysql://host.docker.internal:3307/connectist-db
+    url: jdbc:mysql://localhost:3307/connectist-db
     username: user
     password: "1234"
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: create-drop
-    show-sql: true
+#    show-sql: true
     generate-ddl: true
     defer-datasource-initialization: true
     properties:

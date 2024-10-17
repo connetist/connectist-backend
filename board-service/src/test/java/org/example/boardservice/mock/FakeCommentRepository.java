@@ -32,4 +32,9 @@ public class FakeCommentRepository implements CommentReposotiry {
     public Recomment findRecommentById(String commentId, String recommentId) {
         return null;
     }
+
+    @Override
+    public Comment findByIdWithPessimisticLock(String id) {
+        return null;
+    }
 }

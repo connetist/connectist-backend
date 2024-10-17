@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -35,14 +36,20 @@ public class CommentRepositoryImpl implements CommentReposotiry {
     }
 
     @Override
+    @Transactional
     public Comment findById(String id) {
+        CommentEntity commentEntity = commentJpaRepository.findById(id)
+                .orElseThrow(() -> new GlobalException(ResultCode.COMMENT_NOT_FOUND));
 
-        Specification<CommentEntity> spec =
-                Specification.where(CommentSpecs.byCommentId(id))
-                        .and(CommentSpecs.exceptDeleted());
+        // 댓글이 삭제된 상태인지 확인
+        if (commentEntity.isDeleted()) {
+            throw new GlobalException(ResultCode.COMMENT_NOT_FOUND);
+        }
 
-        Comment comment = commentJpaRepository.findAll(spec).stream().findAny()
-                .orElseThrow(() -> new GlobalException(ResultCode.COMMENT_NOT_FOUND)).toModel();
+        // 엔티티를 도메인 모델로 변환
+        Comment comment = commentEntity.toModel();
+
+        // 삭제된 대댓글을 제거
         comment.removeDeletedRecomment();
         return comment;
     }
@@ -55,6 +62,7 @@ public class CommentRepositoryImpl implements CommentReposotiry {
     }
 
     @Override
+    @Transactional
     public Recomment findRecommentById(String commentId, String recommentId) {
         List<RecommentEntity> recommentEntityList = commentJpaRepository.findCommentEntityById(commentId).getRecommentEntityList();
         for (RecommentEntity recommentEntity : recommentEntityList) {
@@ -64,4 +72,21 @@ public class CommentRepositoryImpl implements CommentReposotiry {
         }
         throw new GlobalException(ResultCode.COMMENT_NOT_FOUND);
     }
+    @Transactional
+    @Override
+    public Comment findByIdWithPessimisticLock(String id) {
+        CommentEntity commentEntity = commentJpaRepository.findByIdWithPessimisticLock(id)
+                .orElseThrow(() -> new GlobalException(ResultCode.COMMENT_NOT_FOUND));
+
+        // 엔티티를 도메인 모델로 변환
+        Comment comment = commentEntity.toModel();
+
+        // 삭제된 대댓글 제거
+        comment.removeDeletedRecomment();
+
+        return comment;
+    }
+
+
+
 }
