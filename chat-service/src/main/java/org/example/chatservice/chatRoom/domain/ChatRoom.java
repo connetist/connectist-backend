@@ -40,7 +40,6 @@ public class ChatRoom {
     }
 
     public static ChatRoom createChatRoom(CreateChatRoomRequest rq, UuidHolder uuidHolder, ClockHolder clockHolder){
-
         List<ChatMember> chatMemberList = new ArrayList<>();
         ChatMember newAdmin = ChatMember.createChatMember(rq.getAdminId(),uuidHolder,clockHolder);
         chatMemberList.add(newAdmin);
@@ -88,15 +87,7 @@ public class ChatRoom {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
+    public List<ChatMember> getMembers() {
+        return chatMembers;
+    }
 }

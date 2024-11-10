@@ -8,6 +8,7 @@ import org.example.chatservice.chatRoom.domain.ChatRoom;
 import org.example.chatservice.chatRoom.infrastructure.entity.ChatRoomEntity;
 import org.example.chatservice.chatRoom.infrastructure.repository.ChatRoomMongoRepository;
 import org.example.chatservice.chatRoom.infrastructure.repository.ChatRoomRepository;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,5 +34,45 @@ public class ChatMessageRepositoryImpl implements ChatMessageRepository {
                 .toList();
         return Optional.of(chatMessages);
 
+    }
+
+    @Override
+    public void deleteAll() {
+        chatMessageMongoRepository.deleteAll();
+    }
+
+    @Override
+    public void saveAll(List<ChatMessage> messages) {
+        List<ChatMessageEntity> entities = messages.stream()
+                .map(ChatMessageEntity::from)
+                .collect(Collectors.toList());
+
+        // 변환된 엔티티를 리포지토리에 저장
+        chatMessageMongoRepository.saveAll(entities);
+    }
+
+
+    @Override
+    public Optional<List<ChatMessage>> findByRoomIdAndCreatedAtBeforeOrderByCreatedAtDesc(String roomId, long createdAt, Pageable pageable) {
+        List<ChatMessageEntity> entities = chatMessageMongoRepository.findByRoomIdAndCreatedAtBeforeOrderByCreatedAtDesc(roomId, createdAt, pageable);
+        if (entities.isEmpty()) {
+            return Optional.empty();
+        }
+        List<ChatMessage> chatMessages = entities.stream()
+                .map(ChatMessageEntity::toModel)
+                .collect(Collectors.toList());
+        return Optional.of(chatMessages);
+    }
+
+    @Override
+    public Optional<List<ChatMessage>> findByRoomIdOrderByCreatedAtDesc(String roomId, Pageable pageable) {
+        List<ChatMessageEntity> entities = chatMessageMongoRepository.findByRoomIdOrderByCreatedAtDesc(roomId, pageable);
+        if (entities.isEmpty()) {
+            return Optional.empty();
+        }
+        List<ChatMessage> chatMessages = entities.stream()
+                .map(ChatMessageEntity::toModel)
+                .collect(Collectors.toList());
+        return Optional.of(chatMessages);
     }
 }

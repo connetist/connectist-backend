@@ -11,9 +11,13 @@ import org.example.boardservice.board.dto.request.comment.delete.RecommentDelete
 import org.example.boardservice.board.dto.request.comment.like.CommentLikeRequest;
 import org.example.boardservice.board.infrastructure.repository.board.BoardRepository;
 import org.example.boardservice.board.infrastructure.repository.comment.CommentReposotiry;
+import org.example.boardservice.error.GlobalException;
+import org.example.boardservice.error.ResultCode;
 import org.example.boardservice.utils.clock.ClockHolder;
 import org.example.boardservice.utils.uuid.UuidHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -37,12 +41,6 @@ public class CommentServiceImpl implements CommentService {
     public Comment deleteComment(CommentDeleteRequest commentDeleteRequest) {
 
         Comment comment = commentReposotiry.findById(commentDeleteRequest.getCommentId());
-//        if (commentDeleteRequest.getUserId().equals(comment.getUserId())){
-//            comment.deleteComment(clockHolder);
-//        }else{
-//            throw new GlobalException(ResultCode.UNAUTHROIZED);
-//        }
-
         comment.deleteComment(clockHolder, commentDeleteRequest.getUserId());
         return commentReposotiry.saveComment(comment);
     }
@@ -67,11 +65,13 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public Comment addLikeComment(CommentLikeRequest commentLikeRequest) {
         Comment comment = commentReposotiry.findById(commentLikeRequest.getCommentId());
         comment.addLike(commentLikeRequest.getUserId(), commentLikeRequest.getCommentId(), uuidHolder, clockHolder);
 
         return commentReposotiry.saveComment(comment);
+
     }
 
     @Override

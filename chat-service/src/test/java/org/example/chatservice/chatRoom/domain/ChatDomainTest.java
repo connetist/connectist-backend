@@ -57,12 +57,10 @@ public class ChatDomainTest {
                 fee(1000).
                 createdAt(10000).
                 build();
-//        ChatRoom chatRoom = ChatRoomGenerate();
 
         assertThat(chatRoom.getId()).isEqualTo("testId");
         assertThat(chatRoom.getTitle()).isEqualTo("testTitle");
         assertThat(chatRoom.getChatMembers()).isEqualTo(chatMemberList);
-//        assertThat(chatRoom.getAdmin()).isEqualTo(member);
         assertThat(chatRoom.getDeparature()).isEqualTo("testDeparture");
         assertThat(chatRoom.getDestination()).isEqualTo("testDestination");
         assertThat(chatRoom.getTimeTaken()).isEqualTo(100);
@@ -112,7 +110,6 @@ public class ChatDomainTest {
         assertThat(updatedChatRoom.getId()).isEqualTo("testId");
         assertThat(updatedChatRoom.getTitle()).isEqualTo("cTitle");
         assertThat(updatedChatRoom.getChatMembers()).isEqualTo(chatMemberList);
-//        assertThat(updatedChatRoom.getAdmin()).isEqualTo(member);
         assertThat(updatedChatRoom.getDeparature()).isEqualTo("cDeparture");
         assertThat(updatedChatRoom.getDestination()).isEqualTo("cDestination");
         assertThat(updatedChatRoom.getTimeTaken()).isEqualTo(200);

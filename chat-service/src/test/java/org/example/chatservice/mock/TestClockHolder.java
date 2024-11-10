@@ -6,11 +6,17 @@ import org.example.chatservice.utils.ClockHolder;
 @RequiredArgsConstructor
 public class TestClockHolder implements ClockHolder {
 
-    private final long millis;
+    private long currentTime;
+
+    public TestClockHolder(long startTime) {
+        this.currentTime = startTime;
+    }
+
     @Override
     public long mills() {
-        return millis;
+        return currentTime++;
     }
+
 
 
 }
