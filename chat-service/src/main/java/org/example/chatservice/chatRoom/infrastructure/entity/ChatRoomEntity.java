@@ -37,7 +37,7 @@ public class ChatRoomEntity {
                 .chatMembers(chatRoom.getChatMembers())
                 .admin(chatRoom.getAdmin())
                 .departure(chatRoom.getDeparature())
-                .destination(chatRoom.getDeparature())
+                .destination(chatRoom.getDestination())
                 .timeTaken(chatRoom.getTimeTaken())
                 .startTime(chatRoom.getStartTime())
                 .fee(chatRoom.getFee())

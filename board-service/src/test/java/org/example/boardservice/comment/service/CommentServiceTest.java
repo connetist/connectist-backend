@@ -23,7 +23,7 @@ import java.util.concurrent.Executors;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
-@TestPropertySource(locations = "classpath:application-test.yml")
+//@Testcontainers // Testcontainers를 사용하는 테스트임을 선언
 public class CommentServiceTest {
 
 

@@ -39,4 +39,9 @@ public class ChatRoomRepositoryImpl implements ChatRoomRepository {
         chatRoomMongoRepository.deleteById(id);
 
     }
+
+    @Override
+    public void deleteAll() {
+        chatRoomMongoRepository.deleteAll();
+    }
 }

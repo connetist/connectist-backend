@@ -2,6 +2,7 @@ package org.example.chatservice.chatMessage.domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.example.chatservice.chatMessage.dto.ChatMessageResponse;
 import org.example.chatservice.chatMessage.dto.CreateChatMessageRequest;
 import org.example.chatservice.utils.ClockHolder;
 import org.example.chatservice.utils.UuidHolder;
@@ -44,6 +45,16 @@ public class ChatMessage {
                 ", createdAt=" + createdAt +
                 ", userId='" + userId + '\'' +
                 '}';
+    }
+
+    public ChatMessageResponse toResponse() {
+        return ChatMessageResponse.builder()
+                .id(this.id)
+                .roomId(this.roomId)
+                .senderId(this.userId)
+                .content(this.content)
+                .createdAt(this.createdAt)
+                .build();
     }
 
 

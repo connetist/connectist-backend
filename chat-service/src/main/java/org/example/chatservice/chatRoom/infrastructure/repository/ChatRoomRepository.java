@@ -18,4 +18,5 @@ public interface ChatRoomRepository  {
     void deleteById(String id);
 
 
+    void deleteAll();
 }

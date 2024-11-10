@@ -29,4 +29,9 @@ public class FakeChatRoomRepository implements ChatRoomRepository {
     public void deleteById(String id) {
         chatRooms.removeIf(item -> item.getId().equals(id));
     }
+
+    @Override
+    public void deleteAll() {
+        chatRooms.clear();
+    }
 }
